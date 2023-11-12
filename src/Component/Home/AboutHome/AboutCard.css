@@ -1,0 +1,56 @@
+.aboutHome {
+  height: auto;
+  padding-top: 30px;
+}
+.about-card {
+  background-color: #fff;
+  border-radius: 60px;
+}
+.aboutHome .left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 20px;
+}
+.aboutHome .right {
+  padding: 0px 30px;
+}
+.aboutHome .item {
+  margin-bottom: 30px;
+  padding: 20px;
+  transition: 0.5s;
+  background-color: #f9f9f9;
+  border-radius: 1.5rem;
+}
+.aboutHome .item img {
+  width: 70px;
+  height: 70px;
+  margin: 0 10px 0 0; 
+}
+.aboutHome .item h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.aboutHome .item:hover {
+  background-color: #70a2ab;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 5px 25px -2px rgb(0 0 0 / 6%);
+}
+.aboutHome .item:hover p {
+  color: #fff;
+}
+@media screen and (max-width: 768px) {
+  .aboutHome .container {
+    flex-direction: column-reverse;
+  }
+  .aboutHome .row {
+    width: 100%;
+  }
+  .about-card .flexSB {
+    display: block;
+  }
+  .aboutHome .right {
+    padding: 20px;
+  }
+}

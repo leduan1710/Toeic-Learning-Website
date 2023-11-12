@@ -1,0 +1,125 @@
+.head {
+  padding: 20px 0;
+  color: #fff;
+}
+.head,.header .flexSB {
+  justify-content: space-between;
+}
+.logo {
+  color: #003150;
+}
+.logo h1 {
+  font-size: 35px;
+  font-weight: 900;
+  text-align: center;
+}
+.head .icon {
+  margin-left: 10px;
+  border: 2px solid #003150;
+}
+.head .icon:hover {
+  cursor: pointer;
+  background-color: #003150;
+  color: #fff;
+}
+a:-webkit-any-link {
+  color: inherit;
+  text-decoration: none;
+}
+/*--------------header-----------*/
+header {
+  background-color: #70a2ab;
+}
+.button {
+  font-size: large;
+  font-weight: 700;
+}
+header li {
+  padding: 30px 20px;
+  list-style: none;
+  position: relative;
+}
+header ul li a {
+  font-size: large;
+  font-weight: 700;
+  transition: 0.2s;
+  text-decoration: none;
+  color: #000;
+}
+header ul li a:hover {
+  cursor: pointer;
+  color: #fff;
+}
+
+.dropdown-menu {
+  display: none;
+}
+
+header ul li:hover .dropdown-menu {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 3;
+  background-color: #70a2ab;
+  color: #000;
+}
+
+header ul li:hover .dropdown-menu ul {
+  display: block;
+  margin: 10px;
+}
+
+header  ul li:hover .dropdown-menu ul li {
+  width: 150px;
+  padding: 10px;
+}
+
+.start {
+  background-color: #003150;
+  padding: 30px 80px;
+  color: #fff;
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.toggle {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .start {
+    clip-path: none;
+  }
+  .head .social {
+    display: none;
+  }
+  header {
+    margin: 0;
+    position: relative;
+  }
+  header ul.flexSB {
+    display: none;
+  }
+  header ul li {
+    margin-bottom: 20px;
+  }
+  .fa-caret-down {
+    display: none;
+  }
+  .toggle {
+    display: block;
+    background: none;
+    color: #fff;
+    font-size: 30px;
+    position: absolute;
+    right: 30px;
+    top: 20px;
+  }
+  .mobile-nav {
+    position: absolute;
+    z-index: 2;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #70a2ab;
+  }
+}

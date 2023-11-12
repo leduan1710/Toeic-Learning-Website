@@ -1,0 +1,92 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+.lr-card-wrapper {
+    padding-top: 30px;
+}
+.lr-card{
+    background-color: #fff;
+    border-radius: 60px;
+    padding-bottom: 20px;
+}
+.card-wrapper-container {
+    margin: 30px;
+}
+
+.card-wrapper {
+  display: flex;
+  gap: 12px;
+  background: #f4f4f4;
+  border-radius: 12px;
+  padding: 30px;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  scroll-padding: 30px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+.card-wrapper::-webkit-scrollbar {
+    height: 8px;
+  }
+  .card-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 25px;
+  }
+  .card-wrapper::-webkit-scrollbar-thumb {
+    background: #70a2ab;
+    border-radius: 25px;
+  }
+  .card-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #003150;
+  }
+
+.lr-card .card {
+  display: flex;
+  flex: 0 0 30%;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 10%;
+  background: #fff;
+  scroll-snap-align: start;
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.2);
+}
+.lr-card .card:hover {
+    background-color: #70a2ab;
+}
+.card .image {
+  height: 96;
+  width: 96;
+  padding: 4px;
+}
+.image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border: 5px solid #fff;
+}
+.card h2 {
+  margin: 10px;
+  color: #333;
+  font-size: 22px;
+  font-weight: 600;
+}
+.card p {
+  font-weight: 400;
+  color: #333;
+  text-align: justify;
+}
+@media screen and (max-width: 768px) {
+    .card-wrapper-container {
+        margin: 15px;
+    }
+    .card-wrapper{
+        display: block;
+        padding: 5px;
+        box-shadow: none;
+        overflow-x: unset;
+    }
+    .card{
+        margin: 10px;
+    }
+}
