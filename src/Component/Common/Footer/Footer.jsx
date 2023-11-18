@@ -23,7 +23,7 @@ function Footer() {
           <h2>Khám phá</h2>
           <ul className="footer-items">
             <li>
-              <Link to="/listening-and-reading">Luyện nghe đọc</Link>
+              <Link to="/courses">Các khóa học</Link>
             </li>
             <li>
               <Link to="/practice-vocabulary">Từ vựng</Link>

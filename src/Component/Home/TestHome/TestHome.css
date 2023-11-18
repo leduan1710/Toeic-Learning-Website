@@ -15,9 +15,9 @@
 .test-item {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 1rem;
   background-color: #f1eeee;
-  height: 100%;
   width: 100%;
   padding: 1.5rem;
   border-radius: 1.5rem;
@@ -27,7 +27,7 @@
 } 
 .test-item-panel h1 {
   font-size: 30px;
-  font-weight: 700px;
+  font-weight: 700;
 }
 .test-item-button {
   display: flex;
@@ -46,9 +46,6 @@
   color: #003150;
 }
 @media screen and (max-width: 768px) {
-  .test-item-wrapper {
-    flex-direction: column;
-  }
   .test-item-panel {
     width: 100%;
   } 

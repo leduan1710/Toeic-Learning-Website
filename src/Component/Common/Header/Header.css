@@ -34,6 +34,9 @@ header {
   font-size: large;
   font-weight: 700;
 }
+header ul {
+  margin-bottom: 0;
+}
 header li {
   padding: 30px 20px;
   list-style: none;

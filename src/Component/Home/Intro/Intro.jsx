@@ -6,7 +6,7 @@ function Intro() {
   return (
     <div className="intro-home">
       <div className="container intro-card">
-          <Heading subtitle="VictoryU" title="Tổng quan về bài thi TOEIC®" />
+          <Heading subtitle="" title="Tổng quan về bài thi TOEIC®" />
         <div className=" cutoff-text">
           <div className="toiec-defination">
             <h2>1. TOEIC® là gì?</h2>

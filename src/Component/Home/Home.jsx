@@ -1,6 +1,6 @@
 import React from 'react'
 import AboutCard from './AboutHome/AboutCard'
-import LRCard from './L&RHome/LRCard'
+import CourseHome from './CourseHome/CourseHome'
 import Intro from './Intro/Intro'
 import TestHome from './TestHome/TestHome'
 
@@ -10,8 +10,8 @@ function Home() {
     <div>
       <AboutCard/>
       <Intro/>
-      <LRCard/>
-      <TestHome/>
+      <CourseHome title="Các khóa học của VictoryU"/>
+      <TestHome title="Các đề thi thử bám sát thực tế"/>
     </div>
   )
 }

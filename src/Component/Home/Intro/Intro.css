@@ -25,9 +25,9 @@
   background: linear-gradient(to bottom, transparent, white);
 }
 .collapse-btn {
-    display: flex;
-    justify-content: center;
-    padding: 1em;
+  display: flex;
+  justify-content: center;
+  padding: 1em;
 }
 .expand-btn {
   appearance: none;
@@ -55,25 +55,25 @@
 
 .intro-card h2,
 h3,
-p {
+.intro-card p {
   margin: 1rem;
 }
-table {
-  width: 100%;
+.intro-card table {
+  margin: 1rem;
 }
-thead {
+.intro-card thead {
   display: table-header-group;
   vertical-align: middle;
   border-color: inherit;
 }
-table,
-th,
-td {
+.intro-card table,
+.intro-card th,
+.intro-card td {
   border: 1px solid black;
   border-collapse: collapse;
 }
 
-tr {
+.intro-card tr {
   line-height: 3;
 }
 

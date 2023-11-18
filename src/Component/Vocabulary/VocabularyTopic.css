@@ -1,35 +1,36 @@
 .vocabulary-topic-wrapper {
-    height: auto;
-    padding-top: 20px;
+  height: auto;
+  padding-top: 20px;
 }
 .vocabulary-topic {
-    background-color: #fff;
-    border-radius: 4rem;
+  background-color: #fff;
+  border-radius: 4rem;
 }
 .vocabulary-topic-grid-wrapper {
-    padding: 2rem;
+  padding: 2rem;
 }
 .vocabulary-topic-gridview {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, auto));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, auto));
+  gap: 1.5rem;
 }
 .vocabulary-topic-item {
-    display: flex;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 1rem;
+  display: flex;
+  background-color: #fff;
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 1rem;
 }
 .vocabulary-topic-title {
-    width: 100%;
-    word-wrap: break-word;
-    overflow: auto;
-    font-size: large;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
+  width: 100%;
+  word-wrap: break-word;
+  overflow: auto;
+  font-size: large;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
 }
-.vocabulary-topic-title:hover{
-    cursor: pointer;
-    color: #216a98;
+.vocabulary-topic-item:hover {
+  cursor: pointer;
+  background-color: #aae6edad;
 }

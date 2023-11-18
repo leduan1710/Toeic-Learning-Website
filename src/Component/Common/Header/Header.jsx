@@ -20,13 +20,10 @@ function Header() {
               <Link to="/">HOME</Link>
             </li>
             <li>
-              <Link to="/listening-and-reading">LUYỆN L&R</Link>
+              <Link to="/courses">KHÓA HỌC</Link>
             </li>
             <li>
               <Link to="/practice-vocabulary">TỪ VỰNG</Link>
-            </li>
-            <li>
-              <Link to="/grammar">NGỮ PHÁP</Link>
             </li>
             <li>
               <Link to="/test">

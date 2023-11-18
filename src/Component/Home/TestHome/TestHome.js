@@ -2,12 +2,12 @@ import React from "react";
 import Heading from "../../Common/Header/Heading";
 import "./TestHome.css";
 
-function TextHome() {
+function TestHome({subtitle,title}) {
   return (
     <div className="testHome">
       <section>
         <div className="container testHome-card">
-          <Heading subtitle="VictoryU" title="Các bài thi thử sát thực tế" />
+          <Heading subtitle={subtitle} title={title} />
           <div className="test-item-wrapper">
             <div className="test-item">
               <div className="test-item-panel">
@@ -48,4 +48,4 @@ function TextHome() {
   );
 }
 
-export default TextHome;
+export default TestHome;
