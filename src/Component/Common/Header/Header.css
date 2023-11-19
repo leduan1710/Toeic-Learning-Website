@@ -1,8 +1,11 @@
+.header {
+  margin: 0 50px;
+}
 .head {
   padding: 20px 0;
   color: #fff;
 }
-.head,.header .flexSB {
+.head, .header .flexSB {
   justify-content: space-between;
 }
 .logo {
@@ -31,7 +34,7 @@ header {
   background-color: #70a2ab;
 }
 .button {
-  font-size: large;
+  font-size: 1.25rem;
   font-weight: 700;
 }
 header ul {
@@ -43,7 +46,7 @@ header li {
   position: relative;
 }
 header ul li a {
-  font-size: large;
+  font-size: 1.25rem;
   font-weight: 700;
   transition: 0.2s;
   text-decoration: none;

@@ -8,7 +8,7 @@ function Header() {
   const [click, setClick] = useState(false);
 
   return (
-    <div className="container header">
+    <div className="header">
       <Head />
       <header>
         <div className="flexSB">

@@ -2,10 +2,6 @@
   height: auto;
   padding-top: 30px;
 }
-.intro-card {
-  background-color: #fff;
-  border-radius: 60px;
-}
 .cutoff-text {
   --max-lines: 17;
   --line-height: 1;

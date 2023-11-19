@@ -2,15 +2,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 .lr-card-wrapper {
-    padding-top: 30px;
+  padding-top: 30px;
 }
-.lr-card{
-    background-color: #fff;
-    border-radius: 60px;
-    padding-bottom: 20px;
+.lr-card {
+  background-color: #fff;
+  border-radius: 60px;
+  padding-bottom: 20px;
 }
 .card-wrapper-container {
-    margin: 30px;
+  margin: 30px;
 }
 
 .card-wrapper {
@@ -25,26 +25,23 @@
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
 }
 .card-wrapper::-webkit-scrollbar {
-    height: 8px;
-  }
-  .card-wrapper::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 25px;
-  }
-  .card-wrapper::-webkit-scrollbar-thumb {
-    background: #70a2ab;
-    border-radius: 25px;
-  }
-  .card-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #003150;
-  }
+  height: 8px;
+}
+.card-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 25px;
+}
+.card-wrapper::-webkit-scrollbar-thumb {
+  background: #70a2ab;
+  border-radius: 25px;
+}
+.card-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #003150;
+}
 
 .lr-card .card {
-  display: flex;
-  flex: 0 0 40%;
-  flex-direction: column;
+  flex: 0 0 30%;
   font-family: "Poppins", sans-serif;
-  align-items: center;
   padding: 10px 20px;
   border-radius: 1.5rem;
   background: #fff;
@@ -53,7 +50,12 @@
 }
 .lr-card .card:hover {
   cursor: pointer;
-    background-color: #aae3ed;
+  background-color: #aae3ed;
+}
+.lr-card .card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .lr-card .card .image {
   height: 96px;
@@ -78,16 +80,16 @@
   text-align: justify;
 }
 @media screen and (max-width: 768px) {
-    .card-wrapper-container {
-        margin: 15px;
-    }
-    .card-wrapper{
-        display: block;
-        padding: 5px;
-        box-shadow: none;
-        overflow-x: unset;
-    }
-    .card{
-        margin: 10px;
-    }
+  .card-wrapper-container {
+    margin: 15px;
+  }
+  .card-wrapper {
+    display: block;
+    padding: 5px;
+    box-shadow: none;
+    overflow-x: unset;
+  }
+  .card {
+    margin: 10px;
+  }
 }

@@ -1,9 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Heading from "../../Common/Header/Heading";
 import "./CourseHome.css";
 
-function CourseHome({subtitle,title}) {
+function CourseHome({ subtitle, title }) {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -19,21 +20,25 @@ function CourseHome({subtitle,title}) {
   return (
     <div className="lr-card-wrapper">
       <section>
-        <div className="container lr-card">
+        <div className="lr-card">
           <Heading subtitle={subtitle} title={title} />
           <div className="card-wrapper-container">
             <div className="card-wrapper">
-              {courses.map((course) => {
+              {courses.map((course, index) => {
                 return (
-                  <div key={course.id} className="card">
-                    <div className="image">
-                      <img
-                        src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-online-course-university-flaticons-flat-flat-icons-3.png"
-                        alt=""
-                      />
-                    </div>
-                    <h2>{course.name}</h2>
-                    <p>{course.description}</p>
+                  <div key={index} className="card">
+                    <Link to={`/course-lessons/${course.id}`}>
+                      <div className="card-content">
+                        <div className="image">
+                          <img
+                            src="https://img.icons8.com/external-flaticons-flat-flat-icons/64/external-online-course-university-flaticons-flat-flat-icons-3.png"
+                            alt=""
+                          />
+                        </div>
+                        <h2>{course.name}</h2>
+                        <p>{course.description}</p>
+                      </div>
+                    </Link>
                   </div>
                 );
               })}

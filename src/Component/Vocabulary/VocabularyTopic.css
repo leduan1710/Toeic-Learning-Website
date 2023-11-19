@@ -23,8 +23,9 @@
 }
 .vocabulary-topic-title {
   width: 100%;
-  word-wrap: break-word;
-  overflow: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: large;
   font-weight: 600;
   display: flex;

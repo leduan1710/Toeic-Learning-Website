@@ -13,8 +13,7 @@ function CourseLessons() {
   const [other_courses, setOtherCourses] = useState([]);
 
   useEffect(() => {
-    console.log("render");
-    fetch(`http://localhost:3000/course-lesson/${id}`)
+    fetch(`http://localhost:3000/course-lessons/${id}`)
       .then((res) => {
         return res.json();
       })

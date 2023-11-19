@@ -4,14 +4,12 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <div className=" container footer">
+    <div className="footer">
       <div className="footer-above">
-        <div className="flexSB">
           <div className="logo">
             <h1><Link to="/">VictoryU</Link></h1>
             <span>ONLINE EDUCATION & LEARNING</span>
           </div>
-        </div>
         <div className="footer-content">
           <h2>Về chúng tôi</h2>
           <ul className="footer-items">

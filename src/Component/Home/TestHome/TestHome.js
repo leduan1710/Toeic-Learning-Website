@@ -6,7 +6,6 @@ function TestHome({subtitle,title}) {
   return (
     <div className="testHome">
       <section>
-        <div className="container testHome-card">
           <Heading subtitle={subtitle} title={title} />
           <div className="test-item-wrapper">
             <div className="test-item">
@@ -42,7 +41,6 @@ function TestHome({subtitle,title}) {
               </div>
             </div>
           </div>
-        </div>
       </section>
     </div>
   );

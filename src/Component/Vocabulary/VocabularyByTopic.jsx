@@ -27,6 +27,7 @@ function VocabularyByTopic() {
       .then((data) => {
         setTopicName(data.topicName);
       });
+    window.scrollTo(0, 0);
   }, []);
 
   const [currentSlide, setCurrentSlide] = useState(0);

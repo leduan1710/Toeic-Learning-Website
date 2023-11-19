@@ -7,7 +7,7 @@ import TestHome from './TestHome/TestHome'
 
 function Home() {
   return (
-    <div>
+    <div className='container'>
       <AboutCard/>
       <Intro/>
       <CourseHome title="Các khóa học của VictoryU"/>

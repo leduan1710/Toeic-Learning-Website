@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Heading from "../Common/Header/Heading";
-import TestHome from "../Home/TestHome/TestHome"
+import TestHome from "../Home/TestHome/TestHome";
 import { Link } from "react-router-dom";
 import "./Courses.css";
 
@@ -16,6 +16,7 @@ function Courses() {
       .then((data) => {
         setCourses(data);
       });
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -44,7 +45,7 @@ function Courses() {
             })}
           </div>
         </div>
-        <TestHome subtitle="" title="Thực hiện các bài thi TOEIC"/>
+        <TestHome subtitle="" title="Thực hiện các bài thi TOEIC" />
       </div>
     </div>
   );

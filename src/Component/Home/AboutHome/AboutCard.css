@@ -2,10 +2,6 @@
   height: auto;
   padding-top: 30px;
 }
-.about-card {
-  background-color: #fff;
-  border-radius: 60px;
-}
 .about-card-wrapper {
   display: flex;
   align-items: center;
@@ -17,7 +13,7 @@
   height: 100%;
   object-fit: cover;
 }
-.about-card .right {
+.aboutHome .right {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -27,15 +23,19 @@
   transition: 0.5s;
   background-color: #f9f9f9;
   border-radius: 1.5rem;
+  display: flex;
+  align-items: center;
 }
 .aboutHome .item img {
   width: 70px;
   height: 70px;
-  margin: 0 10px 0 0; 
+  margin: 0 10px 0 0;
 }
 .aboutHome .item h2 {
   font-size: 20px;
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
 }
 .aboutHome .item:hover {
   background-color: #70a2ab;
@@ -47,16 +47,7 @@
   color: #fff;
 }
 @media screen and (max-width: 768px) {
-  .aboutHome .container {
-    flex-direction: column-reverse;
-  }
-  .aboutHome .row {
-    width: 100%;
-  }
-  .about-card .flexSB {
-    display: block;
-  }
-  .aboutHome .right {
-    padding: 20px;
+  .about-card-wrapper {
+    flex-direction: column;
   }
 }

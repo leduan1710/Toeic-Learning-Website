@@ -24,7 +24,9 @@ body {
   text-transform: capitalize;
 }
 .container {
-  margin: 0 50px;
+  margin: 50px;
+  background-color: #fff;
+  border-radius: 2rem;
 }
 .flexSB {
   display: flex;
@@ -43,8 +45,22 @@ body {
 button {
   border: none;
 }
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 25px;
+}
+body::-webkit-scrollbar-thumb {
+  background: #70a2ab;
+  border-radius: 25px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: #003150;
+}
 @media screen and (max-width: 768px) {
   .container {
-    margin: 0 15px;
+    margin: 15px;
   }
 }

@@ -5,7 +5,7 @@ import Heading from "../../Common/Header/Heading";
 function Intro() {
   return (
     <div className="intro-home">
-      <div className="container intro-card">
+      <div className="intro-card">
           <Heading subtitle="" title="Tổng quan về bài thi TOEIC®" />
         <div className=" cutoff-text">
           <div className="toiec-defination">

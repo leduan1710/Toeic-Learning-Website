@@ -15,12 +15,16 @@ function VocabularyTopic() {
       .then((data) => {
         setTopic(data);
       });
+    window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="vocabulary-topic-wrapper">
       <div className="container vocabulary-topic">
-        <Heading subtitle="VictoryU" title="Các Topic từ vựng thường gặp trong TOEIC" />
+        <Heading
+          subtitle="VictoryU"
+          title="Các Topic từ vựng thường gặp trong TOEIC"
+        />
         <div className="vocabulary-topic-grid-wrapper">
           <div className="vocabulary-topic-gridview">
             {topics.map((val) => {

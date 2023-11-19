@@ -2,10 +2,6 @@
   height: auto;
   padding-top: 30px;
 }
-.testHome-card {
-  background-color: #fff;
-  border-radius: 60px;
-}
 .test-item-wrapper {
   display: flex;
   gap: 2rem;
