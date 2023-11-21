@@ -27,24 +27,28 @@ function VocabularyTopic() {
         />
         <div className="vocabulary-topic-grid-wrapper">
           <div className="vocabulary-topic-gridview">
-            {topics.map((val) => {
-              return (
-                <Link to={`/vocabulary-by-topic/${val.id}`}>
-                  <div
-                    key={val.vocabularyTopicID}
-                    className="vocabulary-topic-item"
-                  >
-                    <img
-                      src="https://img.icons8.com/ios/50/dictionary.png"
-                      alt=""
-                    />
-                    <div className="vocabulary-topic-title">
-                      {val.topicName}
+            {topics.length > 0 ? (
+              topics.map((val) => {
+                return (
+                  <Link to={`/vocabulary-by-topic/${val.id}`}>
+                    <div
+                      key={val.vocabularyTopicID}
+                      className="vocabulary-topic-item"
+                    >
+                      <img
+                        src="https://img.icons8.com/ios/50/dictionary.png"
+                        alt=""
+                      />
+                      <div className="vocabulary-topic-title">
+                        {val.topicName}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              })
+            ) : (
+              <div>Loading...</div>
+            )}
           </div>
         </div>
       </div>

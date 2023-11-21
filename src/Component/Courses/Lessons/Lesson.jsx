@@ -6,37 +6,98 @@ import { Link } from "react-router-dom";
 import Markdown from "react-markdown";
 import Heading from "../../Common/Header/Heading";
 import "./Lesson.css";
-import Quiz from "./Quiz";
+import Quiz from "../Lessons/Quiz/Quiz";
+import Loader from "../../Common/Loader/Loader";
 
 function Lesson() {
   const { id } = useParams();
-  const [current_lesson, setCurrentLesson] = useState({});
   const [other_lessons, setOtherLesson] = useState([]);
+  const [current_lesson, setCurrentLesson] = useState({});
+  const [quizes, setQuizes] = useState([]);
+  const [current_quizID, setCurrentQuizID] = useState(1);
+  const [quizData, setQuizData] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/lessons/${id}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+    async function fetchLessons() {
+      try {
+        const response = await fetch(`http://localhost:3000/lessons/${id}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
         setCurrentLesson(data);
-      });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchLessons();
     window.scrollTo(0, 0);
   }, [id]);
   useEffect(() => {
-    const courseid = current_lesson.courseid;
-    if (courseid) {
-      fetch(`http://localhost:3000/course-lessons/${courseid}`)
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
+    async function fetchOtherLessons() {
+      try {
+        const courseid = current_lesson.courseid;
+        if (courseid) {
+          const response = await fetch(
+            `http://localhost:3000/course-lessons/${courseid}`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await response.json();
           const { lessons: lessonList } = data;
           setOtherLesson(lessonList.filter((lesson) => lesson.id != id));
-        });
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     }
+
+    async function fetchQuizes() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/quizes-by-lesson/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        const { quizes: quizList } = data;
+        setQuizes(quizList);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchOtherLessons();
+    fetchQuizes();
+    console.log(quizes);
   }, [current_lesson]);
 
+  useEffect(() => {
+    const fetchQuiz = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/questions-by-quiz/${current_quizID}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        const { questions: questionList } = data;
+        setQuizData(questionList);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchQuiz();
+  }, [current_quizID]);
+
+  if (quizes.length <= 0 || other_lessons.length <= 0 || current_lesson == {}) {
+    return <Loader />;
+  }
   return (
     <div className="lesson-wrapper">
       <Heading subtitle="VictoryU" title="TOEIC BASIC" />
@@ -49,8 +110,8 @@ function Lesson() {
           <div className="other-lessons">
             {other_lessons.map((lesson, index) => {
               return (
-                <Link to={`/lesson/${lesson.id}`}>
-                  <div key={index} className="other-lessons-item">
+                <Link key={index} to={`/lesson/${lesson.id}`}>
+                  <div className="other-lessons-item">
                     <div className="other-lesson-title">{lesson.title}</div>
                   </div>
                 </Link>
@@ -61,27 +122,53 @@ function Lesson() {
             <hr />
           </div>
           <div className="lesson-quiz-list">
-            <div className="lesson-quiz-item">QUIZ 1</div>
-            <div className="lesson-quiz-item">QUIZ 2</div>
-            <div className="lesson-quiz-item">QUIZ 3</div>
-            <div className="lesson-quiz-item">QUIZ 4</div>
-            <div className="lesson-quiz-item">QUIZ 5</div>
-            <div className="lesson-quiz-item">QUIZ 6</div>
-            <div className="lesson-quiz-item">QUIZ 7</div>
-            <div className="lesson-quiz-item">QUIZ 8</div>
-            <div className="lesson-quiz-item">QUIZ 9</div>
-            <div className="lesson-quiz-item">QUIZ 10</div>
+            {quizes.map((quiz, index) => {
+              return (
+                <input
+                  className="lesson-quiz-item"
+                  key={index}
+                  type="button"
+                  value={quiz.title}
+                  onClick={() => {
+                    setCurrentQuizID(quiz.id);
+                  }}
+                />
+              );
+            })}
+            {quizes.map((quiz, index) => {
+              return (
+                <input
+                  className="lesson-quiz-item"
+                  key={index}
+                  type="button"
+                  value={quiz.title}
+                  onClick={() => {
+                    setCurrentQuizID(quiz.id);
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
         <div className="lesson-right-row">
           <div className="lesson-content-wrapper">
-            <div className="lesson-title">{current_lesson.title}</div>
+            <div className="lesson-title-wrapper">
+              <div className="lesson-title">{current_lesson.title}</div>
+              <hr />
+            </div>
             <div className="lesson-content">
+              <Markdown>{current_lesson.content}</Markdown>
+              <Markdown>{current_lesson.content}</Markdown>
+              <Markdown>{current_lesson.content}</Markdown>
+              <Markdown>{current_lesson.content}</Markdown>
               <Markdown>{current_lesson.content}</Markdown>
             </div>
           </div>
           <div className="lesson-quiz-main">
-            <Quiz/>
+            <Quiz
+              quizData={quizData}
+              quizTitle={quizes[current_quizID - 1].title}
+            />
           </div>
         </div>
       </div>
