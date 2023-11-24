@@ -1,3 +1,5 @@
+/* --------------Quiz----------- */
+
 .quiz-wrapper {
   padding: 2rem 1rem;
 }
@@ -27,7 +29,7 @@
 .question-txt {
   text-align: center;
 }
-#question-number {
+.question-number {
   margin-right: 5px;
 }
 .option-container {
@@ -93,6 +95,9 @@
 .previous-button:hover {
   cursor: pointer;
 }
+
+/* ------------Quiz Result------------ */
+
 .quiz-result {
   height: auto;
   width: 100%;
@@ -100,14 +105,16 @@
   flex-direction: column;
   align-items: center;
 }
-.congratulations {
+.quiz-result .congratulations {
   background-color: #0094da;
   width: 100%;
   padding: 20px;
   font-size: 36px;
   color: #fff;
 }
-.show-score {
+.quiz-result .show-score {
   font-size: 2rem;
   padding: 2rem;
 }
+
+/* -----------Quiz Start----------- */
