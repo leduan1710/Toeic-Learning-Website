@@ -4,29 +4,46 @@ import { useParams } from "react-router-dom";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import "./VocabularyByTopic.css";
 import Heading from "../Common/Header/Heading";
+import Loader from "../Common/Loader/Loader";
 
 function VocabularyByTopic() {
   const [words, setWords] = useState([]);
-  const [topicName, setTopicName] = useState([]);
+  const [topicName, setTopicName] = useState("");
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/vocabulary/${id}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+    async function fetchVocabulary() {
+      try {
+        const response = await fetch(`http://localhost:3000/vocabulary/${id}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
         const { word: wordList } = data;
         setWords(wordList);
-      });
-
-    fetch(`http://localhost:3000/vocabulary-topic/${id}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    async function fetchVocabularyTopic() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/vocabulary-topic/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
         setTopicName(data.topicName);
-      });
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchVocabulary();
+    fetchVocabularyTopic();
     window.scrollTo(0, 0);
   }, []);
 
@@ -44,7 +61,9 @@ function VocabularyByTopic() {
   useEffect(() => {
     setCurrentSlide(0);
   }, []);
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className="vocabulary-wrapper">
       <div className="container vocabulary-card">
@@ -52,34 +71,35 @@ function VocabularyByTopic() {
         <div className="slider">
           <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide} />
           <AiOutlineArrowRight className="arrow next" onClick={nextSlide} />
-          {words.map((word, index) => {
-            return (
-              <div
-                key={index}
-                className={index === currentSlide ? "slide current" : "slide"}
-              >
-                <label>
-                  <input type="checkbox" />
-                  <div className="flip-card">
-                    <div className="front">
-                      <div className="eng-word">{word.engWord}</div>
-                      <div>
+          {words &&
+            words.map((word, index) => {
+              return (
+                <div
+                  key={index}
+                  className={index === currentSlide ? "slide current" : "slide"}
+                >
+                  <label>
+                    <input type="checkbox" />
+                    <div className="flip-card">
+                      <div className="front">
+                        <div className="eng-word">{word.engWord}</div>
+                        <div>
+                          <hr />
+                          <p className="flip">Click to flip</p>
+                        </div>
+                      </div>
+                      <div className="back">
+                        <div className="word-type">{word.wordType}</div>
+                        <hr />
+                        <div className="meaning">{word.meaning}</div>
                         <hr />
                         <p className="flip">Click to flip</p>
                       </div>
                     </div>
-                    <div className="back">
-                      <div className="word-type">{word.wordType}</div>
-                      <hr />
-                      <div className="meaning">{word.meaning}</div>
-                      <hr />
-                      <p className="flip">Click to flip</p>
-                    </div>
-                  </div>
-                </label>
-              </div>
-            );
-          })}
+                  </label>
+                </div>
+              );
+            })}
         </div>
         <div className="vocabulary-list-wrapper">
           <div className="vocabulary-list">
@@ -92,15 +112,16 @@ function VocabularyByTopic() {
                 </tr>
               </thead>
               <tbody>
-                {words.map((word, key) => {
-                  return (
-                    <tr>
-                      <td className="col1">{word.engWord}</td>
-                      <td className="col2">{word.wordType}</td>
-                      <td className="col3">{word.meaning}</td>
-                    </tr>
-                  );
-                })}
+                {words &&
+                  words.map((word, key) => {
+                    return (
+                      <tr>
+                        <td className="col1">{word.engWord}</td>
+                        <td className="col2">{word.wordType}</td>
+                        <td className="col3">{word.meaning}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

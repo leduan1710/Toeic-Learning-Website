@@ -16,6 +16,7 @@ function Lesson() {
   const [quizes, setQuizes] = useState([]);
   const [current_quizID, setCurrentQuizID] = useState(1);
   const [quizData, setQuizData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchLessons() {
@@ -48,6 +49,7 @@ function Lesson() {
           const data = await response.json();
           const { lessons: lessonList } = data;
           setOtherLesson(lessonList.filter((lesson) => lesson.id != id));
+          setIsLoading(false);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -65,6 +67,7 @@ function Lesson() {
         const data = await response.json();
         const { quizes: quizList } = data;
         setQuizes(quizList);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -72,7 +75,6 @@ function Lesson() {
 
     fetchOtherLessons();
     fetchQuizes();
-    console.log(quizes);
   }, [current_lesson]);
 
   useEffect(() => {
@@ -87,6 +89,7 @@ function Lesson() {
         const data = await response.json();
         const { questions: questionList } = data;
         setQuizData(questionList);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -95,7 +98,7 @@ function Lesson() {
     fetchQuiz();
   }, [current_quizID]);
 
-  if (quizes.length <= 0 || other_lessons.length <= 0 || current_lesson == {}) {
+  if (isLoading) {
     return <Loader />;
   }
   return (
@@ -108,46 +111,49 @@ function Lesson() {
             <hr />
           </div>
           <div className="other-lessons">
-            {other_lessons.map((lesson, index) => {
-              return (
-                <Link key={index} to={`/lesson/${lesson.id}`}>
-                  <div className="other-lessons-item">
-                    <div className="other-lesson-title">{lesson.title}</div>
-                  </div>
-                </Link>
-              );
-            })}
+            {other_lessons &&
+              other_lessons.map((lesson, index) => {
+                return (
+                  <Link key={index} to={`/lesson/${lesson.id}`}>
+                    <div className="other-lessons-item">
+                      <div className="other-lesson-title">{lesson.title}</div>
+                    </div>
+                  </Link>
+                );
+              })}
           </div>
           <div className="dividing-line">
             <hr />
           </div>
           <div className="lesson-quiz-list">
-            {quizes.map((quiz, index) => {
-              return (
-                <input
-                  className="lesson-quiz-item"
-                  key={index}
-                  type="button"
-                  value={quiz.title}
-                  onClick={() => {
-                    setCurrentQuizID(quiz.id);
-                  }}
-                />
-              );
-            })}
-            {quizes.map((quiz, index) => {
-              return (
-                <input
-                  className="lesson-quiz-item"
-                  key={index}
-                  type="button"
-                  value={quiz.title}
-                  onClick={() => {
-                    setCurrentQuizID(quiz.id);
-                  }}
-                />
-              );
-            })}
+            {quizes &&
+              quizes.map((quiz, index) => {
+                return (
+                  <input
+                    className="lesson-quiz-item"
+                    key={index}
+                    type="button"
+                    value={quiz.title}
+                    onClick={() => {
+                      setCurrentQuizID(quiz.id);
+                    }}
+                  />
+                );
+              })}
+            {quizes &&
+              quizes.map((quiz, index) => {
+                return (
+                  <input
+                    className="lesson-quiz-item"
+                    key={index}
+                    type="button"
+                    value={quiz.title}
+                    onClick={() => {
+                      setCurrentQuizID(quiz.id);
+                    }}
+                  />
+                );
+              })}
           </div>
         </div>
         <div className="lesson-right-row">
@@ -165,10 +171,14 @@ function Lesson() {
             </div>
           </div>
           <div className="lesson-quiz-main">
-            <Quiz
-              quizData={quizData}
-              quizTitle={quizes[current_quizID - 1].title}
-            />
+            {quizData && quizData.length <= 0 ? (
+              ""
+            ) : (
+              <Quiz
+                quizData={quizData}
+                quizTitle={quizes && quizes[current_quizID - 1].title}
+              />
+            )}
           </div>
         </div>
       </div>

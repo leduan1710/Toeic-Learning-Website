@@ -2,13 +2,13 @@
   height: auto;
   padding-top: 30px;
 }
-.test-item-wrapper {
+.testHome .test-item-wrapper {
   display: flex;
   gap: 2rem;
   padding: 2rem 2rem;
   justify-content: space-evenly;
 }
-.test-item {
+.testHome .test-item {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,18 +18,18 @@
   padding: 1.5rem;
   border-radius: 1.5rem;
 }
-.test-item-panel {
+.testHome .test-item-panel {
   width: 60%;
 } 
-.test-item-panel h1 {
+.testHome .test-item-panel h1 {
   font-size: 30px;
   font-weight: 700;
 }
-.test-item-button {
+.testHome .test-item-button {
   display: flex;
   justify-content: flex-end;
 }
-.test-item-button button {
+.testHome .test-item-button button {
   background-color: #003150;
   color: #f4f4f4;
   font-size: x-large;
@@ -37,7 +37,7 @@
   padding: 1rem 2rem;
   border-radius: 1.5rem;
 }
-.test-item-button button:hover {
+.testHome .test-item-button button:hover {
   background-color: #fff;
   color: #003150;
 }

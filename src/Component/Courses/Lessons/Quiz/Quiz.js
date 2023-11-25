@@ -2,18 +2,22 @@ import React, { useState, useEffect } from "react";
 import QuizResult from "./QuizResult";
 import "./Quiz.css";
 import Loader from "../../../Common/Loader/Loader";
-import QuizStart from "./QuizStart";
-
 function Quiz({ quizData, quizTitle }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [clickedOption, setClickedOption] = useState(0);
   const [showResult, setShowResult] = useState(false);
-
   const [clickedList, setclickedList] = useState(
     Array.from({ length: quizData.length }, () => 0)
   );
 
+  useEffect(() => {
+    setShowResult(false);
+    setCurrentQuestion(0);
+    setClickedOption(0);
+    setScore(0);
+    setclickedList(Array.from({ length: quizData.length }, () => 0));
+  }, [quizData]);
   useEffect(() => {
     if (!showResult) {
       setclickedList(
@@ -69,7 +73,7 @@ function Quiz({ quizData, quizTitle }) {
     setClickedOption(0);
     setScore(0);
     setclickedList(Array.from({ length: quizData.length }, () => 0));
-    localStorage.removeItem("quizResult");
+    localStorage.removeItem(`quizResult${quizData[0].quizid}`);
   };
 
   if (quizData.length <= 0) {
@@ -81,11 +85,11 @@ function Quiz({ quizData, quizTitle }) {
     );
 
     return (
-      <QuizStart
-        total={quizResult.total}
+      <QuizResult
         score={quizResult.score}
-        resetAll={resetAll}
-      />
+        totalScore={quizResult.total}
+        tryAgain={resetAll}
+      ></QuizResult>
     );
   }
   return (

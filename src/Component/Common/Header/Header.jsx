@@ -31,13 +31,13 @@ function Header() {
                 <div className="dropdown-menu">
                 <ul>
                   <li>
-                    <a href="/test/fulltest">FullTest</a>
+                  <Link to="/test/fullTest">FullTest</Link>
                   </li>
                   <li>
-                    <a href="test/minitest">MiniTest</a>
+                  <Link to="/test/miniTest">MiniTest</Link>
                   </li>
                   <li>
-                    <a href="test/simulation-test">Thi mô phỏng</a>
+                  <Link to="/test/simulation">Simulation Test</Link>
                   </li>
                 </ul>
               </div>

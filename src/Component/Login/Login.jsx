@@ -14,7 +14,6 @@ function Login() {
 
     const handleSignUpClick = () => {
       container.classList.add("sign-up-mode");
-      console.log("add sign-up-mode");
     };
 
     const handleSignInClick = () => {
@@ -28,7 +27,6 @@ function Login() {
       sign_up_mobile &&
       sign_in_mobile
     ) {
-      console.log("click");
       sign_up_btn.addEventListener("click", handleSignUpClick);
       sign_up_mobile.addEventListener("click", handleSignUpClick);
       sign_in_btn.addEventListener("click", handleSignInClick);
