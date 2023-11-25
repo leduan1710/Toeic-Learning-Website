@@ -176,7 +176,7 @@ function Lesson() {
             ) : (
               <Quiz
                 quizData={quizData}
-                quizTitle={quizes && quizes[current_quizID - 1].title}
+                quizTitle={quizes[current_quizID - 1] && quizes[current_quizID - 1].title}
               />
             )}
           </div>

@@ -22,7 +22,16 @@ function TestList({ testType }) {
   return (
     <div className="test-wrapper">
       <div className="container test-list">
-        <Heading subtitle="VictoryU" title={`${testType==="miniTest" ? "Kiểm tra mini test TOEIC" : (testType==="fullTest" ? "Kiểm tra full test TOEIC" : "Kiểm tra giả lập TOEIC")}`} />
+        <Heading
+          subtitle="VictoryU"
+          title={`${
+            testType === "miniTest"
+              ? "Kiểm tra mini test TOEIC"
+              : testType === "fullTest"
+              ? "Kiểm tra full test TOEIC"
+              : "Kiểm tra giả lập TOEIC"
+          }`}
+        />
         <div className="test-grid-wrapper">
           <div className="test-grid">
             {tests.length > 0 ? (
@@ -35,9 +44,19 @@ function TestList({ testType }) {
                         alt=""
                       />
                       <div className="test-title">{val.topicName}</div>
-                      <div className="test-infor">
-                        <div className="test-info-time">120 phút</div>
-                        <div className="test-info-question-number">200 câu hỏi</div>
+                      <div className="test-info">
+                        <div>
+                          <div className="test-info-title">Thời gian</div>
+                          <div className="test-info-item">{`${
+                            testType === "miniTest" ? "60 phút" : "120 phút"
+                          }`}</div>
+                        </div>
+                        <div>
+                          <div className="test-info-title">Số câu hỏi</div>
+                          <div className="test-info-item">
+                            {testType === "miniTest" ? "100 câu" : "200 câu"}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Link>
