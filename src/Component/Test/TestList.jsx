@@ -10,7 +10,7 @@ function TestList({ testType }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/test/${testType}`)
+    fetch(`http://localhost:3000/tests/${testType}`)
       .then((res) => {
         return res.json();
       })

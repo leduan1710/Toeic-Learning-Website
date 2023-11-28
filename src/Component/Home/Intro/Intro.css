@@ -67,6 +67,7 @@ h3,
 .intro-card td {
   border: 1px solid black;
   border-collapse: collapse;
+  padding-left: 5px;
 }
 
 .intro-card tr {
@@ -77,10 +78,10 @@ h3,
   width: 15%;
 }
 .col2 {
-  width: 35%;
+  width: 25%;
 }
 .col3 {
-  width: 47%;
+  width: 49%;
 }
 .cre {
   font-weight: bold;
