@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./TestMain.css";
 import Loader from "../../Common/Loader/Loader.jsx";
+import Markdown from "react-markdown";
 
 const parts = [
   {
@@ -34,26 +35,63 @@ const parts = [
 ];
 
 function TestMain() {
+  const [isLoading, setIsLoading] = useState(true);
   const [current_part, setCurrentPart] = useState(1);
   const [testdata, setTestdata] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [answers, setAnswers] = useState([]);
+
   let question_num = 0;
 
   useEffect(() => {
-    fetch("http://localhost:3000/test-by-id")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+    async function fetchTestData() {
+      try {
+        const response = await fetch(`http://localhost:3000/test-by-id`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
         setTestdata(data);
         setIsLoading(false);
-      });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchTestData();
     window.scrollTo(0, 0);
   }, []);
 
+  const handleOptionChange = (questionId, selectedOption) => {
+    const newAnswer = {
+      questionId: questionId,
+      answer: selectedOption,
+    };
+    setAnswers((prevAnswers) => [...prevAnswers, newAnswer]);
+  };
+  async function SubmitTest() {
+    try {
+      const response = await fetch("http://localhost:3000/user-answers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(answers),
+      });
+
+      if (!response.ok) {
+        throw new Error("Đã xảy ra lỗi khi gửi dữ liệu.");
+      }
+
+      const data = await response.json();
+      console.log("Dữ liệu đã được gửi thành công:", data);
+    } catch (error) {
+      console.error("Đã có lỗi:", error);
+    }
+  }
   function nextPart() {
     if (current_part < 7) {
       setCurrentPart(current_part + 1);
+    } else if (current_part === 7) {
+      SubmitTest();
     }
   }
   function previousPart() {
@@ -103,10 +141,10 @@ function TestMain() {
                           <img src={unit.image} alt={unit.image} />
                         </div>
                         <div className="test-paragraph">
-                          <p>{unit.paragraph}</p>
-                          <p>{unit.paragraph}</p>
-                          <p>{unit.paragraph}</p>
-                          <p>{unit.paragraph}</p>
+                          <Markdown>{unit.paragraph}</Markdown>
+                          <Markdown>{unit.paragraph}</Markdown>
+                          <Markdown>{unit.paragraph}</Markdown>
+                          <Markdown>{unit.paragraph}</Markdown>
                         </div>
                       </div>
                     ) : (
@@ -122,30 +160,42 @@ function TestMain() {
                         question_num++;
                         return (
                           <div key={index} className="test-question">
-                            <div className="test-question-content">
-                              <div className="test-question-number">
-                                {question_num}
-                              </div>
-                              {question_item.content}
+                            <div className="test-question-number">
+                              {question_num}
                             </div>
-                            <div className="test-choice-wrapper">
-                              {question_item.choices.map((choice, index) => {
-                                return (
-                                  <div
-                                    key={index}
-                                    className="test-choice-option"
-                                  >
-                                    {index === 0
-                                      ? "(A). "
-                                      : index === 1
-                                      ? "(B). "
-                                      : index === 2
-                                      ? "(C). "
-                                      : "(D). "}
-                                    {choice}
-                                  </div>
-                                );
-                              })}
+                            <div className="test-question-content">
+                              {question_item.content}
+
+                              <div className="test-choice-wrapper">
+                                {question_item.choices.map((choice, index) => {
+                                  return (
+                                    <div
+                                      key={index}
+                                      className="test-choice-option"
+                                    >
+                                      <input
+                                        type="radio"
+                                        value="option1"
+                                        name={`question_${question_item.id}`}
+                                        onChange={() =>
+                                          handleOptionChange(
+                                            question_item.id,
+                                            index + 1
+                                          )
+                                        }
+                                      />
+                                      {index === 0
+                                        ? "(A). "
+                                        : index === 1
+                                        ? "(B). "
+                                        : index === 2
+                                        ? "(C). "
+                                        : "(D). "}
+                                      {choice}
+                                    </div>
+                                  );
+                                })}
+                              </div>
                             </div>
                           </div>
                         );
@@ -157,7 +207,7 @@ function TestMain() {
             </div>
           );
         })}
-        <div className="quiz-button">
+        <div className="question-button">
           <input
             type="button"
             value="Previous"

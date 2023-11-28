@@ -10,15 +10,21 @@ function TestList({ testType }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/tests/${testType}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
+    async function fetchTests() {
+      try {
+        const response = await fetch(`http://localhost:3000/tests/${testType}`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
         const { test: testList } = data;
         setTest(testList);
         setIsLoading(false);
-      });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchTests();
     window.scrollTo(0, 0);
   }, [testType]);
 
