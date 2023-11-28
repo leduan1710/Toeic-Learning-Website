@@ -1,3 +1,12 @@
+/* -----------Test Index------- */
+
+.test-index-wrapper {
+  background-color: #fff;
+}
+.test-index-wrapper .container{
+  margin: 0;
+}
+
 .test-wrapper {
   height: auto;
   padding-top: 20px;

@@ -11,6 +11,7 @@ import CourseLessons from "./Component/Courses/CourseLessons";
 import Lesson from "./Component/Courses/Lessons/Lesson";
 import TestIndex from "./Component/Test/TestIndex";
 import TestList from "./Component/Test/TestList";
+import TestMain from "./Component/Test/TestMain";
 
 function App() {
   return <div className="App">
@@ -28,6 +29,7 @@ function App() {
       <Route exact path='/test/miniTest' element={<TestList testType={"miniTest"}/>} />
       <Route exact path='/test/fullTest' element={<TestList testType={"fullTest"}/>} />
       <Route exact path='/test/simulation' element={<TestList testType={"simulation"}/>} />
+      <Route exact path='/test/:id' element={<TestMain/>} />
       </Routes>
       <Footer/>
     </BrowserRouter>

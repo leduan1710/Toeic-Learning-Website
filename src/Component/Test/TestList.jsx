@@ -7,17 +7,24 @@ import "./TestList.css";
 
 function TestList({ testType }) {
   const [tests, setTest] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/vocabulary-topic")
+    fetch(`http://localhost:3000/test/${testType}`)
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        setTest(data);
+        const { test: testList } = data;
+        setTest(testList);
+        setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, []);
+  }, [testType]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="test-wrapper">
@@ -34,37 +41,33 @@ function TestList({ testType }) {
         />
         <div className="test-grid-wrapper">
           <div className="test-grid">
-            {tests.length > 0 ? (
-              tests.map((val) => {
-                return (
-                  <Link to={`/vocabulary-by-topic/${val.id}`}>
-                    <div key={val.vocabularyTopicID} className="test-item">
-                      <img
-                        src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/100/external-online-test-online-education-flaticons-lineal-color-flat-icons-2.png"
-                        alt=""
-                      />
-                      <div className="test-title">{val.topicName}</div>
-                      <div className="test-info">
-                        <div>
-                          <div className="test-info-title">Thời gian</div>
-                          <div className="test-info-item">{`${
-                            testType === "miniTest" ? "60 phút" : "120 phút"
-                          }`}</div>
-                        </div>
-                        <div>
-                          <div className="test-info-title">Số câu hỏi</div>
-                          <div className="test-info-item">
-                            {testType === "miniTest" ? "100 câu" : "200 câu"}
-                          </div>
+            {tests.map((test, index) => {
+              return (
+                <Link to={`/test/${test.id}`}>
+                  <div key={index} className="test-item">
+                    <img
+                      src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/100/external-online-test-online-education-flaticons-lineal-color-flat-icons-2.png"
+                      alt=""
+                    />
+                    <div className="test-title">{test.title}</div>
+                    <div className="test-info">
+                      <div>
+                        <div className="test-info-title">Thời gian</div>
+                        <div className="test-info-item">{`${
+                          testType === "miniTest" ? "60 phút" : "120 phút"
+                        }`}</div>
+                      </div>
+                      <div>
+                        <div className="test-info-title">Số câu hỏi</div>
+                        <div className="test-info-item">
+                          {testType === "miniTest" ? "100 câu" : "200 câu"}
                         </div>
                       </div>
                     </div>
-                  </Link>
-                );
-              })
-            ) : (
-              <Loader />
-            )}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -38,6 +38,7 @@
   border-radius: 1.5rem;
 }
 .testHome .test-item-button button:hover {
+  cursor: pointer;
   background-color: #fff;
   color: #003150;
 }
