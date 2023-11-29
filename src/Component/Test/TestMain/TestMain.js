@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "./TestMain.css";
 import Loader from "../../Common/Loader/Loader.jsx";
 import Markdown from "react-markdown";
+import TestResult from "./TestResult.jsx";
 
 const parts = [
   {
@@ -35,7 +37,9 @@ const parts = [
 ];
 
 function TestMain() {
+  const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmit, setIsSubmit] = useState(false);
   const [current_part, setCurrentPart] = useState(1);
   const [testdata, setTestdata] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -61,11 +65,23 @@ function TestMain() {
   }, []);
 
   const handleOptionChange = (questionId, selectedOption) => {
-    const newAnswer = {
-      questionId: questionId,
-      answer: selectedOption,
-    };
-    setAnswers((prevAnswers) => [...prevAnswers, newAnswer]);
+    const existingAnswerIndex = answers.findIndex(
+      (answer) => answer.questionId === questionId
+    );
+
+    if (existingAnswerIndex !== -1) {
+      setAnswers((prevAnswers) => {
+        const updatedAnswers = [...prevAnswers];
+        updatedAnswers[existingAnswerIndex].answer = selectedOption;
+        return updatedAnswers;
+      });
+    } else {
+      const newAnswer = {
+        questionId: questionId,
+        answer: selectedOption,
+      };
+      setAnswers((prevAnswers) => [...prevAnswers, newAnswer]);
+    }
   };
   async function SubmitTest() {
     try {
@@ -92,6 +108,7 @@ function TestMain() {
       setCurrentPart(current_part + 1);
     } else if (current_part === 7) {
       SubmitTest();
+      setIsSubmit(true);
     }
   }
   function previousPart() {
@@ -105,123 +122,133 @@ function TestMain() {
   }
 
   return (
-    <div className="tab-container">
-      <div className="tab-header">
-        {parts.map((part) => {
-          return (
-            <div
-              key={part.id}
-              className={`tab-item ${
-                current_part === part.id ? "tab-index-active" : null
-              }`}
-              onClick={() => setCurrentPart(part.id)}
-            >
-              {part.title}
-            </div>
-          );
-        })}
-      </div>
-      <div className="tab-content">
-        {testdata.map((testpart, index) => {
-          return (
-            <div
-              key={index}
-              className={
-                current_part === testpart.partNum
-                  ? "tab-pane-active"
-                  : "tab-pane"
-              }
-            >
-              {testpart.units.map((unit, index) => {
-                return (
-                  <div key={index} className="test-unit-wrapper">
-                    {unit.paragraph !== "" || unit.image !== "" ? (
-                      <div className="test-unit-left">
-                        <div className="test-img">
-                          <img src={unit.image} alt={unit.image} />
-                        </div>
-                        <div className="test-paragraph">
-                          <Markdown>{unit.paragraph}</Markdown>
-                          <Markdown>{unit.paragraph}</Markdown>
-                          <Markdown>{unit.paragraph}</Markdown>
-                          <Markdown>{unit.paragraph}</Markdown>
-                        </div>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                    <div className="test-unit-right">
-                      <div className="test-unit-audio">
-                        {unit.audio && (
-                          <audio src={unit.audio} controls></audio>
-                        )}
-                      </div>
-                      {unit.question.map((question_item, index) => {
-                        question_num++;
-                        return (
-                          <div key={index} className="test-question">
-                            <div className="test-question-number">
-                              {question_num}
+    <div className="test-container">
+      {isSubmit ? (
+        <div className="test-result">
+          <TestResult/>
+        </div>
+      ) : (
+        <>
+          <div className="tab-header">
+            {parts.map((part) => {
+              return (
+                <div
+                  key={part.id}
+                  className={`tab-item ${
+                    current_part === part.id ? "tab-index-active" : null
+                  }`}
+                  onClick={() => setCurrentPart(part.id)}
+                >
+                  {part.title}
+                </div>
+              );
+            })}
+          </div>
+          <div className="tab-content">
+            {testdata.map((testpart, index) => {
+              return (
+                <div
+                  key={index}
+                  className={
+                    current_part === testpart.partNum
+                      ? "tab-pane-active"
+                      : "tab-pane"
+                  }
+                >
+                  {testpart.units.map((unit, index) => {
+                    return (
+                      <div key={index} className="test-unit-wrapper">
+                        {unit.paragraph !== "" || unit.image !== "" ? (
+                          <div className="test-unit-left">
+                            <div className="test-img">
+                              <img src={unit.image} alt={unit.image} />
                             </div>
-                            <div className="test-question-content">
-                              {question_item.content}
-
-                              <div className="test-choice-wrapper">
-                                {question_item.choices.map((choice, index) => {
-                                  return (
-                                    <div
-                                      key={index}
-                                      className="test-choice-option"
-                                    >
-                                      <input
-                                        type="radio"
-                                        value="option1"
-                                        name={`question_${question_item.id}`}
-                                        onChange={() =>
-                                          handleOptionChange(
-                                            question_item.id,
-                                            index + 1
-                                          )
-                                        }
-                                      />
-                                      {index === 0
-                                        ? "(A). "
-                                        : index === 1
-                                        ? "(B). "
-                                        : index === 2
-                                        ? "(C). "
-                                        : "(D). "}
-                                      {choice}
-                                    </div>
-                                  );
-                                })}
-                              </div>
+                            <div className="test-paragraph">
+                              <Markdown>{unit.paragraph}</Markdown>
+                              <Markdown>{unit.paragraph}</Markdown>
+                              <Markdown>{unit.paragraph}</Markdown>
+                              <Markdown>{unit.paragraph}</Markdown>
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
+                        ) : (
+                          ""
+                        )}
+                        <div className="test-unit-right">
+                          <div className="test-unit-audio">
+                            {unit.audio && (
+                              <audio src={unit.audio} controls></audio>
+                            )}
+                          </div>
+                          {unit.question.map((question_item, index) => {
+                            question_num++;
+                            return (
+                              <div key={index} className="test-question">
+                                <div className="test-question-number">
+                                  {question_num}
+                                </div>
+                                <div className="test-question-content">
+                                  {question_item.content}
+
+                                  <div className="test-choice-wrapper">
+                                    {question_item.choices.map(
+                                      (choice, index) => {
+                                        return (
+                                          <div
+                                            key={index}
+                                            className="test-choice-option"
+                                          >
+                                            <input
+                                              type="radio"
+                                              value="option1"
+                                              name={`question_${question_item.id}`}
+                                              onChange={() =>
+                                                handleOptionChange(
+                                                  question_item.id,
+                                                  index + 1
+                                                )
+                                              }
+                                            />
+                                            {index === 0
+                                              ? "(A). "
+                                              : index === 1
+                                              ? "(B). "
+                                              : index === 2
+                                              ? "(C). "
+                                              : "(D). "}
+                                            {choice}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+            <div className="question-button">
+              <input
+                type="button"
+                value="Previous"
+                className="previous-button"
+                onClick={previousPart}
+              />
+              <input
+                type="button"
+                value={current_part === 7 ? "Done" : "Next"}
+                className="next-button"
+                onClick={nextPart}
+              />
             </div>
-          );
-        })}
-        <div className="question-button">
-          <input
-            type="button"
-            value="Previous"
-            className="previous-button"
-            onClick={previousPart}
-          />
-          <input
-            type="button"
-            value={current_part === 7 ? "Done" : "Next"}
-            className="next-button"
-            onClick={nextPart}
-          />
-        </div>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

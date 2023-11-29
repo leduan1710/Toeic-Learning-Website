@@ -80,7 +80,7 @@ function Quiz({ quizData, quizTitle }) {
     return <Loader />;
   }
   if (localStorage.getItem(`quizResult${quizData[0].quizid}`)) {
-    const quizResult = JSON.parse(
+    const quizResult = JSON.parse(  
       localStorage.getItem(`quizResult${quizData[0].quizid}`)
     );
 
@@ -95,7 +95,7 @@ function Quiz({ quizData, quizTitle }) {
   return (
     <div className="quiz-wrapper">
       <p className="heading-txt">{quizTitle}</p>
-      <div className="container">
+      <div className="quiz-container">
         {showResult ? (
           <QuizResult
             score={score}

@@ -214,6 +214,7 @@ a {
   color: #003150;
   font-weight: bold;
   text-decoration: underline;
+  background-color: #fff;
 }
 .login .sign-in-mobile {
   display: none;
