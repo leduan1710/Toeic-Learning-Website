@@ -1,11 +1,31 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Login.css";
 import { useEffect, useState } from "react";
 import signinImage from "../../assets/signin.svg";
 import signupImage from "../../assets/signup.svg";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../Context/UserContext";
 
 function Login() {
+  const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
+  const [username, setUserName] = useState("");
+  const [pwd, setPwd] = useState("");
+
+  const { user, loginContext, userAuthen } = useContext(UserContext);
+  async function handleLogin(e) {
+    e.preventDefault();
+    const response = await userAuthen(username, pwd);
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.log(errorData.message);
+    } else {
+      const data = await response.json();
+      loginContext(username, data.token);
+      console.log(user);
+      navigate("/");
+    }
+  }
   function SwitchSignUpMode(mode) {
     setSignUpMode(mode);
   }
@@ -18,13 +38,26 @@ function Login() {
               <h2 className="title">Đăng nhập</h2>
               <div className="input-field">
                 <i className="fas fa-user"></i>
-                <input type="text" placeholder="Username" />
+                <input
+                  type="text"
+                  placeholder="Username"
+                  onChange={(e) => setUserName(e.target.value)}
+                />
               </div>
               <div className="input-field">
                 <i className="fas fa-lock"></i>
-                <input type="password" placeholder="Password" />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => setPwd(e.target.value)}
+                />
               </div>
-              <input type="submit" value="Login" className="btn" />
+              <input
+                type="submit"
+                value="Login"
+                className="btn"
+                onClick={handleLogin}
+              />
               <p className="social-text">Đăng nhập bằng tài khoản khác</p>
               <div className="social-media">
                 <a href="#" className="social-icon">
