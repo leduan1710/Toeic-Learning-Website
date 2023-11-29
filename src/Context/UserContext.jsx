@@ -1,10 +1,9 @@
 import React from "react";
-import { useState, useEffect } from "react";
 const UserContext = React.createContext({ username: "", auth: false });
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({ username: "", auth: false });
-  useEffect(() => {
+  const [user, setUser] = React.useState({ username: "", auth: false });
+  React.useEffect(() => {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
     if (token && username) {
@@ -12,12 +11,7 @@ const UserProvider = ({ children }) => {
     }
   }, []);
   const loginContext = (username, token) => {
-    setUser((user) => ({
-      username: username,
-      auth: true,
-    }));
-    localStorage.setItem("token", token);
-    localStorage.setItem("username", username);
+    
   };
   const userAuthen = async (username, pwd) => {
     try {
@@ -31,7 +25,19 @@ const UserProvider = ({ children }) => {
           password: pwd,
         }),
       });
-      return response;
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData.message);
+      } else {
+        const data = await response.json();
+        setUser((user) => ({
+            username: username,
+            auth: true,
+          }));
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("username", username);
+        console.log(user);
+      }
     } catch (error) {
       console.error("Đã có lỗi:", error);
     }

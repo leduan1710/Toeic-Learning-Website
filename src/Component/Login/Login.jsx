@@ -12,19 +12,11 @@ function Login() {
   const [username, setUserName] = useState("");
   const [pwd, setPwd] = useState("");
 
-  const { user, loginContext, userAuthen } = useContext(UserContext);
+  const { userAuthen } = useContext(UserContext);
   async function handleLogin(e) {
     e.preventDefault();
-    const response = await userAuthen(username, pwd);
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.log(errorData.message);
-    } else {
-      const data = await response.json();
-      loginContext(username, data.token);
-      console.log(user);
-      navigate("/");
-    }
+    await userAuthen(username, pwd);
+    navigate("/");
   }
   function SwitchSignUpMode(mode) {
     setSignUpMode(mode);
