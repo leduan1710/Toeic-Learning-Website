@@ -1,16 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Markdown from "react-markdown";
 import Heading from "../../Common/Header/Heading";
 import "./Lesson.css";
 import Quiz from "../Lessons/Quiz/Quiz";
 import Loader from "../../Common/Loader/Loader";
+import { UserContext } from "../../../Context/UserContext";
 
 function Lesson() {
   const { id } = useParams();
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [other_lessons, setOtherLesson] = useState([]);
   const [current_lesson, setCurrentLesson] = useState({});
   const [quizes, setQuizes] = useState([]);
@@ -101,6 +105,10 @@ function Lesson() {
   if (isLoading) {
     return <Loader />;
   }
+  if(!user.auth){
+    navigate("/login")
+  }
+  
   return (
     <div className="lesson-wrapper">
       <Heading subtitle="VictoryU" title="TOEIC BASIC" />

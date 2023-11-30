@@ -13,6 +13,11 @@ function Login() {
   const [pwd, setPwd] = useState("");
 
   const { userAuthen } = useContext(UserContext);
+
+  useEffect(() => {
+    window.scrollTo(0, 210);
+  }, []);
+
   async function handleLogin(e) {
     e.preventDefault();
     await userAuthen(username, pwd);

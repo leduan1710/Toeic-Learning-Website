@@ -5,7 +5,8 @@
   padding: 20px 0;
   color: #fff;
 }
-.head, .header .flexSB {
+.head,
+.header .flexSB {
   justify-content: space-between;
 }
 .logo {
@@ -39,9 +40,10 @@ header {
 }
 header ul {
   margin-bottom: 0;
+  padding-left: 1rem;
 }
 header li {
-  padding: 30px 20px;
+  padding: 20px;
   list-style: none;
   position: relative;
 }
@@ -56,19 +58,27 @@ header ul li a:hover {
   cursor: pointer;
   color: #fff;
 }
+.dropdown-menu a:hover {
+  cursor: pointer;
+  color: #003150;
+  font-weight: 900;
+}
 
-.dropdown-menu {
+.dropdown-menu{
   display: none;
+  position: absolute;
+  background-color: #fff;
+  z-index: 3;
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5);
+  color: #000;
 }
 
 header ul li:hover .dropdown-menu {
   display: block;
-  position: absolute;
+  width: 150%;
   left: 0;
-  top: 100%;
-  z-index: 3;
-  background-color: #70a2ab;
-  color: #000;
+  top: 90%;
+  
 }
 
 header ul li:hover .dropdown-menu ul {
@@ -76,14 +86,14 @@ header ul li:hover .dropdown-menu ul {
   margin: 10px;
 }
 
-header  ul li:hover .dropdown-menu ul li {
+header ul li:hover .dropdown-menu ul li {
   width: 150px;
   padding: 10px;
 }
 
 .start {
   background-color: #003150;
-  padding: 30px 80px;
+  padding: 20px 80px;
   color: #fff;
   clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
 }
@@ -91,7 +101,44 @@ header  ul li:hover .dropdown-menu ul li {
 .toggle {
   display: none;
 }
-@media screen and (max-width: 768px) {
+
+/* ------------user --------------- */
+.navbar-user {
+  position: relative;
+  margin-right: 2rem;
+}
+.navbar-user-infor {
+  display: flex;
+  align-items: center;
+}
+.navbar-user-infor img {
+  height: 64px;
+  width: 64px;
+}
+.navbar-user i {
+  margin-left: 5px;
+}
+.navbar-user:hover  .dropdown-menu {
+  display: block;
+  width: 100%;
+  top: 90%
+}
+.dropdown-item {
+  padding: 1rem;
+}
+.dropdown-item:hover{
+  color: #003150;
+  font-weight: 900;
+}
+
+@media screen and (max-width: 1280px) and (min-width: 830px) {
+  header ul li {
+    font-size: 1rem;
+    padding: 20px 20px;
+  }
+}
+
+@media screen and (max-width: 830px) {
   .start {
     clip-path: none;
   }

@@ -1,9 +1,11 @@
 import React from "react";
-const UserContext = React.createContext({ username: "", auth: false });
+import { useState, useEffect, createContext } from "react";
+const UserContext = createContext({ username: "", auth: false });
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = React.useState({ username: "", auth: false });
-  React.useEffect(() => {
+  useEffect(() => {
+    console.log("get user info")
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
     if (token && username) {
@@ -36,7 +38,6 @@ const UserProvider = ({ children }) => {
           }));
           localStorage.setItem("token", data.token);
           localStorage.setItem("username", username);
-        console.log(user);
       }
     } catch (error) {
       console.error("Đã có lỗi:", error);

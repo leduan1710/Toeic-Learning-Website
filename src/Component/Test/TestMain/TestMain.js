@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "./TestMain.css";
 import Loader from "../../Common/Loader/Loader.jsx";
 import Markdown from "react-markdown";
 import TestResult from "./TestResult.jsx";
+import { UserContext } from "../../../Context/UserContext.jsx";
 
 const parts = [
   {
@@ -38,6 +39,9 @@ const parts = [
 
 function TestMain() {
   const { id } = useParams();
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmit, setIsSubmit] = useState(false);
   const [current_part, setCurrentPart] = useState(1);
@@ -45,6 +49,10 @@ function TestMain() {
   const [answers, setAnswers] = useState([]);
 
   let question_num = 0;
+
+  if (!user.auth) {
+    navigate("/login");
+  }
 
   useEffect(() => {
     async function fetchTestData() {
@@ -125,7 +133,7 @@ function TestMain() {
     <div className="test-container">
       {isSubmit ? (
         <div className="test-result">
-          <TestResult/>
+          <TestResult />
         </div>
       ) : (
         <>

@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import Head from "./Head";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { UserContext } from "../../../Context/UserContext";
 
 function Header() {
   const [click, setClick] = useState(false);
-
+  const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
+  function handleLogout() {
+    logout();
+    navigate("/");
+  }
   return (
     <div className="header">
       <Head />
@@ -29,29 +35,54 @@ function Header() {
               <Link to="/test">
                 ĐỀ THI THỬ <i className="fas fa-caret-down"></i>
                 <div className="dropdown-menu">
-                <ul>
-                  <li>
-                  <Link to="/test/fullTest">FullTest</Link>
-                  </li>
-                  <li>
-                  <Link to="/test/miniTest">MiniTest</Link>
-                  </li>
-                  <li>
-                  <Link to="/test/simulation">Simulation Test</Link>
-                  </li>
-                </ul>
-              </div>
+                  <ul>
+                    <div className="dropdown-item">
+                      <Link to="/test/fullTest">FullTest</Link>
+                    </div>
+                    <div className="dropdown-item">
+                      <Link to="/test/miniTest">MiniTest</Link>
+                    </div>
+                    <div className="dropdown-item">
+                      <Link to="/test/simulation">Simulation Test</Link>
+                    </div>
+                  </ul>
+                </div>
               </Link>
             </li>
             <li>
               <Link to="/forum">DIỄN ĐÀN</Link>
             </li>
           </ul>
-          <div className="start">
-            <div className="button">
-              <Link to="/login">LOGIN</Link>
+          {!user.auth ? (
+            <div className="start">
+              <div className="button">
+                <Link to="/login">LOGIN</Link>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="navbar-user">
+              <div className="navbar-user-infor">
+                <div className="navbar-user-avatar">
+                  <img
+                    src="https://img.icons8.com/papercut/100/user-female-circle.png"
+                    alt=""
+                  />
+                </div>
+                <div className="navbar-user-name">Tran Ngo Bich Du</div>
+                <i className="fas fa-caret-down"></i>
+              </div>
+              <div className="dropdown-menu">
+                <ul>
+                  <div className="dropdown-item">
+                    <Link to="/user/profile">Trang cá nhân</Link>
+                  </div>
+                  <div className="dropdown-item" onClick={handleLogout}>
+                    Logout
+                  </div>
+                </ul>
+              </div>
+            </div>
+          )}
           <button className="toggle" onClick={() => setClick(!click)}>
             {click ? (
               <i className="fa fa-times"> </i>
