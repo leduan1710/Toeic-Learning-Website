@@ -1,23 +1,47 @@
+import { jwtDecode } from "jwt-decode";
 import React from "react";
 import { useState, useEffect, createContext } from "react";
-const UserContext = createContext({ username: "", auth: false });
+import { toast } from "react-toastify";
+const UserContext = createContext({ username: "", auth: false, role: "" });
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = React.useState({ username: "", auth: false });
+  const [user, setUser] = useState({ username: "", auth: false, role: "" });
   useEffect(() => {
-    console.log("get user info")
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
-    if (token && username) {
-      setUser({ username: username, auth: true });
+    if (token) {
+      const token_decode = decodeToken(token);
+      const {
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": username,
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
+      } = token_decode;
+      setUser((user) => ({
+        username: username,
+        role: role,
+        auth: true,
+      }));
     }
   }, []);
-  const loginContext = (username, token) => {
-    
+  const decodeToken = (token) => {
+    return jwtDecode(token);
   };
+  const loginContext = (token) =>{
+    const token_decode = decodeToken(token);
+    const {
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name":
+        username,
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
+    } = token_decode;
+    setUser((user) => ({
+      username: username,
+      role: role,
+      auth: true,
+    }));
+    localStorage.setItem("token", token);
+    
+  }
   const userAuthen = async (username, pwd) => {
     try {
-      const response = await fetch("https://reqres.in/api/login", {
+      const response = await fetch("https://localhost:7112/api/Authen/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,34 +51,30 @@ const UserProvider = ({ children }) => {
           password: pwd,
         }),
       });
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.log(errorData.message);
-      } else {
-        const data = await response.json();
-        setUser((user) => ({
-            username: username,
-            auth: true,
-          }));
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("username", username);
-      }
+      return response
     } catch (error) {
-      console.error("Đã có lỗi:", error);
+      toast.error(`${error}`, {
+        position: toast.POSITION.TOP_RIGHT, // Vị trí hiển thị
+        autoClose: 3000, // Tự động đóng sau 3 giây
+        hideProgressBar: false, // Ẩn thanh tiến trình
+        closeOnClick: true, // Đóng khi click
+        pauseOnHover: true, // Tạm dừng khi di chuột qua
+        draggable: true, // Có thể kéo thông báo
+      });
     }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
     setUser((user) => ({
       username: "",
+      role: "",
       auth: false,
     }));
   };
 
   return (
-    <UserContext.Provider value={{ user, loginContext, logout, userAuthen }}>
+    <UserContext.Provider value={{ user, logout, userAuthen, loginContext }}>
       {children}
     </UserContext.Provider>
   );

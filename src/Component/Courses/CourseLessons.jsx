@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Loader from "../Common/Loader/Loader";
+import { toast } from "react-toastify";
 
 function CourseLessons() {
   const [lessons, setLessons] = useState([]);
@@ -17,34 +18,61 @@ function CourseLessons() {
     async function fetchLessons() {
       try {
         const response = await fetch(
-          `http://localhost:3000/course-lessons/${id}`
+          `https://localhost:7112/api/Lesson/GetAllLessonByCourse/${id}`
         );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 5000,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         }
         const data = await response.json();
-        const { lessons: lessonList } = data;
-        setLessons(lessonList);
+        setLessons(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
     async function fetchOtherLessons() {
       try {
-        const response = await fetch("http://localhost:3000/courses");
+        const response = await fetch(
+          "https://localhost:7112/api/Course/GetAllCourses"
+        );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+            autoClose: 5000, // Tự động đóng sau 3 giây
+            closeOnClick: true, // Đóng khi click
+            pauseOnHover: true, // Tạm dừng khi di chuột qua
+            draggable: true, // Có thể kéo thông báo
+          });
         }
         const data = await response.json();
-        setCurrentCourse(data.find((course) => course.id == id));
-        setOtherCourses(data.filter((course) => course.id != id));
-        setIsLoading(false)
+        setCurrentCourse(data.find((course) => course.idCourse === id));
+        setOtherCourses(data.filter((course) => course.idCourse !== id));
+        setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
     fetchLessons();
-    fetchOtherLessons()
+    fetchOtherLessons();
   }, [id]);
 
   if (isLoading) {
@@ -62,7 +90,7 @@ function CourseLessons() {
                 lessons.map((lesson, index) => {
                   return (
                     <div key={index} className="list-lesson-item">
-                      <Link to={`/lesson/${lesson.id}`}>
+                      <Link to={`/lesson/${lesson.idLesson}`}>
                         <div className="list-lesson-name">{lesson.title}</div>
                       </Link>
                     </div>

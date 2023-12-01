@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext } from "react";
 import "./Login.css";
 import { useEffect, useState } from "react";
@@ -5,84 +6,117 @@ import signinImage from "../../assets/signin.svg";
 import signupImage from "../../assets/signup.svg";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
+import Loader from "../Common/Loader/Loader";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
   const [username, setUserName] = useState("");
   const [pwd, setPwd] = useState("");
+  const [email, setEmail] = useState("");
+  const [isloading, setIsLoading] = useState(false);
 
-  const { userAuthen } = useContext(UserContext);
+  const { userAuthen, loginContext } = useContext(UserContext);
 
   useEffect(() => {
     window.scrollTo(0, 210);
   }, []);
 
   async function handleLogin(e) {
-    e.preventDefault();
-    await userAuthen(username, pwd);
-    navigate("/");
+    e.preventDefault(true);
+    setIsLoading(true);
+    const response = await userAuthen(username, pwd);
+    setIsLoading(false);
+    if (!response.ok) {
+      const errorData = await response.json();
+      toast.error(`${errorData.message}`, {
+        position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+        autoClose: 5000, // Tự động đóng sau 3 giây
+        closeOnClick: true, // Đóng khi click
+        pauseOnHover: true, // Tạm dừng khi di chuột qua
+        draggable: true, // Có thể kéo thông báo
+      });
+    } else {
+      const data = await response.json();
+      if (data.token !== undefined) {
+        loginContext(data.token);
+        navigate("/");
+      }
+    }
+  }
+  async function handleSignUp(e) {
+    e.preventDefault(true);
+  }
+
+  if (isloading) {
+    return <Loader />;
   }
   function SwitchSignUpMode(mode) {
     setSignUpMode(mode);
   }
   return (
-    <div className="login-wrapper">
+    <div className="login-wrapper" id="login-wrapper">
       <div className="login">
         <div className={`container ${signUpMode ? "sign-up-mode" : null}`}>
           <div className="signin-signup">
             <form action="" className="sign-in-form">
-              <h2 className="title">Đăng nhập</h2>
-              <div className="input-field">
-                <i className="fas fa-user"></i>
+              <div className="signin-input">
+                <h2 className="title">Đăng nhập</h2>
+                <div className="input-field">
+                  <i className="fas fa-user"></i>
+                  <input
+                    type="text"
+                    placeholder="Tên đăng nhập"
+                    onChange={(e) => setUserName(e.target.value)}
+                  />
+                </div>
+                <div className="input-field">
+                  <i className="fas fa-lock"></i>
+                  <input
+                    type="password"
+                    placeholder="Mật khẩu"
+                    onChange={(e) => setPwd(e.target.value)}
+                  />
+                </div>
+                <a className="forgot-password" href="">
+                  Quên mật khẩu
+                </a>
                 <input
-                  type="text"
-                  placeholder="Username"
-                  onChange={(e) => setUserName(e.target.value)}
+                  type="submit"
+                  value="Đăng nhập"
+                  className="btn"
+                  onClick={handleLogin}
                 />
+                <p className="social-text">Đăng nhập bằng tài khoản khác</p>
+                <div className="social-media">
+                  <a href="#" className="social-icon">
+                    <i className="fab fa-facebook"></i>
+                  </a>
+                  <a href="" className="social-icon">
+                    <i className="fab fa-twitter"></i>
+                  </a>
+                  <a href="" className="social-icon">
+                    <i className="fab fa-google"></i>
+                  </a>
+                  <a href="" className="social-icon">
+                    <i className="fab fa-linkedin-in"></i>
+                  </a>
+                </div>
+                <button
+                  className="sign-up-mobile"
+                  id="sign-up-mobile"
+                  onClick={() => SwitchSignUpMode(false)}
+                >
+                  Đăng kí tài khoản
+                </button>
               </div>
-              <div className="input-field">
-                <i className="fas fa-lock"></i>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  onChange={(e) => setPwd(e.target.value)}
-                />
-              </div>
-              <input
-                type="submit"
-                value="Login"
-                className="btn"
-                onClick={handleLogin}
-              />
-              <p className="social-text">Đăng nhập bằng tài khoản khác</p>
-              <div className="social-media">
-                <a href="#" className="social-icon">
-                  <i className="fab fa-facebook"></i>
-                </a>
-                <a href="" className="social-icon">
-                  <i className="fab fa-twitter"></i>
-                </a>
-                <a href="" className="social-icon">
-                  <i className="fab fa-google"></i>
-                </a>
-                <a href="" className="social-icon">
-                  <i className="fab fa-linkedin-in"></i>
-                </a>
-              </div>
-              <button
-                className="sign-up-mobile"
-                id="sign-up-mobile"
-                onClick={() => SwitchSignUpMode(false)}
-              >
-                Đăng kí tài khoản
-              </button>
             </form>
             <form action="" className="sign-up-form">
               <h2 className="title">Đăng kí</h2>
               <div className="input-field">
                 <i className="fas fa-user"></i>
-                <input type="text" placeholder="Username" />
+                <input type="text" placeholder="Tên đăng nhập" />
               </div>
               <div className="input-field">
                 <i className="fas fa-envelope"></i>
@@ -90,9 +124,9 @@ function Login() {
               </div>
               <div className="input-field">
                 <i className="fas fa-lock"></i>
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Mật khẩu" />
               </div>
-              <input type="submit" value="Sign up" className="btn" />
+              <input type="submit" value="Đăng ký" className="btn" />
               <p className="social-text">Đăng nhập bằng tài khoản khác</p>
               <div className="social-media">
                 <a href="#" className="social-icon">
@@ -127,7 +161,7 @@ function Login() {
                   id="sign-in-btn"
                   onClick={() => SwitchSignUpMode(false)}
                 >
-                  Sign in
+                  Đăng nhập
                 </button>
               </div>
               <img src={signinImage} alt="" className="image" />
@@ -143,7 +177,7 @@ function Login() {
                   id="sign-up-btn"
                   onClick={() => SwitchSignUpMode(true)}
                 >
-                  Sign up
+                  Đăng ký
                 </button>
               </div>
               <img src={signupImage} alt="" className="image" />

@@ -5,6 +5,7 @@ import TestHome from "../Home/TestHome/TestHome";
 import { Link } from "react-router-dom";
 import "./Courses.css";
 import Loader from "../Common/Loader/Loader";
+import { toast } from "react-toastify";
 
 function Courses() {
   const [courses, setCourses] = useState([]);
@@ -13,15 +14,30 @@ function Courses() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch("http://localhost:3000/courses");
+        const response = await fetch(
+          "https://localhost:7112/api/Course/GetAllCourses"
+        );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 5000,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         }
         const data = await response.json();
         setCourses(data);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
     fetchCourses();
@@ -40,7 +56,7 @@ function Courses() {
               courses.map((course) => {
                 return (
                   <div key={course.id} className="courses-list-item">
-                    <Link to={`/course-lessons/${course.id}`}>
+                    <Link to={`/course-lessons/${course.idCourse}`}>
                       <div className="course-item">
                         <div className="image">
                           <img

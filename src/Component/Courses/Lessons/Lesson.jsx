@@ -9,6 +9,7 @@ import "./Lesson.css";
 import Quiz from "../Lessons/Quiz/Quiz";
 import Loader from "../../Common/Loader/Loader";
 import { UserContext } from "../../../Context/UserContext";
+import { toast } from "react-toastify";
 
 function Lesson() {
   const { id } = useParams();
@@ -25,14 +26,29 @@ function Lesson() {
   useEffect(() => {
     async function fetchLessons() {
       try {
-        const response = await fetch(`http://localhost:3000/lessons/${id}`);
+        const response = await fetch(
+          `https://localhost:7112/api/Lesson/GetLessonById/${id}`
+        );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+            autoClose: 5000, // Tự động đóng sau 3 giây
+            closeOnClick: true, // Đóng khi click
+            pauseOnHover: true, // Tạm dừng khi di chuột qua
+            draggable: true, // Có thể kéo thông báo
+          });
         }
         const data = await response.json();
         setCurrentLesson(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
 
@@ -42,38 +58,62 @@ function Lesson() {
   useEffect(() => {
     async function fetchOtherLessons() {
       try {
-        const courseid = current_lesson.courseid;
+        const courseid = current_lesson.idCourse;
         if (courseid) {
           const response = await fetch(
-            `http://localhost:3000/course-lessons/${courseid}`
+            `https://localhost:7112/api/Lesson/GetAllLessonByCourse/${courseid}`
           );
           if (!response.ok) {
-            throw new Error("Network response was not ok");
+            const errorData = await response.json();
+            toast.error(`${errorData.message}`, {
+              position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+              autoClose: 5000, // Tự động đóng sau 3 giây
+              closeOnClick: true, // Đóng khi click
+              pauseOnHover: true, // Tạm dừng khi di chuột qua
+              draggable: true, // Có thể kéo thông báo
+            });
           }
           const data = await response.json();
-          const { lessons: lessonList } = data;
-          setOtherLesson(lessonList.filter((lesson) => lesson.id != id));
+          setOtherLesson(data.filter((lesson) => lesson.idLesson !== id));
           setIsLoading(false);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
 
     async function fetchQuizes() {
       try {
         const response = await fetch(
-          `http://localhost:3000/quizes-by-lesson/${id}`
+          `https://localhost:7112/api/Quiz/GetAllQuizByLesson/${id}`
         );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+            autoClose: 5000, // Tự động đóng sau 3 giây
+            closeOnClick: true, // Đóng khi click
+            pauseOnHover: true, // Tạm dừng khi di chuột qua
+            draggable: true, // Có thể kéo thông báo
+          });
         }
         const data = await response.json();
-        const { quizes: quizList } = data;
-        setQuizes(quizList);
+        setQuizes(data);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
 
@@ -88,14 +128,27 @@ function Lesson() {
           `http://localhost:3000/questions-by-quiz/${current_quizID}`
         );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+            autoClose: 5000, // Tự động đóng sau 3 giây
+            closeOnClick: true, // Đóng khi click
+            pauseOnHover: true, // Tạm dừng khi di chuột qua
+            draggable: true, // Có thể kéo thông báo
+          });
         }
         const data = await response.json();
         const { questions: questionList } = data;
         setQuizData(questionList);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     };
 
@@ -105,10 +158,10 @@ function Lesson() {
   if (isLoading) {
     return <Loader />;
   }
-  if(!user.auth){
-    navigate("/login")
+  if (!user.auth) {
+    navigate("/login");
   }
-  
+
   return (
     <div className="lesson-wrapper">
       <Heading subtitle="VictoryU" title="TOEIC BASIC" />
@@ -184,7 +237,9 @@ function Lesson() {
             ) : (
               <Quiz
                 quizData={quizData}
-                quizTitle={quizes[current_quizID - 1] && quizes[current_quizID - 1].title}
+                quizTitle={
+                  quizes[current_quizID - 1] && quizes[current_quizID - 1].title
+                }
               />
             )}
           </div>

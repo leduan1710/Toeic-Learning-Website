@@ -5,6 +5,7 @@ import Loader from "../../Common/Loader/Loader.jsx";
 import Markdown from "react-markdown";
 import TestResult from "./TestResult.jsx";
 import { UserContext } from "../../../Context/UserContext.jsx";
+import { toast } from "react-toastify";
 
 const parts = [
   {
@@ -59,13 +60,26 @@ function TestMain() {
       try {
         const response = await fetch(`http://localhost:3000/test-by-id`);
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+            autoClose: 5000, // Tự động đóng sau 3 giây
+            closeOnClick: true, // Đóng khi click
+            pauseOnHover: true, // Tạm dừng khi di chuột qua
+            draggable: true, // Có thể kéo thông báo
+          });
         }
         const data = await response.json();
         setTestdata(data);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
     fetchTestData();
@@ -102,13 +116,23 @@ function TestMain() {
       });
 
       if (!response.ok) {
-        throw new Error("Đã xảy ra lỗi khi gửi dữ liệu.");
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
-
-      const data = await response.json();
-      console.log("Dữ liệu đã được gửi thành công:", data);
     } catch (error) {
-      console.error("Đã có lỗi:", error);
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   }
   function nextPart() {

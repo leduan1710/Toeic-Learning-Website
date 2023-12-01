@@ -4,6 +4,7 @@ import Loader from "../Common/Loader/Loader";
 import Heading from "../Common/Header/Heading";
 import { useState, useEffect } from "react";
 import "./TestList.css";
+import { toast } from "react-toastify";
 
 function TestList({ testType }) {
   const [tests, setTest] = useState([]);
@@ -14,14 +15,27 @@ function TestList({ testType }) {
       try {
         const response = await fetch(`http://localhost:3000/tests/${testType}`);
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+            autoClose: 5000, // Tự động đóng sau 3 giây
+            closeOnClick: true, // Đóng khi click
+            pauseOnHover: true, // Tạm dừng khi di chuột qua
+            draggable: true, // Có thể kéo thông báo
+          });
         }
         const data = await response.json();
         const { test: testList } = data;
         setTest(testList);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
     fetchTests();

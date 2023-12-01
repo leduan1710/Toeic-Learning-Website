@@ -68,7 +68,7 @@ function Header() {
                     alt=""
                   />
                 </div>
-                <div className="navbar-user-name">Tran Ngo Bich Du</div>
+                <div className="navbar-user-name">{user.username}</div>
                 <i className="fas fa-caret-down"></i>
               </div>
               <div className="dropdown-menu">

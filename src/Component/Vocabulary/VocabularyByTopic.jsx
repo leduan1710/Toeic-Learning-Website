@@ -5,6 +5,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import "./VocabularyByTopic.css";
 import Heading from "../Common/Header/Heading";
 import Loader from "../Common/Loader/Loader";
+import { toast } from "react-toastify";
 
 function VocabularyByTopic() {
   const [words, setWords] = useState([]);
@@ -17,14 +18,27 @@ function VocabularyByTopic() {
       try {
         const response = await fetch(`http://localhost:3000/vocabulary/${id}`);
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+            autoClose: 5000, // Tự động đóng sau 3 giây
+            closeOnClick: true, // Đóng khi click
+            pauseOnHover: true, // Tạm dừng khi di chuột qua
+            draggable: true, // Có thể kéo thông báo
+          });
         }
         const data = await response.json();
         const { word: wordList } = data;
         setWords(wordList);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
     async function fetchVocabularyTopic() {
@@ -33,13 +47,26 @@ function VocabularyByTopic() {
           `http://localhost:3000/vocabulary-topic/${id}`
         );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          const errorData = await response.json();
+          toast.error(`${errorData.message}`, {
+            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+            autoClose: 5000, // Tự động đóng sau 3 giây
+            closeOnClick: true, // Đóng khi click
+            pauseOnHover: true, // Tạm dừng khi di chuột qua
+            draggable: true, // Có thể kéo thông báo
+          });
         }
         const data = await response.json();
         setTopicName(data.topicName);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
     }
     fetchVocabulary();

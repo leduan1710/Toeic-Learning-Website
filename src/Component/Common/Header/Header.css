@@ -120,8 +120,9 @@ header ul li:hover .dropdown-menu ul li {
 }
 .navbar-user:hover  .dropdown-menu {
   display: block;
-  width: 100%;
-  top: 90%
+  width: 12rem;
+  top: 90%;
+  right: 0;
 }
 .dropdown-item {
   padding: 1rem;
