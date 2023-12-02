@@ -14,14 +14,19 @@ function Login() {
   const [signUpMode, setSignUpMode] = useState(false);
   const [username, setUserName] = useState("");
   const [pwd, setPwd] = useState("");
+  const [checkPwd, setCheckPwd] = useState("");
   const [email, setEmail] = useState("");
   const [isloading, setIsLoading] = useState(false);
 
   const { userAuthen, loginContext } = useContext(UserContext);
-
+  function containsUppercase(str) {
+    return Boolean(str.match(/[A-Z]/));
+  }
   useEffect(() => {
     window.scrollTo(0, 210);
   }, []);
+  useEffect(() => {
+  }, [pwd]);
 
   async function handleLogin(e) {
     e.preventDefault(true);
@@ -45,8 +50,50 @@ function Login() {
       }
     }
   }
+
   async function handleSignUp(e) {
-    e.preventDefault(true);
+    e.preventDefault()
+    try {
+      const response = await fetch("https://localhost:7112/api/Authen/Register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: pwd,
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT, 
+          autoClose: 5000, 
+          closeOnClick: true,
+          pauseOnHover: true, 
+          draggable: true, 
+        });
+      } else {
+        const data = await response.json();
+        toast.success(`${data.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT, 
+          autoClose: 10000, 
+          closeOnClick: true,
+          pauseOnHover: true, 
+          draggable: true, 
+        });
+      }
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   }
 
   if (isloading) {
@@ -116,17 +163,31 @@ function Login() {
               <h2 className="title">Đăng kí</h2>
               <div className="input-field">
                 <i className="fas fa-user"></i>
-                <input type="text" placeholder="Tên đăng nhập" />
+                <input
+                  type="text"
+                  placeholder="Tên đăng nhập"
+                  onChange={(e) => setUserName(e.target.value)}
+                />
               </div>
               <div className="input-field">
                 <i className="fas fa-envelope"></i>
-                <input type="text" placeholder="Email" />
+                <input
+                  type="text"
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  pattern="/^[^\s@]+@[^\s@]+\.[^\s@]+$/"
+                />
               </div>
               <div className="input-field">
                 <i className="fas fa-lock"></i>
-                <input type="password" placeholder="Mật khẩu" />
+                <input
+                  type="password"
+                  placeholder="Mật khẩu"
+                  onChange={(e) => setPwd(e.target.value)}
+                />
               </div>
-              <input type="submit" value="Đăng ký" className="btn" />
+                <div className="password-weak">{checkPwd}</div>
+              <input type="submit" value="Đăng ký" className="btn" onClick={handleSignUp}/>
               <p className="social-text">Đăng nhập bằng tài khoản khác</p>
               <div className="social-media">
                 <a href="#" className="social-icon">

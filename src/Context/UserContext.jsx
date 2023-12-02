@@ -54,12 +54,12 @@ const UserProvider = ({ children }) => {
       return response
     } catch (error) {
       toast.error(`${error}`, {
-        position: toast.POSITION.TOP_RIGHT, // Vị trí hiển thị
-        autoClose: 3000, // Tự động đóng sau 3 giây
-        hideProgressBar: false, // Ẩn thanh tiến trình
-        closeOnClick: true, // Đóng khi click
-        pauseOnHover: true, // Tạm dừng khi di chuột qua
-        draggable: true, // Có thể kéo thông báo
+        position: toast.POSITION.BOTTOM_RIGHT, 
+        autoClose: 3000, 
+        hideProgressBar: false,
+        closeOnClick: true, 
+        pauseOnHover: true, 
+        draggable: true,
       });
     }
   };

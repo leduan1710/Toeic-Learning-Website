@@ -1,0 +1,28 @@
+import React, { useContext, useState } from "react";
+import { UserContext } from "../../../Context/UserContext";
+import ProfessorHeader from "../../ProfessorComponent/Commont/ProfessorHeader";
+import ProfessorSidebar from "../../ProfessorComponent/Commont/ProfessorSidebar";
+
+function ProfessorLayout({ children }) {
+  const { user } = useContext(UserContext);
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+  const OpenSidebar = () => {
+    setOpenSidebarToggle(!openSidebarToggle);
+  };
+  if (user.role === "Professor") {
+    return (
+      <div className="professor-layout">
+        <div className="grid-container">
+          <ProfessorHeader OpenSidebar={OpenSidebar} />
+          <ProfessorSidebar
+            openSidebarToggle={openSidebarToggle}
+            OpenSidebar={OpenSidebar}
+          />
+          {children}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default ProfessorLayout;
