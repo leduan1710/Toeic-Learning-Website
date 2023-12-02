@@ -43,6 +43,12 @@
   min-width: 350px;
   padding: 0 10px;
 }
+.login error{
+  font-size: 12px;
+  font-style: italic;
+  color: red;
+  text-align: center;
+}
 .login form.sign-in-form {
   opacity: 1;
   transition: 0.5s ease-in-out;
@@ -60,7 +66,7 @@
   text-decoration: underline;
   cursor: pointer;
 }
-.login form, .signin-validate, .signin-input, .sign-in-validate{
+.login form, .signin-input, .sign-in-validate{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,6 +76,7 @@
   opacity: 0;
   transition: 0.5s ease-in-out;
   transition-delay: 1s;
+  max-width: 40%;
 }
 .login .title {
   font-size: 35px;

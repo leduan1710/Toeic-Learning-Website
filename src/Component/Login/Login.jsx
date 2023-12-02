@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
+import { useForm } from "react-hook-form";
 import "./Login.css";
 import { useEffect, useState } from "react";
 import signinImage from "../../assets/signin.svg";
@@ -12,26 +13,30 @@ import { toast } from "react-toastify";
 function Login() {
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
-  const [username, setUserName] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [checkPwd, setCheckPwd] = useState("");
-  const [email, setEmail] = useState("");
+  const ref_signup_username = useRef();
+  const ref_signup_password = useRef();
+  const ref_email = useRef();
   const [isloading, setIsLoading] = useState(false);
 
   const { userAuthen, loginContext } = useContext(UserContext);
-  function containsUppercase(str) {
-    return Boolean(str.match(/[A-Z]/));
-  }
+  const {
+    register: loginData,
+    handleSubmit: handleSubmitLogin,
+    formState: { errors: error_login },
+  } = useForm();
+
+  const {
+    register: SignUpData,
+    handleSubmit: handleSubmitSignUp,
+    formState: { errors: error_signup },
+  } = useForm();
   useEffect(() => {
     window.scrollTo(0, 210);
   }, []);
-  useEffect(() => {
-  }, [pwd]);
 
-  async function handleLogin(e) {
-    e.preventDefault(true);
+  async function handleLogin(login_data) {
     setIsLoading(true);
-    const response = await userAuthen(username, pwd);
+    const response = await userAuthen(login_data.username, login_data.password);
     setIsLoading(false);
     if (!response.ok) {
       const errorData = await response.json();
@@ -51,37 +56,39 @@ function Login() {
     }
   }
 
-  async function handleSignUp(e) {
-    e.preventDefault()
+  async function handleSignUp(sign_up_data) {
     try {
-      const response = await fetch("https://localhost:7112/api/Authen/Register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          email: email,
-          password: pwd,
-        }),
-      });
+      const response = await fetch(
+        "https://localhost:7112/api/Authen/Register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: sign_up_data.username,
+            email: sign_up_data.email,
+            password: sign_up_data.password,
+          }),
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(`${errorData.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT, 
-          autoClose: 5000, 
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
           closeOnClick: true,
-          pauseOnHover: true, 
-          draggable: true, 
+          pauseOnHover: true,
+          draggable: true,
         });
       } else {
         const data = await response.json();
         toast.success(`${data.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT, 
-          autoClose: 10000, 
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
           closeOnClick: true,
-          pauseOnHover: true, 
-          draggable: true, 
+          pauseOnHover: true,
+          draggable: true,
         });
       }
     } catch (error) {
@@ -107,7 +114,11 @@ function Login() {
       <div className="login">
         <div className={`container ${signUpMode ? "sign-up-mode" : null}`}>
           <div className="signin-signup">
-            <form action="" className="sign-in-form">
+            <form
+              action=""
+              className="sign-in-form"
+              onSubmit={handleSubmitLogin(handleLogin)}
+            >
               <div className="signin-input">
                 <h2 className="title">Đăng nhập</h2>
                 <div className="input-field">
@@ -115,26 +126,29 @@ function Login() {
                   <input
                     type="text"
                     placeholder="Tên đăng nhập"
-                    onChange={(e) => setUserName(e.target.value)}
+                    {...loginData("username", { required: true })}
                   />
                 </div>
+                <error>
+                  {error_login.username?.type === "required" &&
+                    "Username is required"}
+                </error>
                 <div className="input-field">
                   <i className="fas fa-lock"></i>
                   <input
                     type="password"
                     placeholder="Mật khẩu"
-                    onChange={(e) => setPwd(e.target.value)}
+                    {...loginData("password", { required: true })}
                   />
                 </div>
+                <error>
+                  {error_login.password?.type === "required" &&
+                    "Password is required"}
+                </error>
                 <a className="forgot-password" href="">
                   Quên mật khẩu
                 </a>
-                <input
-                  type="submit"
-                  value="Đăng nhập"
-                  className="btn"
-                  onClick={handleLogin}
-                />
+                <input type="submit" value="Đăng nhập" className="btn" />
                 <p className="social-text">Đăng nhập bằng tài khoản khác</p>
                 <div className="social-media">
                   <a href="#" className="social-icon">
@@ -159,35 +173,60 @@ function Login() {
                 </button>
               </div>
             </form>
-            <form action="" className="sign-up-form">
+            <form
+              action=""
+              className="sign-up-form"
+              onSubmit={handleSubmitSignUp(handleSignUp)}
+            >
               <h2 className="title">Đăng kí</h2>
               <div className="input-field">
                 <i className="fas fa-user"></i>
                 <input
                   type="text"
                   placeholder="Tên đăng nhập"
-                  onChange={(e) => setUserName(e.target.value)}
+                  {...SignUpData("username", { required: true })}
                 />
               </div>
+              <error>
+                {error_signup.username?.type === "required" &&
+                  "Username is required"}
+              </error>
               <div className="input-field">
                 <i className="fas fa-envelope"></i>
                 <input
                   type="text"
                   placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  pattern="/^[^\s@]+@[^\s@]+\.[^\s@]+$/"
+                  {...SignUpData("email", {
+                    required: true,
+                    pattern:
+                      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  })}
                 />
               </div>
+              <error>
+                {error_signup.email?.type === "required" &&
+                  "Username is required"}
+                {error_signup.email?.type === "pattern" &&
+                  "Email đã nhập không đúng định dạng"}
+              </error>
               <div className="input-field">
                 <i className="fas fa-lock"></i>
                 <input
                   type="password"
                   placeholder="Mật khẩu"
-                  onChange={(e) => setPwd(e.target.value)}
+                  {...SignUpData("password", {
+                    required: true,
+                    pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{6,}/                    ,
+                  })}
                 />
               </div>
-                <div className="password-weak">{checkPwd}</div>
-              <input type="submit" value="Đăng ký" className="btn" onClick={handleSignUp}/>
+              <error>
+                {error_signup.password?.type === "required" &&
+                  "Username is required"}
+                {error_signup.password?.type === "pattern" &&
+                  "Phải có ít nhất 6 ký tự, một chữ hoa, một chữ thường, một chữ số, một ký tự đặc biệt"}
+              </error>
+              <input type="submit" value="Đăng ký" className="btn" />
               <p className="social-text">Đăng nhập bằng tài khoản khác</p>
               <div className="social-media">
                 <a href="#" className="social-icon">
