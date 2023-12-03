@@ -7,7 +7,7 @@ function ProfessorHome() {
   return (
     <main className='main-container'>
         <div className='main-title'>
-            <h3>Professor Homepage</h3>
+            <h2>TRANG GIÁO VIÊN</h2>
         </div>
         <Outlet/>
     </main>

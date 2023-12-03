@@ -7,7 +7,7 @@
 
 .professor-layout .grid-container {
   display: grid;
-  grid-template-columns: 260px 1fr 1fr 1fr;
+  grid-template-columns: 280px auto;
   grid-template-rows: 0.2fr 3fr;
   grid-template-areas:
     "sidebar header header header"
@@ -35,7 +35,7 @@
 .professor-layout #sidebar {
   grid-area: sidebar;
   height: 100%;
-  background-color: #70a2ab;
+  background-color: #c5e2e7;
   overflow-y: auto;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
@@ -43,20 +43,18 @@
 
 .professor-layout .sidebar-title {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 15px 30px 0px 30px;
-  margin-bottom: 30px;
+  padding: 15px;
+  border-radius: 50%;
+  overflow: hidden;
 }
-
+.professor-layout .sidebar-title img {
+  height: 10rem;
+  width: 10rem;
+}
 .professor-layout .sidebar-title > span {
   display: none;
-}
-
-.professor-layout .sidebar-brand {
-  margin-top: 15px;
-  font-size: 20px;
-  font-weight: 700;
 }
 
 .professor-layout .sidebar-list {
@@ -70,23 +68,20 @@
 }
 
 .professor-layout .sidebar-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background: #003150;
   cursor: pointer;
+  font-weight: 700;
+  background-color: aliceblue;
+  border-radius: 50px 0 0 50px;
 }
 
 .professor-layout .sidebar-list-item > a {
   text-decoration: none;
-  /* color: #9e9ea4; */
 }
 
 .professor-layout .sidebar-responsive {
   display: inline !important;
   position: absolute;
-  /*
-      we want the z-index of the sidebar higher so that
-      the charts are not showing over the sidebar 
-      on small screens
-    */
   z-index: 12 !important;
 }
 
@@ -98,10 +93,17 @@
   overflow-y: auto;
   padding: 20px 20px;
 }
-
 .professor-layout .main-title {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+}
+.professor-managment-title {
+  margin: 20px 0;
+  padding: 10px 50px 10px 10px;
+  background-color: #c5e2e7;
+  width: fit-content;
+  clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%);
 }
 
 /* End Main  */
@@ -122,7 +124,7 @@
   }
 
   .professor-layout .menu-icon {
-    visibility:unset
+    visibility: unset;
   }
 
   .professor-layout .sidebar-title > span {

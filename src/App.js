@@ -17,10 +17,11 @@ import "react-toastify/dist/ReactToastify.css";
 import UserLayout from "./Component/Common/Layout/UserLayout";
 import ProfessorLayout from "./Component/Common/Layout/ProfessorLayout";
 import ProfessorHome from "./Component/ProfessorComponent/Commont/ProfessorHome";
-import ProfessorDashboard from "./Component/ProfessorComponent/ProfessorDashboard";
-import ProfessorTestManage from "./Component/ProfessorComponent/ProfessorTestManage";
-import VocabularyManage from "./Component/ProfessorComponent/VocabularyManage";
+import ProfessorTestManage from "./Component/ProfessorComponent/TestManage/ProfessorTestManage";
+import AddTest from "./Component/ProfessorComponent/TestManage/AddTest";
+import VocabularyManage from "./Component/ProfessorComponent/VocabularyManage/VocabularyManage";
 import ForgotPassword from "./Component/Login/ForgotPassword";
+import CourseManage from "./Component/ProfessorComponent/CourseManage/CourseManage";
 
 function App() {
   return (
@@ -68,9 +69,26 @@ function App() {
         <ProfessorLayout>
           <Routes>
             <Route exact path="/" element={<ProfessorHome />}>
-              <Route exact path="professor" element={<ProfessorDashboard />} />
-              <Route exact path="test" element={<ProfessorTestManage />} />
-              <Route exact path="vocabulary" element={<VocabularyManage />} />
+              <Route
+                exact
+                path="professor/test"
+                element={<ProfessorTestManage />}
+              />
+              <Route
+                exact
+                path="professor/test/addTest"
+                element={<AddTest />}
+              />
+              <Route
+                exact
+                path="professor/vocabulary"
+                element={<VocabularyManage />}
+              />
+              <Route
+                exact
+                path="professor/course"
+                element={<CourseManage />}
+              />
             </Route>
           </Routes>
         </ProfessorLayout>

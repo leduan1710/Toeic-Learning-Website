@@ -47,11 +47,11 @@ function VocabularyTopic() {
         <div className="vocabulary-topic-grid-wrapper">
           <div className="vocabulary-topic-gridview">
             {topics &&
-              topics.map((val) => {
+              topics.map((val, index) => {
                 return (
                   <Link to={`/vocabulary-by-topic/${val.idVocTopic}`}>
                     <div
-                      key={val.vocabularyTopicID}
+                      key={val.index}
                       className="vocabulary-topic-item"
                     >
                       <img
