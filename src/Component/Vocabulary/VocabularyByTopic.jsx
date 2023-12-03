@@ -16,7 +16,7 @@ function VocabularyByTopic() {
   useEffect(() => {
     async function fetchVocabulary() {
       try {
-        const response = await fetch(`http://localhost:3000/vocabulary/${id}`);
+        const response = await fetch(`https://localhost:7112/api/Vocabulary/GetVocabularyByTopic/${id}`);
         if (!response.ok) {
           const errorData = await response.json();
           toast.error(`${errorData.message}`, {
@@ -28,8 +28,7 @@ function VocabularyByTopic() {
           });
         }
         const data = await response.json();
-        const { word: wordList } = data;
-        setWords(wordList);
+        setWords(data);
         setIsLoading(false);
       } catch (error) {
         toast.error(`${error}`, {
@@ -44,20 +43,20 @@ function VocabularyByTopic() {
     async function fetchVocabularyTopic() {
       try {
         const response = await fetch(
-          `http://localhost:3000/vocabulary-topic/${id}`
+          `https://localhost:7112/api/VocTopic/GetVocTopicById/${id}`
         );
         if (!response.ok) {
           const errorData = await response.json();
           toast.error(`${errorData.message}`, {
-            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
-            autoClose: 5000, // Tự động đóng sau 3 giây
-            closeOnClick: true, // Đóng khi click
-            pauseOnHover: true, // Tạm dừng khi di chuột qua
-            draggable: true, // Có thể kéo thông báo
+            position: toast.POSITION.BOTTOM_RIGHT, 
+            autoClose: 5000, 
+            closeOnClick: true, 
+            pauseOnHover: true, 
+            draggable: true,
           });
         }
         const data = await response.json();
-        setTopicName(data.topicName);
+        setTopicName(data.name);
         setIsLoading(false);
       } catch (error) {
         toast.error(`${error}`, {
