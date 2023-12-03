@@ -1,5 +1,5 @@
 .login-wrapper {
-    padding-top: 30px;
+  padding-top: 30px;
 }
 .login {
   display: flex;
@@ -43,7 +43,7 @@
   min-width: 350px;
   padding: 0 10px;
 }
-.login error{
+.login error {
   font-size: 12px;
   font-style: italic;
   color: red;
@@ -54,29 +54,30 @@
   transition: 0.5s ease-in-out;
   transition-delay: 1s;
 }
-.login .signin-input{
-  width: 100%;
-}
-.forgot-password{
+
+.forgot-password {
   font-style: italic;
   font-weight: bold;
   color: #01426b;
 }
-.forgot-password:hover{
+.forgot-password:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-.login form, .signin-input, .sign-in-validate{
+.login form,
+.signin-input {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-.login form.sign-up-form {
+.login .signin-input {
+  min-width: 350px;
+}
+.login form .sign-up-form {
   opacity: 0;
   transition: 0.5s ease-in-out;
   transition-delay: 1s;
-  max-width: 40%;
 }
 .login .title {
   font-size: 35px;
@@ -104,7 +105,7 @@
   border: none;
   outline: none;
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #000;
 }
@@ -242,14 +243,60 @@ a {
   text-decoration: underline;
 }
 
+/* ------------- 2FA OTP----------- */
+.confirm-otp-wrapper {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+.confirm-otp-wrapper form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.input-otp-wrapper {
+  max-width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+.input-otp-item {
+  box-shadow: 8px 8px 8px 0 rgb(197 195 195);
+  outline: none;
+  width: 100%;
+  font-size: 2rem;
+  height: 4rem;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  border-radius: 2rem;
+}
+.send-otp-submit {
+  width: 15rem;
+  height: 50px;
+  border: none;
+  border-radius: 50px;
+  background: #003150;
+  color: #fff;
+  font-weight: 600;
+  margin: 10px 0;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
 /*Responsive*/
-@media (max-width: 779px) {
+@media (max-width: 900px) {
   .login .container {
     width: 100vw;
     height: 100vh;
   }
 }
-@media (max-width: 635px) {
+@media (max-width: 689px) {
   .login .sign-up-mobile {
     display: block;
   }

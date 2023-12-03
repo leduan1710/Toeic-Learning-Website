@@ -5,7 +5,7 @@ import "./Login.css";
 import { useEffect, useState } from "react";
 import signinImage from "../../assets/signin.svg";
 import signupImage from "../../assets/signup.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
 import Loader from "../Common/Loader/Loader";
 import { toast } from "react-toastify";
@@ -13,23 +13,40 @@ import { toast } from "react-toastify";
 function Login() {
   const navigate = useNavigate();
   const [signUpMode, setSignUpMode] = useState(false);
-  const ref_signup_username = useRef();
-  const ref_signup_password = useRef();
-  const ref_email = useRef();
+  const [showPassword, setShowPassword] = useState(false);
   const [isloading, setIsLoading] = useState(false);
+  const [is2FA, setIs2FA] = useState(false);
+  const [otp, setOTP] = useState([]);
+  const ref_otp = useRef([]);
 
   const { userAuthen, loginContext } = useContext(UserContext);
   const {
     register: loginData,
     handleSubmit: handleSubmitLogin,
     formState: { errors: error_login },
+    getValues
   } = useForm();
-
   const {
     register: SignUpData,
     handleSubmit: handleSubmitSignUp,
     formState: { errors: error_signup },
   } = useForm();
+  const focusNextOTPItem = (event, index) => {
+    const newotp = [...otp];
+    newotp[index] = ref_otp.current[index].value;
+    setOTP(newotp);
+
+    if (index < ref_otp.current.length - 1 && event.key !== "Tab") {
+      if (index === 0 && ref_otp.current[index].value === "") {
+      } else {
+        ref_otp.current[index + 1].focus();
+      }
+    }
+    if (event.key === "Backspace" && index > 0) {
+      ref_otp.current[index - 1].focus();
+      ref_otp.current[index].value = "";
+    }
+  };
   useEffect(() => {
     window.scrollTo(0, 210);
   }, []);
@@ -52,11 +69,14 @@ function Login() {
       if (data.token !== undefined) {
         loginContext(data.token);
         navigate("/");
+      } else {
+        setIs2FA(true);
       }
     }
   }
 
   async function handleSignUp(sign_up_data) {
+    setIsLoading(true);
     try {
       const response = await fetch(
         "https://localhost:7112/api/Authen/Register",
@@ -72,6 +92,7 @@ function Login() {
           }),
         }
       );
+      setIsLoading(false);
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(`${errorData.message}`, {
@@ -102,7 +123,56 @@ function Login() {
       });
     }
   }
-
+  const handleSubmitOTP = async(e) => {
+    e.preventDefault()
+    console.log(otp, getValues("username"));
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        "https://localhost:7112/api/Authen/Login-2FA",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            code: otp.join(""),
+            username: getValues("username"),
+          }),
+        }
+      );
+      setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(response)
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        const data = await response.json();
+        toast.success(`${data.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
   if (isloading) {
     return <Loader />;
   }
@@ -114,65 +184,137 @@ function Login() {
       <div className="login">
         <div className={`container ${signUpMode ? "sign-up-mode" : null}`}>
           <div className="signin-signup">
-            <form
-              action=""
-              className="sign-in-form"
-              onSubmit={handleSubmitLogin(handleLogin)}
-            >
-              <div className="signin-input">
-                <h2 className="title">Đăng nhập</h2>
-                <div className="input-field">
-                  <i className="fas fa-user"></i>
-                  <input
-                    type="text"
-                    placeholder="Tên đăng nhập"
-                    {...loginData("username", { required: true })}
-                  />
+            {!is2FA ? (
+              <form
+                action=""
+                className="sign-in-form"
+                onSubmit={handleSubmitLogin(handleLogin)}
+              >
+                <div className="signin-input">
+                  <h2 className="title">Đăng nhập</h2>
+                  <div className="input-field">
+                    <i className="fas fa-user"></i>
+                    <input
+                      type="text"
+                      placeholder="Tên đăng nhập"
+                      {...loginData("username", { required: true })}
+                    />
+                  </div>
+                  <error>
+                    {error_login.username?.type === "required" &&
+                      "Username is required"}
+                  </error>
+                  <div className="input-field">
+                    <i className="fas fa-lock"></i>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Mật khẩu"
+                      {...loginData("password", { required: true })}
+                    />
+                    {!showPassword ? (
+                      <i
+                        class="fa-regular fa-eye"
+                        onClick={() => setShowPassword(true)}
+                      ></i>
+                    ) : (
+                      <i
+                        class="fa-regular fa-eye-slash"
+                        onClick={() => setShowPassword(false)}
+                      ></i>
+                    )}
+                  </div>
+                  <error>
+                    {error_login.password?.type === "required" &&
+                      "Password is required"}
+                  </error>
+                  <a className="forgot-password">
+                    <Link to="/forgot-password">Quên mật khẩu</Link>
+                  </a>
+                  <input type="submit" value="Đăng nhập" className="btn" />
+                  <p className="social-text">Đăng nhập bằng tài khoản khác</p>
+                  <div className="social-media">
+                    <a href="#" className="social-icon">
+                      <i className="fab fa-facebook"></i>
+                    </a>
+                    <a href="" className="social-icon">
+                      <i className="fab fa-twitter"></i>
+                    </a>
+                    <a href="" className="social-icon">
+                      <i className="fab fa-google"></i>
+                    </a>
+                    <a href="" className="social-icon">
+                      <i className="fab fa-linkedin-in"></i>
+                    </a>
+                  </div>
+                  <button
+                    className="sign-up-mobile"
+                    id="sign-up-mobile"
+                    onClick={() => SwitchSignUpMode(false)}
+                  >
+                    Đăng kí tài khoản
+                  </button>
                 </div>
-                <error>
-                  {error_login.username?.type === "required" &&
-                    "Username is required"}
-                </error>
-                <div className="input-field">
-                  <i className="fas fa-lock"></i>
-                  <input
-                    type="password"
-                    placeholder="Mật khẩu"
-                    {...loginData("password", { required: true })}
-                  />
+              </form>
+            ) : (
+              <div className="confirm-otp-wrapper">
+                <div>
+                  <h2 className="title" style={{ textAlign: "center" }}>
+                    XÁC THỰC OTP
+                  </h2>
+                  <p style={{ textAlign: "center" }}>
+                    OTP xác thực đã được gửi đến email {}
+                  </p>
                 </div>
-                <error>
-                  {error_login.password?.type === "required" &&
-                    "Password is required"}
-                </error>
-                <a className="forgot-password" href="">
-                  Quên mật khẩu
-                </a>
-                <input type="submit" value="Đăng nhập" className="btn" />
-                <p className="social-text">Đăng nhập bằng tài khoản khác</p>
-                <div className="social-media">
-                  <a href="#" className="social-icon">
-                    <i className="fab fa-facebook"></i>
-                  </a>
-                  <a href="" className="social-icon">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                  <a href="" className="social-icon">
-                    <i className="fab fa-google"></i>
-                  </a>
-                  <a href="" className="social-icon">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </div>
-                <button
-                  className="sign-up-mobile"
-                  id="sign-up-mobile"
-                  onClick={() => SwitchSignUpMode(false)}
-                >
-                  Đăng kí tài khoản
-                </button>
+                <form className="confirm-otp-form" onSubmit={handleSubmitOTP}>
+                  <div className="input-otp-wrapper">
+                    <input
+                      type="text"
+                      className="input-otp-item"
+                      maxLength={1}
+                      onKeyUp={(event) => focusNextOTPItem(event, 0)}
+                      ref={(el) => (ref_otp.current[0] = el)}
+                    />
+                    <input
+                      type="text"
+                      className="input-otp-item"
+                      maxLength={1}
+                      onKeyUp={(event) => focusNextOTPItem(event, 1)}
+                      ref={(el) => (ref_otp.current[1] = el)}
+                    />
+                    <input
+                      type="text"
+                      id="otp3"
+                      className="input-otp-item"
+                      maxLength={1}
+                      onKeyUp={(event) => focusNextOTPItem(event, 2)}
+                      ref={(el) => (ref_otp.current[2] = el)}
+                    />
+                    <input
+                      type="text"
+                      className="input-otp-item"
+                      maxLength={1}
+                      onKeyUp={(event) => focusNextOTPItem(event, 3)}
+                      ref={(el) => (ref_otp.current[3] = el)}
+                    />
+                    <input
+                      type="text"
+                      className="input-otp-item"
+                      maxLength={1}
+                      onKeyUp={(event) => focusNextOTPItem(event, 4)}
+                      ref={(el) => (ref_otp.current[4] = el)}
+                    />
+                    <input
+                      type="text"
+                      className="input-otp-item"
+                      maxLength={1}
+                      onKeyUp={(event) => focusNextOTPItem(event, 5)}
+                      ref={(el) => (ref_otp.current[5] = el)}
+                    />
+                  </div>
+                  <input type="submit" className="send-otp-submit"></input>
+                </form>
               </div>
-            </form>
+            )}
             <form
               action=""
               className="sign-up-form"
@@ -212,13 +354,25 @@ function Login() {
               <div className="input-field">
                 <i className="fas fa-lock"></i>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Mật khẩu"
                   {...SignUpData("password", {
                     required: true,
-                    pattern: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{6,}/                    ,
+                    pattern:
+                      /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{6,}/,
                   })}
                 />
+                {!showPassword ? (
+                  <i
+                    class="fa-regular fa-eye"
+                    onClick={() => setShowPassword(true)}
+                  ></i>
+                ) : (
+                  <i
+                    class="fa-regular fa-eye-slash"
+                    onClick={() => setShowPassword(false)}
+                  ></i>
+                )}
               </div>
               <error>
                 {error_signup.password?.type === "required" &&

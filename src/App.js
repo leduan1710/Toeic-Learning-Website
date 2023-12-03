@@ -20,6 +20,7 @@ import ProfessorHome from "./Component/ProfessorComponent/Commont/ProfessorHome"
 import ProfessorDashboard from "./Component/ProfessorComponent/ProfessorDashboard";
 import ProfessorTestManage from "./Component/ProfessorComponent/ProfessorTestManage";
 import VocabularyManage from "./Component/ProfessorComponent/VocabularyManage";
+import ForgotPassword from "./Component/Login/ForgotPassword";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/login" element={<Login />} />
+            <Route exact path="/forgot-password" element={<ForgotPassword />} />
             <Route
               exact
               path="/practice-vocabulary"

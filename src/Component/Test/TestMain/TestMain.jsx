@@ -231,7 +231,6 @@ function TestMain() {
                                           >
                                             <input
                                               type="radio"
-                                              value="option1"
                                               name={`question_${question_item.id}`}
                                               onChange={() =>
                                                 handleOptionChange(
@@ -239,6 +238,7 @@ function TestMain() {
                                                   index + 1
                                                 )
                                               }
+                                              
                                             />
                                             {index === 0
                                               ? "(A). "
