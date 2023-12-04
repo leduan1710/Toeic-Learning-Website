@@ -59,7 +59,7 @@ function AddTest({ toggleModal, modal_on }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            testType: data.idType,
+            idType: data.idType,
             name: data.name,
           }),
         }
@@ -128,7 +128,7 @@ function AddTest({ toggleModal, modal_on }) {
               </div>
               <form onSubmit={handleSubmit(handleAddTest)}>
                 <div className="add-test-title">
-                  <h2>Thêm Chủ đề từ vựng</h2>
+                  <h2>Thêm Đề thi thử</h2>
                 </div>
                 <div className="input-field">
                   <input

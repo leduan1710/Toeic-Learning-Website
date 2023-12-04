@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import "./ProfessorTestManage.css";
 import { toast } from "react-toastify";
 import Loader from "../../Common/Loader/Loader";
-import { Link } from "react-router-dom";
 import AddTest from "./AddTest";
 import { UserContext } from "../../../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function ProfessorTestManage() {
-  const [tests, setTest] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
+  const [tests, setTest] = useState([]);
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
@@ -129,12 +130,22 @@ function ProfessorTestManage() {
                       alt=""
                     />
                     <div className="test-title">{test.name}</div>
-                    <button
-                      className="btn"
-                      onClick={() => DeleteTest(test.idTest)}
-                    >
-                      Delete
-                    </button>
+                    <div className="btn-wrapper">
+                      <button
+                        className="delete-btn"
+                        onClick={() => DeleteTest(test.idTest)}
+                      >
+                        Xóa
+                      </button>
+                      <button
+                        className="update-btn"
+                        onClick={() => {
+                          navigate(`/`);
+                        }}
+                      >
+                        Sửa
+                      </button>
+                    </div>
                   </div>
                 );
               })}
