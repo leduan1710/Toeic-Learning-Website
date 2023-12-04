@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../../../Context/UserContext";
-import ProfessorHeader from "../../ProfessorComponent/Commont/ProfessorHeader";
-import ProfessorSidebar from "../../ProfessorComponent/Commont/ProfessorSidebar";
+import ProfessorHeader from "../../ProfessorComponent/Common/ProfessorHeader";
+import ProfessorSidebar from "../../ProfessorComponent/Common/ProfessorSidebar";
 
 function ProfessorLayout({ children }) {
   const { user } = useContext(UserContext);

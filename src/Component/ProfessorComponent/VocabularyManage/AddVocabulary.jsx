@@ -1,25 +1,38 @@
-import React, { useContext, useEffect, useState } from "react";
-import "./AddTest.css";
+import React, { useContext, useState } from "react";
+import "./AddVocabulary.css";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { UserContext } from "../../../Context/UserContext";
+import { toast } from "react-toastify";
 import Loader from "../../Common/Loader/Loader";
 
-function AddTest({ toggleModal, modal_on }) {
+function AddVocabulary({ toggleModal, modal_on, idVoc }) {
   const { user } = useContext(UserContext);
-  const [isloading, setIsLoading] = useState(true);
-  const [testType, setTestType] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const {
-    register: testData,
+    register: word,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  async function fetchTestType() {
+  async function handleAddVocabulary(data) {
+    setIsLoading(true);
     try {
       const response = await fetch(
-        "https://localhost:7112/api/TestType/GetAllTestTypes"
+        `https://localhost:7112/api/Vocabulary/AddVocabulary?userId=${user.userId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idTopic: idVoc,
+            engWord: data.engWord,
+            wordType: data.wordType,
+            meaning: data.meaning,
+          }),
+        }
       );
+      setIsLoading(false);
+      toggleModal();
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(`${errorData.message}`, {
@@ -29,54 +42,8 @@ function AddTest({ toggleModal, modal_on }) {
           pauseOnHover: true,
           draggable: true,
         });
-      }
-      const data = await response.json();
-      setTestType(data);
-      setIsLoading(false);
-    } catch (error) {
-      toast.error(`${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-  }
-  useEffect(() => {
-    fetchTestType();
-  }, []);
-  async function handleAddTest(data) {
-    console.log(data.idType, data.name, data.description, user.userId)
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `https://localhost:7112/api/Test/AddTest?userId=${user.userId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            testType: data.idType,
-            name: data.name,
-          }),
-        }
-      );
-      setIsLoading(false);
-      toggleModal();
-      if (!response.ok) {
-        console.log("lỗi");
-        toast.error(`${"Add test failed"}`, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
       } else {
-        toast.success("Add test successfully", {
+        toast.success("Add Word successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 10000,
           closeOnClick: true,
@@ -96,17 +63,17 @@ function AddTest({ toggleModal, modal_on }) {
       });
     }
   }
-  if (isloading) {
-    return <Loader />;
+  if(isLoading){
+    return <Loader/>
   }
   return (
-    <div className="professor-add-test">
+    <div className="professor-vocabulary">
       {modal_on && (
-        <div className="add-test-modal">
+        <div className="vocabulary-topic-modal">
           <div onClick={toggleModal} className="overlay"></div>
-          <div className="add-test-panel">
-            <div className="add-test-content">
-              <div onClick={toggleModal} className="add-test-close-btn">
+          <div className="vocabulary-panel">
+            <div className="vocabulary-content">
+              <div className="vocabulary-close-btn">
                 <svg
                   onClick={toggleModal}
                   xmlns="http://www.w3.org/2000/svg"
@@ -126,32 +93,42 @@ function AddTest({ toggleModal, modal_on }) {
                   ></path>
                 </svg>
               </div>
-              <form onSubmit={handleSubmit(handleAddTest)}>
-                <div className="add-test-title">
-                  <h2>Thêm Chủ đề từ vựng</h2>
+              <form onSubmit={handleSubmit(handleAddVocabulary)}>
+                <div className="add-vocabulary-title">
+                  <h2>Thêm từ vựng mới</h2>
                 </div>
                 <div className="input-field">
                   <input
                     type="text"
-                    placeholder="Nhập tên bài thi thử"
-                    {...testData("name", { required: true })}
+                    placeholder="Nhập từ Tiếng anh"
+                    {...word("engWord", { required: true })}
                   />
                 </div>
                 <error>
-                  {errors.name?.type === "required" &&
-                    "Không được để trống tên"}
+                  {errors.engWord?.type === "required" && "Không được để trống từ"}
                 </error>
-                <select
-                  className="test-type"
-                  {...testData("idType", { required: true })}
-                >
-                  {testType &&
-                    testType.map((type) => {
-                      return (
-                        <option value={type.idTestType}>{type.typeName}</option>
-                      );
-                    })}
-                </select>
+                <div className="input-field">
+                  <input
+                    type="text"
+                    placeholder="Nhập từ loại"
+                    {...word("wordType", { required: true })}
+                  />
+                </div>
+                <error>
+                  {errors.wordType?.type === "required" &&
+                    "Không được để trống từ loại"}
+                </error>
+                <div className="input-field">
+                  <input
+                    type="text"
+                    placeholder="Nhập nghĩa của từ"
+                    {...word("meaning", { required: true })}
+                  />
+                </div>
+                <error>
+                  {errors.meaning?.type === "required" &&
+                    "Không được để trống nghĩa"}
+                </error>
                 <input
                   type="submit"
                   className="vocabulary-submit"
@@ -166,4 +143,4 @@ function AddTest({ toggleModal, modal_on }) {
   );
 }
 
-export default AddTest;
+export default AddVocabulary;

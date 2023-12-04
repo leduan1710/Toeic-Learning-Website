@@ -16,7 +16,9 @@ function VocabularyByTopic() {
   useEffect(() => {
     async function fetchVocabulary() {
       try {
-        const response = await fetch(`https://localhost:7112/api/Vocabulary/GetVocabularyByTopic/${id}`);
+        const response = await fetch(
+          `https://localhost:7112/api/Vocabulary/GetVocabularyByTopic/${id}`
+        );
         if (!response.ok) {
           const errorData = await response.json();
           toast.error(`${errorData.message}`, {
@@ -48,10 +50,10 @@ function VocabularyByTopic() {
         if (!response.ok) {
           const errorData = await response.json();
           toast.error(`${errorData.message}`, {
-            position: toast.POSITION.BOTTOM_RIGHT, 
-            autoClose: 5000, 
-            closeOnClick: true, 
-            pauseOnHover: true, 
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 5000,
+            closeOnClick: true,
+            pauseOnHover: true,
             draggable: true,
           });
         }

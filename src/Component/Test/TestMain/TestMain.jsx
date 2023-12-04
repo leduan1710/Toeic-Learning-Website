@@ -162,7 +162,7 @@ function TestMain() {
       ) : (
         <>
           <div className="tab-header">
-            {parts.map((part) => {
+            {parts && parts.map((part) => {
               return (
                 <div
                   key={part.id}
@@ -177,7 +177,7 @@ function TestMain() {
             })}
           </div>
           <div className="tab-content">
-            {testdata.map((testpart, index) => {
+            {testdata && testdata.map((testpart, index) => {
               return (
                 <div
                   key={index}
@@ -187,7 +187,7 @@ function TestMain() {
                       : "tab-pane"
                   }
                 >
-                  {testpart.units.map((unit, index) => {
+                  {testpart && testpart.units.map((unit, index) => {
                     return (
                       <div key={index} className="test-unit-wrapper">
                         {unit.paragraph !== "" || unit.image !== "" ? (
@@ -211,7 +211,7 @@ function TestMain() {
                               <audio src={unit.audio} controls></audio>
                             )}
                           </div>
-                          {unit.question.map((question_item, index) => {
+                          {unit && unit.question.map((question_item, index) => {
                             question_num++;
                             return (
                               <div key={index} className="test-question">
@@ -222,7 +222,7 @@ function TestMain() {
                                   {question_item.content}
 
                                   <div className="test-choice-wrapper">
-                                    {question_item.choices.map(
+                                    {question_item.choices && question_item.choices.map(
                                       (choice, index) => {
                                         return (
                                           <div

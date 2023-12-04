@@ -24,7 +24,7 @@ function Login() {
     register: loginData,
     handleSubmit: handleSubmitLogin,
     formState: { errors: error_login },
-    getValues
+    getValues,
   } = useForm();
   const {
     register: SignUpData,
@@ -70,6 +70,13 @@ function Login() {
         loginContext(data.token);
         navigate("/");
       } else {
+        toast.success(`${data.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
         setIs2FA(true);
       }
     }
@@ -123,8 +130,8 @@ function Login() {
       });
     }
   }
-  const handleSubmitOTP = async(e) => {
-    e.preventDefault()
+  const handleSubmitOTP = async (e) => {
+    e.preventDefault();
     console.log(otp, getValues("username"));
     setIsLoading(true);
     try {
@@ -144,7 +151,7 @@ function Login() {
       setIsLoading(false);
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(response)
+        console.log(response);
         toast.error(`${errorData.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 5000,
@@ -213,12 +220,12 @@ function Login() {
                     />
                     {!showPassword ? (
                       <i
-                        class="fa-regular fa-eye"
+                        className="fa-regular fa-eye"
                         onClick={() => setShowPassword(true)}
                       ></i>
                     ) : (
                       <i
-                        class="fa-regular fa-eye-slash"
+                        className="fa-regular fa-eye-slash"
                         onClick={() => setShowPassword(false)}
                       ></i>
                     )}
@@ -364,12 +371,12 @@ function Login() {
                 />
                 {!showPassword ? (
                   <i
-                    class="fa-regular fa-eye"
+                    className="fa-regular fa-eye"
                     onClick={() => setShowPassword(true)}
                   ></i>
                 ) : (
                   <i
-                    class="fa-regular fa-eye-slash"
+                    className="fa-regular fa-eye-slash"
                     onClick={() => setShowPassword(false)}
                   ></i>
                 )}

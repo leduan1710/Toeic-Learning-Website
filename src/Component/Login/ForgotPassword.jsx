@@ -201,12 +201,12 @@ function ForgotPassword() {
                 />
                 {!showPassword ? (
                   <i
-                    class="fa-regular fa-eye"
+                    className="fa-regular fa-eye"
                     onClick={() => setShowPassword(true)}
                   ></i>
                 ) : (
                   <i
-                    class="fa-regular fa-eye-slash"
+                    className="fa-regular fa-eye-slash"
                     onClick={() => setShowPassword(false)}
                   ></i>
                 )}

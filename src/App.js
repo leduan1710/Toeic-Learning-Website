@@ -16,10 +16,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserLayout from "./Component/Common/Layout/UserLayout";
 import ProfessorLayout from "./Component/Common/Layout/ProfessorLayout";
-import ProfessorHome from "./Component/ProfessorComponent/Commont/ProfessorHome";
+import ProfessorHome from "./Component/ProfessorComponent/Common/ProfessorHome";
 import ProfessorTestManage from "./Component/ProfessorComponent/TestManage/ProfessorTestManage";
-import AddTest from "./Component/ProfessorComponent/TestManage/AddTest";
-import VocabularyManage from "./Component/ProfessorComponent/VocabularyManage/VocabularyManage";
+import ProfessorVocabularyTopic from "./Component/ProfessorComponent/VocabularyManage/ProfessorVocabularyTopic";
+import ProfessorVocabulary from "./Component/ProfessorComponent/VocabularyManage/ProfessorVocabulary";
 import ForgotPassword from "./Component/Login/ForgotPassword";
 import CourseManage from "./Component/ProfessorComponent/CourseManage/CourseManage";
 
@@ -76,13 +76,13 @@ function App() {
               />
               <Route
                 exact
-                path="professor/test/addTest"
-                element={<AddTest />}
+                path="professor/vocabulary-topic"
+                element={<ProfessorVocabularyTopic />}
               />
               <Route
                 exact
-                path="professor/vocabulary"
-                element={<VocabularyManage />}
+                path="professor/vocabulary/:id"
+                element={<ProfessorVocabulary />}
               />
               <Route
                 exact

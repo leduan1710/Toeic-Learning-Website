@@ -61,7 +61,7 @@ function TestList({ testType }) {
         />
         <div className="test-grid-wrapper">
           <div className="test-grid">
-            {tests.map((test, index) => {
+            {tests && tests.map((test, index) => {
               return (
                 <Link to={`/test/${test.id}`}>
                   <div key={index} className="test-item">
