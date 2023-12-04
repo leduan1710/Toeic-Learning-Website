@@ -125,10 +125,10 @@ function CourseManageIndex() {
           <div className="professor-course-grid-wrapper">
             <div className="professor-course-grid">
               {courses &&
-                courses.map((course) => {
+                courses.map((course, index) => {
                   return (
                     <div
-                      key={course.id}
+                      key={course.index}
                       className="professor-courses-list-item"
                     >
                       <div className="image">

@@ -9,7 +9,7 @@ function ForgotPassword() {
   const [isloading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-  const [is_email_click, seteEmailClick] = useState(true);
+  const [is_email_click, seteEmailClick] = useState(false);
 
   const {
     register: resetPassworData,

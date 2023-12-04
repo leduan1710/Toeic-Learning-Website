@@ -46,7 +46,6 @@ body.active-modal {
 .professor-layout .sidebar-title {
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 15px;
   border-radius: 50%;
   overflow: hidden;
@@ -55,10 +54,10 @@ body.active-modal {
   height: 10rem;
   width: 10rem;
 }
-.professor-layout .sidebar-title > span {
+.professor-layout .sidebar-title svg {
   display: none;
+  margin-top: 1rem;
 }
-
 .professor-layout .sidebar-list {
   padding: 0;
   list-style-type: none;
@@ -145,7 +144,7 @@ body.active-modal {
     visibility: unset;
   }
 
-  .professor-layout .sidebar-title > span {
+  .professor-layout .sidebar-title > svg {
     display: inline;
   }
 }
