@@ -8,7 +8,8 @@ function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [isloading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [is_email_click, seteEmailClick] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [is_email_click, seteEmailClick] = useState(true);
 
   const {
     register: resetPassworData,
@@ -62,7 +63,7 @@ function ForgotPassword() {
       });
     }
   };
-  const ResetPassword = async (resetPassworData) => {
+  const ResetPassword = async () => {
     console.log(email, getValues("otp"), getValues("password"));
     setIsLoading(true);
     try {
@@ -163,7 +164,7 @@ function ForgotPassword() {
               <div className="input-field">
                 <i className="fas fa-user"></i>
                 <input
-                  type="text"
+                  type={showPassword2 ? "text" : "password"}
                   placeholder="Nhập OTP"
                   {...resetPassworData("otp", { required: true })}
                 />
@@ -174,7 +175,7 @@ function ForgotPassword() {
               <div className="input-field">
                 <i className="fas fa-envelope"></i>
                 <input
-                  type="text"
+                  type={showPassword2 ? "text" : "password"}
                   placeholder="Nhập mật khẩu mới"
                   {...resetPassworData("password", {
                     required: true,
@@ -182,6 +183,17 @@ function ForgotPassword() {
                       /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{6,}/,
                   })}
                 />
+                {!showPassword2 ? (
+                  <i
+                    className="fa-regular fa-eye"
+                    onClick={() => setShowPassword2(true)}
+                  ></i>
+                ) : (
+                  <i
+                    className="fa-regular fa-eye-slash"
+                    onClick={() => setShowPassword2(false)}
+                  ></i>
+                )}
               </div>
               <error>
                 {errors.password?.type === "required" && "Password is required"}

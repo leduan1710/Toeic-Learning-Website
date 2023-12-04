@@ -1,40 +1,40 @@
 import React, { useContext, useState } from "react";
-import "./AddVocabularyTopic.css";
 import { useForm } from "react-hook-form";
-import {UserContext} from "../../../Context/UserContext"
 import { toast } from "react-toastify";
+import { UserContext } from "../../../Context/UserContext";
 import Loader from "../../Common/Loader/Loader";
+import "./AddCourse.css"
 
-function AddVocabularyTopic({ toggleModal, modal_on }) {
-  
+function AddCourse({ toggleModal, modal_on }) {
   const { user } = useContext(UserContext);
   const [isloading, setIsLoading] = useState(false);
   const {
-    register: vocabulary_topic,
+    register: new_course,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
+
   async function handleAddVocabularyTopic(data) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/VocTopic/AddVocTopic?userId=${user.userId}`,
+        `https://localhost:7112/api/Course/AddCourse`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: data.name
+            idUser: user.userId,
+            name: data.name,
+            description: data.description,
           }),
         }
       );
       setIsLoading(false);
-      toggleModal()
+      toggleModal();
       if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`, {
+        toast.error("Add course failded", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 5000,
           closeOnClick: true,
@@ -42,7 +42,7 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
           draggable: true,
         });
       } else {
-        toast.success("Add topic successfully", {
+        toast.success("Add course successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 10000,
           closeOnClick: true,
@@ -51,7 +51,7 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(`${error}`, {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 3000,
@@ -62,16 +62,16 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
       });
     }
   }
-  if(isloading){
-    return <Loader/>
+  if (isloading) {
+    return <Loader />;
   }
-  return (  
-    <div className="professor-vocabulary-topic">
+  return (
+    <div className="professor-add-course">
       {modal_on && (
-        <div className="vocabulary-topic-modal">
+        <div className="add-course-modal">
           <div onClick={toggleModal} className="overlay"></div>
-          <div className="vocabulary-topic-panel">
-            <div className="vocabulary-topic-content">
+          <div className="add-course-panel">
+            <div className="add-course-content">
               <div className="vocabulary-topic-close-btn">
                 <svg
                   onClick={toggleModal}
@@ -93,20 +93,27 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
                 </svg>
               </div>
               <form onSubmit={handleSubmit(handleAddVocabularyTopic)}>
-                <div className="add-vocabulary-topic-title">
-                  <h2>Thêm Chủ đề từ vựng</h2>
+                <div className="add-course-title">
+                  <h2>Thêm Khóa học mới</h2>
                 </div>
                 <div className="input-field">
                   <input
                     type="text"
-                    placeholder="Nhập tên chủ đề từ vựng"
-                    {...vocabulary_topic("name", { required: true })}
+                    placeholder="Nhập tên Khóa học"
+                    {...new_course("name", { required: true })}
                   />
                 </div>
                 <error>
                   {errors.name?.type === "required" &&
                     "Không được để trống tên"}
                 </error>
+                <div className="input-field" style={{ height: "7rem" }}>
+                  <textarea
+                    type="text"
+                    placeholder="Nhập mô tả"
+                    {...new_course("description", { required: true })}
+                  />
+                </div>
                 <input
                   type="submit"
                   className="vocabulary-submit"
@@ -121,4 +128,4 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
   );
 }
 
-export default AddVocabularyTopic;
+export default AddCourse;

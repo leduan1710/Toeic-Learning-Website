@@ -103,12 +103,12 @@ body.active-modal {
 .professor-managment-title {
   padding: 10px 50px 10px 10px;
   background-color: #c5e2e7;
-  width: fit-content;
-  clip-path: polygon(0 0, 90% 0, 100% 100%, 0 100%);
+  min-width: 300px;
+  clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
   display: flex;
   align-items: center;
 }
-.profssor-board-header{
+.professor-board-header{
   display: flex;
   justify-content: space-between;
 }

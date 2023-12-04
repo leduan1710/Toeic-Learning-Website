@@ -16,8 +16,17 @@ function ProfessorVocabulary() {
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [idVoc, setIdVoc] = useState("");
 
   const toggleModal = () => {
+    setModal(!modal);
+  };
+  const updateToggle = (id) => {
+    setIdVoc(id)
+    setModal(!modal);
+  };
+  const AddToggle = () => {
+    setIdVoc("")
     setModal(!modal);
   };
 
@@ -197,13 +206,13 @@ function ProfessorVocabulary() {
   }
   return (
     <>
-      <AddVocabulary toggleModal={toggleModal} modal_on={modal} idVoc={id} />
+      <AddVocabulary toggleModal={toggleModal} modal_on={modal} idTopic={id} idVoc={idVoc}/>
       <div className="professor-vocabulary">
         <div className="professor-managment-title">
           <h3>QUẢN LÝ CHỦ ĐỀ TỪ VỰNG</h3>
         </div>
 
-        <form onSubmit={handleSubmit(handleUpdateVocabularyTopic)}>
+        <form className="update-voc-topic" onSubmit={handleSubmit(handleUpdateVocabularyTopic)}>
           <div style={{ width: "100%", textAlign: "center" }}>
             <div className="input-field">
               <input
@@ -226,7 +235,7 @@ function ProfessorVocabulary() {
           )}
         </form>
         <div className="professor-add-button-wrapper">
-          <div className="professor-add-button" onClick={toggleModal}>
+          <div className="professor-add-button" onClick={AddToggle}>
             <img
               width="34"
               height="34"
@@ -251,7 +260,7 @@ function ProfessorVocabulary() {
                     >
                       Xóa
                     </button>
-                    <button className="update-btn">Sửa</button>
+                    <button className="update-btn" onClick={()=>updateToggle(word.idVoc)}>Sửa</button>
                   </div>
                 </div>
               );

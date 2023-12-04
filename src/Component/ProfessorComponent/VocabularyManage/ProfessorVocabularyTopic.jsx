@@ -79,7 +79,15 @@ function ProfessorVocabularyTopic() {
         pauseOnHover: true,
         draggable: true,
       });
-    } catch (error) {}
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   }
   useEffect(() => {
     fetchVocabularyTopic();
@@ -97,7 +105,7 @@ function ProfessorVocabularyTopic() {
     <>
       <AddVocabularyTopic toggleModal={toggleModal} modal_on={modal} />
       <div className="professor-vocabulary-wrapper">
-        <div className="profssor-board-header">
+        <div className="professor-board-header">
           <div className="professor-managment-title">
             <h3>QUẢN LÝ CHỦ ĐỀ TỪ VỰNG</h3>
           </div>
@@ -113,28 +121,34 @@ function ProfessorVocabularyTopic() {
         </div>
         <div className="vocabulary-grid-wrapper">
           <div className="vocabulary-grid">
-            {topics && topics.map((topic, index) => {
-              return (
-                <div key={index} className="vocabulary-item">
-                  <img
-                    src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-vocabulary-literature-flaticons-lineal-color-flat-icons-2.png"
-                    alt=""
-                  />
-                  <div className="vocabulary-title">{topic.name}</div>
-                  <div className="btn-wrapper">
-                    <button
-                      className="delete-btn"
-                      onClick={() => DeleteVocabularyTopic(topic.idVocTopic)}
-                    >
-                      Xóa
-                    </button>
-                    <button className="update-btn" onClick={()=>{navigate(`/professor/vocabulary/${topic.idVocTopic}`)}}>
-                      Sửa
-                    </button>
+            {topics &&
+              topics.map((topic, index) => {
+                return (
+                  <div key={index} className="vocabulary-item">
+                    <img
+                      src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-vocabulary-literature-flaticons-lineal-color-flat-icons-2.png"
+                      alt=""
+                    />
+                    <div className="vocabulary-title">{topic.name}</div>
+                    <div className="btn-wrapper">
+                      <button
+                        className="delete-btn"
+                        onClick={() => DeleteVocabularyTopic(topic.idVocTopic)}
+                      >
+                        Xóa
+                      </button>
+                      <button
+                        className="update-btn"
+                        onClick={() => {
+                          navigate(`/professor/vocabulary/${topic.idVocTopic}`);
+                        }}
+                      >
+                        Sửa
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>

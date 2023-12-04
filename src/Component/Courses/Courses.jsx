@@ -55,7 +55,7 @@ function Courses() {
             {courses &&
               courses.map((course) => {
                 return (
-                  <div key={course.id} className="courses-list-item">
+                  <div key={course.idCourse} className="courses-list-item">
                     <Link to={`/course-lessons/${course.idCourse}`}>
                       <div className="course-item">
                         <div className="image">

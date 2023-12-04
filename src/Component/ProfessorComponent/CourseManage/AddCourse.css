@@ -1,4 +1,4 @@
-.vocabulary-modal,
+.add-course-modal,
 .overlay {
   width: 100vw;
   height: 100vh;
@@ -8,13 +8,13 @@
   bottom: 0;
   position: fixed;
 }
-.vocabulary-modal {
+.add-course-modal {
   z-index: 5;
 }
 .overlay {
   background: rgba(49, 49, 49, 0.8);
 }
-.vocabulary-content {
+.add-course-content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -28,21 +28,21 @@
   border-radius: 1rem;
 }
 
-.vocabulary-close-btn {
+.add-course-close-btn {
   display: flex;
   justify-content: flex-end;
 }
-.add-vocabulary-title {
+.add-vocabulary-topic-title {
   display: flex;
   justify-content: center;
 }
-.vocabulary-modal form {
+.add-course-modal form {
   padding: 0 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.vocabulary-modal .input-field {
+.add-course-modal .input-field {
   height: 50px;
   width: 100%;
   background: #f4f4f4;
@@ -53,17 +53,18 @@
   justify-content: space-evenly;
   padding: 10px;
 }
-.vocabulary-modal input {
+.add-course-modal input {
   background: none;
   border: none;
   outline: none;
   width: 100%;
   height: 100%;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #000;
+  text-align: center;
 }
-.vocabulary-modal .vocabulary-submit {
+.add-course-modal .vocabulary-submit {
   width: 100%;
   height: 50px;
   border: none;
@@ -75,9 +76,21 @@
   cursor: pointer;
   margin-bottom: 10px;
 }
-.vocabulary-modal error {
+.add-course-modal error {
   font-size: 12px;
   font-style: italic;
   color: red;
+  text-align: center;
+}
+
+.add-course-modal textarea {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
   text-align: center;
 }

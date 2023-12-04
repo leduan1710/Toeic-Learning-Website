@@ -16,7 +16,7 @@
   justify-content: space-evenly;
   padding: 10px;
 }
-.professor-vocabulary form {
+.professor-vocabulary .update-voc-topic {
   display: flex;
   gap: 1rem;
   margin: 1.5rem 3rem;

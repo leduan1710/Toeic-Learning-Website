@@ -56,6 +56,10 @@ function ProfessorTestManage() {
     fetchTests();
     window.scrollTo(0, 0);
   }, []);
+  useEffect(() => {
+    fetchTests();
+    window.scrollTo(0, 0);
+  }, [modal]);
 
   async function DeleteTest(testId) {
     try {
@@ -105,7 +109,7 @@ function ProfessorTestManage() {
     <>
       {<AddTest toggleModal={toggleModal} modal_on={modal} />}
       <div className="professor-test-wrapper">
-        <div className="profssor-board-header">
+        <div className="professor-board-header">
           <div className="professor-managment-title">
             <h3>QUẢN LÝ ĐỀ THI THỬ</h3>
           </div>

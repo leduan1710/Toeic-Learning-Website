@@ -21,7 +21,7 @@ import ProfessorTestManage from "./Component/ProfessorComponent/TestManage/Profe
 import ProfessorVocabularyTopic from "./Component/ProfessorComponent/VocabularyManage/ProfessorVocabularyTopic";
 import ProfessorVocabulary from "./Component/ProfessorComponent/VocabularyManage/ProfessorVocabulary";
 import ForgotPassword from "./Component/Login/ForgotPassword";
-import CourseManage from "./Component/ProfessorComponent/CourseManage/CourseManage";
+import CourseManageIndex from "./Component/ProfessorComponent/CourseManage/CourseManageIndex";
 
 function App() {
   return (
@@ -87,7 +87,12 @@ function App() {
               <Route
                 exact
                 path="professor/course"
-                element={<CourseManage />}
+                element={<CourseManageIndex />}
+              />
+              <Route
+                exact
+                path="professor/course/:id"
+                element={<CourseManageIndex />}
               />
             </Route>
           </Routes>

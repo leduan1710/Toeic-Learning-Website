@@ -29,7 +29,15 @@ function VocabularyTopic() {
         const data = await response.json();
         setTopic(data);
         setIsLoading(false);
-      } catch (error) {}
+      } catch (error) {
+        toast.error(`${error}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
     }
     fetchVocabularyTopic();
     window.scrollTo(0, 0);
@@ -50,10 +58,7 @@ function VocabularyTopic() {
               topics.map((val, index) => {
                 return (
                   <Link to={`/vocabulary-by-topic/${val.idVocTopic}`}>
-                    <div
-                      key={val.index}
-                      className="vocabulary-topic-item"
-                    >
+                    <div key={val.index} className="vocabulary-topic-item">
                       <img
                         src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/external-vocabulary-literature-flaticons-lineal-color-flat-icons-2.png"
                         alt=""

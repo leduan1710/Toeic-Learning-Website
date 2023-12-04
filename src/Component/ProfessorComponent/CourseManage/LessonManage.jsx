@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CourseManage() {
+function LessonManage() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function CourseManage() {
   )
 }
 
-export default CourseManage
+export default LessonManage
