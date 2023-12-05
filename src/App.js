@@ -27,6 +27,9 @@ import AddLesson from "./Component/ProfessorComponent/CourseManage/Lesson/AddLes
 import UpdateLesson from "./Component/ProfessorComponent/CourseManage/Lesson/UpdateLesson";
 import UpdateQuiz from "./Component/ProfessorComponent/CourseManage/Lesson/Quiz/UpdateQuiz";
 import UpdateTest from "./Component/ProfessorComponent/TestManage/UpdateTest";
+import AdminLayout from "./Component/Common/Layout/AdminLayout";
+import AdminHome from "./Component/AdminComponent/Common/AdminHome";
+import UserManage from "./Component/AdminComponent/Common/UserManage/UserManage";
 
 function App() {
   return (
@@ -70,11 +73,7 @@ function App() {
                 path="professor/test"
                 element={<ProfessorTestManage />}
               />
-              <Route
-                exact
-                path="professor/test/:id"
-                element={<UpdateTest />}
-              />
+              <Route exact path="professor/test/:id" element={<UpdateTest />} />
               <Route
                 exact
                 path="professor/vocabulary"
@@ -113,6 +112,17 @@ function App() {
             </Route>
           </Routes>
         </ProfessorLayout>
+        <AdminLayout>
+          <Routes>
+            <Route exact path="/" element={<AdminHome />}>
+              <Route
+                exact
+                path="admin/user"
+                element={<UserManage />}
+              />
+            </Route>
+          </Routes>
+        </AdminLayout>
       </BrowserRouter>
     </div>
   );

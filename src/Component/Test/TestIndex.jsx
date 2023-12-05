@@ -5,8 +5,8 @@ import TestHome from "../Home/TestHome/TestHome"
 function TestIndex() {
   return (
     <div className='test-index-wrapper'>
-      <TestList testType={"miniTest"}/>
-      <TestList testType={"fullTest"}/>
+      <TestList testType={"MiniTest"}/>
+      <TestList testType={"FullTest"}/>
       <TestHome subtitle="" title="Thực hiện các bài thi TOEIC"/>
     </div>
   )

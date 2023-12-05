@@ -6,40 +6,45 @@ import { useState, useEffect } from "react";
 import "./TestList.css";
 import { toast } from "react-toastify";
 
-function TestList() {
+function TestList({ testType }) {
   const { id } = useParams();
   const [tests, setTest] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchTests() {
-      try {
-        const response = await fetch(`https://localhost:7112/api/Test/GetAllTestByType/${id}`);
-        console.log(response)
-        if (!response.ok) {
-          const errorData = await response.json();
-          toast.error(`${errorData.message}`, {
-            position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
-            autoClose: 5000, // Tự động đóng sau 3 giây
-            closeOnClick: true, // Đóng khi click
-            pauseOnHover: true, // Tạm dừng khi di chuột qua
-            draggable: true, // Có thể kéo thông báo
-          });
-        }
-        const data = await response.json();
-        setTest(data);
-        setIsLoading(false);
-      } catch (error) {
-        toast.error(`${error}`, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
+  async function fetchTests(id) {
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/Test/GetAllTestByType/${id}`
+      );
+      console.log(response);
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+          autoClose: 5000, // Tự động đóng sau 3 giây
+          closeOnClick: true, // Đóng khi click
+          pauseOnHover: true, // Tạm dừng khi di chuột qua
+          draggable: true, // Có thể kéo thông báo
         });
       }
+      const data = await response.json();
+      setTest(data);
+      setIsLoading(false);
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
-    fetchTests();
+  }
+  useEffect(() => {
+    if (testType) {
+      fetchTests(testType);
+    } else {
+      fetchTests(id);
+    }
     window.scrollTo(0, 0);
   }, [id]);
 
@@ -52,13 +57,8 @@ function TestList() {
       <div className="container test-list">
         <Heading
           subtitle="VictoryU"
-          title={`${
-            id === "miniTest"
-              ? "Kiểm tra mini test TOEIC"
-              : id === "fullTest"
-              ? "Kiểm tra full test TOEIC"
-              : "Kiểm tra giả lập TOEIC"
-          }`}
+          title={`
+            Kiểm tra ${testType || id} TOEIC`}
         />
         <div className="test-grid-wrapper">
           <div className="test-grid">
