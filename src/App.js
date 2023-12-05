@@ -23,6 +23,7 @@ import ProfessorVocabulary from "./Component/ProfessorComponent/VocabularyManage
 import ForgotPassword from "./Component/Login/ForgotPassword";
 import CourseManageIndex from "./Component/ProfessorComponent/CourseManage/CourseManageIndex";
 import LessonManage from "./Component/ProfessorComponent/CourseManage/LessonManage";
+import AddLesson from "./Component/ProfessorComponent/CourseManage/AddLesson";
 
 function App() {
   return (
@@ -55,13 +56,8 @@ function App() {
             <Route exact path="/test" element={<TestIndex />} />
             <Route
               exact
-              path="/test/miniTest"
-              element={<TestList testType={"miniTest"} />}
-            />
-            <Route
-              exact
-              path="/test/fullTest"
-              element={<TestList testType={"fullTest"} />}
+              path="/test/type/:id"
+              element={<TestList/>}
             />
             <Route exact path="/test/:id" element={<TestMain />} />
           </Routes>
@@ -94,6 +90,16 @@ function App() {
                 exact
                 path="professor/course/:id"
                 element={<LessonManage />}
+              />
+              <Route
+                exact
+                path="professor/course/lesson/:id"
+                element={<AddLesson />}
+              />
+              <Route
+                exact
+                path="professor/course/lesson/add"
+                element={<AddLesson />}
               />
             </Route>
           </Routes>

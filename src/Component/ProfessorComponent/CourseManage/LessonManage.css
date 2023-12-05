@@ -68,7 +68,6 @@
   grid-template-columns: auto 180px;
 }
 .professor-lesson-list .lesson-list-item:hover {
-  cursor: pointer;
   transform: translateZ(1px);
   box-shadow: 0 6px 6px #e8eaf1;
 }
@@ -87,4 +86,11 @@
   font-weight: 600;
   text-transform: uppercase;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+.professor-lesson-list .delete-btn:hover{
+  width: 130%;
+}
+.professor-lesson-list .update-btn:hover{
+  width: 130%;
 }

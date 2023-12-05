@@ -137,7 +137,7 @@ function LessonManage() {
   return (
     <div className="professor-lesson-list">
       <div className="professor-managment-sub-title">
-        <h3>QUẢN LÝ CHỦ ĐỀ TỪ VỰNG</h3>
+        <h3 style={{paddingLeft: "10px"}}>QUẢN LÝ CÁC BÀI HỌC</h3>
       </div>
 
       <form
@@ -145,13 +145,24 @@ function LessonManage() {
         onSubmit={handleSubmit(UpdateCurrentLesson)}
       >
         <div style={{ width: "50%", textAlign: "center" }}>
-          <div className="input-field">
-            <input
-              type="text"
-              defaultValue={current_course.name}
-              onFocus={() => setShowButton(true)}
-              {...course("name", { required: true })}
-            />
+          <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+            <div className="input-field">
+              <input
+                type="text"
+                defaultValue={current_course.name}
+                onFocus={() => setShowButton(true)}
+                {...course("name", { required: true })}
+              />
+            </div>
+            {showButton && (
+              <img
+                onClick={() => setShowButton(false)}
+                width="32"
+                height="32"
+                src="https://img.icons8.com/windows/32/circled-chevron-down.png"
+                alt="circled-chevron-down"
+              />
+            )}
           </div>
           <error>
             {errors.name?.type === "required" && "Không được để trống tên"}
@@ -187,14 +198,14 @@ function LessonManage() {
           src="https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png"
           alt="reply-arrow"
         />
-        <div className="professor-add-button" onClick={() => navigate("/")}>
+        <div className="professor-add-button" onClick={() => navigate("/professor/course/lesson/add")}>
           <img
             width="34"
             height="34"
             src="https://img.icons8.com/doodle/48/add.png"
             alt="add"
           />
-          <h3>THÊM TỪ MỚI</h3>
+          <h3>THÊM BÀI HỌC MỚI</h3>
         </div>
       </div>
       <div className="lesson-list-wrapper">
@@ -210,7 +221,7 @@ function LessonManage() {
                   >
                     Xóa
                   </button>
-                  <button className="update-btn" onClick={() => navigate("/")}>
+                  <button className="update-btn" onClick={() => navigate(`/professor/course/lesson/${lesson.idLesson}`)}>
                     Sửa
                   </button>
                 </div>

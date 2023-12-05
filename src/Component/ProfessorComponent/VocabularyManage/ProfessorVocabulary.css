@@ -74,7 +74,6 @@
   grid-template-columns: 1fr 1fr 2fr 1fr;
 }
 .wordList-item:hover {
-  cursor: pointer;
   transform: translateZ(1px);
   box-shadow: 0 6px 6px #e8eaf1;
 }
@@ -93,4 +92,11 @@
   font-weight: 600;
   text-transform: uppercase;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+.professor-vocabulary .delete-btn:hover{
+  width: 130%;
+}
+.professor-vocabulary .update-btn:hover{
+  width: 130%;
 }

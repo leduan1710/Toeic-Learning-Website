@@ -1,19 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loader from "../Common/Loader/Loader";
 import Heading from "../Common/Header/Heading";
 import { useState, useEffect } from "react";
 import "./TestList.css";
 import { toast } from "react-toastify";
 
-function TestList({ testType }) {
+function TestList() {
+  const { id } = useParams();
   const [tests, setTest] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchTests() {
       try {
-        const response = await fetch(`http://localhost:3000/tests/${testType}`);
+        const response = await fetch(`https://localhost:7112/api/Test/GetAllTestByType/${id}`);
+        console.log(response)
         if (!response.ok) {
           const errorData = await response.json();
           toast.error(`${errorData.message}`, {
@@ -25,8 +27,7 @@ function TestList({ testType }) {
           });
         }
         const data = await response.json();
-        const { test: testList } = data;
-        setTest(testList);
+        setTest(data);
         setIsLoading(false);
       } catch (error) {
         toast.error(`${error}`, {
@@ -40,7 +41,7 @@ function TestList({ testType }) {
     }
     fetchTests();
     window.scrollTo(0, 0);
-  }, [testType]);
+  }, [id]);
 
   if (isLoading) {
     return <Loader />;
@@ -52,42 +53,43 @@ function TestList({ testType }) {
         <Heading
           subtitle="VictoryU"
           title={`${
-            testType === "miniTest"
+            id === "miniTest"
               ? "Kiểm tra mini test TOEIC"
-              : testType === "fullTest"
+              : id === "fullTest"
               ? "Kiểm tra full test TOEIC"
               : "Kiểm tra giả lập TOEIC"
           }`}
         />
         <div className="test-grid-wrapper">
           <div className="test-grid">
-            {tests && tests.map((test, index) => {
-              return (
-                <Link to={`/test/${test.id}`}>
-                  <div key={index} className="test-item">
-                    <img
-                      src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/100/external-online-test-online-education-flaticons-lineal-color-flat-icons-2.png"
-                      alt=""
-                    />
-                    <div className="test-title">{test.title}</div>
-                    <div className="test-info">
-                      <div>
-                        <div className="test-info-title">Thời gian</div>
-                        <div className="test-info-item">{`${
-                          testType === "miniTest" ? "60 phút" : "120 phút"
-                        }`}</div>
-                      </div>
-                      <div>
-                        <div className="test-info-title">Số câu hỏi</div>
-                        <div className="test-info-item">
-                          {testType === "miniTest" ? "100 câu" : "200 câu"}
+            {tests &&
+              tests.map((test, index) => {
+                return (
+                  <Link to={`/test/${test.idTest}`}>
+                    <div key={index} className="test-item">
+                      <img
+                        src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/100/external-online-test-online-education-flaticons-lineal-color-flat-icons-2.png"
+                        alt=""
+                      />
+                      <div className="test-title">{test.name}</div>
+                      <div className="test-info">
+                        <div>
+                          <div className="test-info-title">Thời gian</div>
+                          <div className="test-info-item">{`${
+                            id === "miniTest" ? "60 phút" : "120 phút"
+                          }`}</div>
+                        </div>
+                        <div>
+                          <div className="test-info-title">Số câu hỏi</div>
+                          <div className="test-info-item">
+                            {id === "miniTest" ? "100 câu" : "200 câu"}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              })}
           </div>
         </div>
       </div>

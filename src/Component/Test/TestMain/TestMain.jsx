@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./TestMain.css";
 import Loader from "../../Common/Loader/Loader.jsx";
-import Markdown from "react-markdown";
+import HTMLReactParser from "html-react-parser";
 import TestResult from "./TestResult.jsx";
 import { UserContext } from "../../../Context/UserContext.jsx";
 import { toast } from "react-toastify";
@@ -196,10 +196,7 @@ function TestMain() {
                               <img src={unit.image} alt={unit.image} />
                             </div>
                             <div className="test-paragraph">
-                              <Markdown>{unit.paragraph}</Markdown>
-                              <Markdown>{unit.paragraph}</Markdown>
-                              <Markdown>{unit.paragraph}</Markdown>
-                              <Markdown>{unit.paragraph}</Markdown>
+                              {HTMLReactParser(String(unit.paragraph))}
                             </div>
                           </div>
                         ) : (

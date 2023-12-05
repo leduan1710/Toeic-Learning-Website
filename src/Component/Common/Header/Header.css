@@ -85,7 +85,7 @@ a:-webkit-any-link {
 }
 .dropdown-menu a:hover {
   cursor: pointer;
-  color: #003150;
+  color: #003150 !important;
   font-weight: 900;
 }
 

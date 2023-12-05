@@ -1,17 +1,57 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Head from "./Head";
 import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { UserContext } from "../../../Context/UserContext";
+import { toast } from "react-toastify";
+import Loader from "../Loader/Loader";
 
 function Header() {
   const [click, setClick] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [testType, setTestType] = useState([]);
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
   function handleLogout() {
     logout();
     navigate("/");
+  }
+  async function fetchTestType() {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        "https://localhost:7112/api/TestType/GetAllTestTypes"
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+      const data = await response.json();
+      setTestType(data);
+      setIsLoading(false);
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }
+  useEffect(() => {
+    fetchTestType();
+  }, []);
+  if (isLoading) {
+    return <Loader />;
   }
   return (
     <div className="header">
@@ -36,21 +76,19 @@ function Header() {
                 ĐỀ THI THỬ <i className="fas fa-caret-down"></i>
                 <div className="dropdown-menu">
                   <ul>
-                    <div className="dropdown-item">
-                      <Link to="/test/fullTest">FullTest</Link>
-                    </div>
-                    <div className="dropdown-item">
-                      <Link to="/test/miniTest">MiniTest</Link>
-                    </div>
-                    <div className="dropdown-item">
-                      <Link to="/test/simulation">Simulation Test</Link>
-                    </div>
+                    {testType &&
+                      testType.map((type, index) => {
+                        return (
+                          <div key={index} className="dropdown-item">
+                            <Link to={`/test/type/${type.typeName}`}>
+                              {type.typeName}
+                            </Link>
+                          </div>
+                        );
+                      })}
                   </ul>
                 </div>
               </Link>
-            </li>
-            <li>
-              <Link to="/forum">DIỄN ĐÀN</Link>
             </li>
           </ul>
           {!user.auth ? (
