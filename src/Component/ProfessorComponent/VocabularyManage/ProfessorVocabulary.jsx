@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../Common/Loader/Loader";
 import { useForm } from "react-hook-form";
@@ -11,25 +11,28 @@ function ProfessorVocabulary() {
   const [curent_topic, setCurrentTopic] = useState("");
   const { id } = useParams();
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [words, setWords] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [showButton, setShowButton] = useState(false);
-  const [idVoc, setIdVoc] = useState("");
+  const [curent_word, setCurrentWord] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
 
   const toggleModal = () => {
     setModal(!modal);
   };
-  const updateToggle = (id) => {
-    setIdVoc(id)
-    setModal(!modal);
-  };
   const AddToggle = () => {
-    setIdVoc("")
+    setIsUpdate(false);
     setModal(!modal);
   };
 
+  const updateToggle = (word) => {
+    setIsUpdate(true);
+    setCurrentWord(word);
+    setModal(!modal);
+  };
   if (modal) {
     document.body.classList.add("active-modal");
   } else {
@@ -40,8 +43,11 @@ function ProfessorVocabulary() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const goBack = () => {
+    navigate("/professor/vocabulary");
+  };
   async function fetchVocabulary() {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `https://localhost:7112/api/Vocabulary/GetVocabularyByTopic/${id}`
@@ -70,6 +76,7 @@ function ProfessorVocabulary() {
     }
   }
   async function fetchVocabularyTopic() {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `https://localhost:7112/api/VocTopic/GetVocTopicById/${id}`
@@ -103,16 +110,17 @@ function ProfessorVocabulary() {
     fetchVocabularyTopic();
     window.scrollTo(0, 0);
   }, []);
+
   useEffect(() => {
     fetchVocabulary();
     window.scrollTo(0, 0);
   }, [modal]);
+
   const handleUpdateVocabularyTopic = async (register) => {
-    console.log(register.name, id, user.userId);
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/VocTopic/UpdateVocTopic/${id}&&${user.userId}`,
+        `https://localhost:7112/api/VocTopic/UpdateVocTopic/${id}&&${user.idUser}`,
         {
           method: "PUT",
           headers: {
@@ -125,9 +133,7 @@ function ProfessorVocabulary() {
       );
       setIsLoading(false);
       if (!response.ok) {
-        const errorData = await response.json();
-        console.log(response);
-        toast.error(`${errorData.message}`, {
+        toast.error("Update Topic Failed", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 5000,
           closeOnClick: true,
@@ -206,13 +212,22 @@ function ProfessorVocabulary() {
   }
   return (
     <>
-      <AddVocabulary toggleModal={toggleModal} modal_on={modal} idTopic={id} idVoc={idVoc}/>
+      <AddVocabulary
+        toggleModal={toggleModal}
+        modal_on={modal}
+        idTopic={id}
+        isUpdate={isUpdate}
+        current_word={curent_word}
+      />
       <div className="professor-vocabulary">
-        <div className="professor-managment-title">
+        <div className="professor-managment-sub-title">
           <h3>QUẢN LÝ CHỦ ĐỀ TỪ VỰNG</h3>
         </div>
 
-        <form className="update-voc-topic" onSubmit={handleSubmit(handleUpdateVocabularyTopic)}>
+        <form
+          className="update-voc-topic"
+          onSubmit={handleSubmit(handleUpdateVocabularyTopic)}
+        >
           <div style={{ width: "100%", textAlign: "center" }}>
             <div className="input-field">
               <input
@@ -235,6 +250,13 @@ function ProfessorVocabulary() {
           )}
         </form>
         <div className="professor-add-button-wrapper">
+          <img
+            onClick={goBack}
+            width="50"
+            height="50"
+            src="https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png"
+            alt="reply-arrow"
+          />
           <div className="professor-add-button" onClick={AddToggle}>
             <img
               width="34"
@@ -260,7 +282,12 @@ function ProfessorVocabulary() {
                     >
                       Xóa
                     </button>
-                    <button className="update-btn" onClick={()=>updateToggle(word.idVoc)}>Sửa</button>
+                    <button
+                      className="update-btn"
+                      onClick={() => updateToggle(word)}
+                    >
+                      Sửa
+                    </button>
                   </div>
                 </div>
               );

@@ -175,7 +175,7 @@ function Lesson() {
             {other_lessons &&
               other_lessons.map((lesson, index) => {
                 return (
-                  <Link key={index} to={`/lesson/${lesson.id}`}>
+                  <Link key={index} to={`/lesson/${lesson.idLesson}`}>
                     <div className="other-lessons-item">
                       <div className="other-lesson-title">{lesson.title}</div>
                     </div>

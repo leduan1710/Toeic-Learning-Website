@@ -5,158 +5,132 @@ import { UserContext } from "../../../Context/UserContext";
 import { toast } from "react-toastify";
 import Loader from "../../Common/Loader/Loader";
 
-function AddVocabulary({ toggleModal, modal_on, idTopic, idVoc }) {
+function AddVocabulary({
+  toggleModal,
+  modal_on,
+  idTopic,
+  isUpdate,
+  current_word,
+}) {
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [vocabulary, setVocabulary] = useState({
-    engWord: "",
-    wordType: "",
-    meaning: "",
+    engWord: current_word.engWord,
+    wordType: current_word.wordType,
+    meaning: current_word.meaning,
   });
   const {
     register: word,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: error_add },
+    getValues,
   } = useForm();
-  async function handleAddVocabulary(data) {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `https://localhost:7112/api/Vocabulary/AddVocabulary?userId=${user.userId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            idTopic: idTopic,
-            engWord: data.engWord,
-            wordType: data.wordType,
-            meaning: data.meaning,
-          }),
-        }
-      );
-      setIsLoading(false);
-      toggleModal();
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      } else {
-        toast.success("Add Word successfully", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 10000,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(`${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-  }
-  async function handleUpdateVocabulary(data) {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `https://localhost:7112/api/Vocabulary/AddVocabulary?userId=${user.userId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            idTopic: idTopic,
-            engWord: data.engWord,
-            wordType: data.wordType,
-            meaning: data.meaning,
-          }),
-        }
-      );
-      setIsLoading(false);
-      toggleModal();
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      } else {
-        toast.success("Add Word successfully", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 10000,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(`${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-  }
-  const fetchWord = async () => {
-    try {
-      const response = await fetch(
-        `https://localhost:7112/api/Vocabulary/GetVocabularyById/${idVoc}`
-      );
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      }
-      const data = await response.json();
-      setVocabulary({
-        engWord: data.engWord,
-        wordType: data.wordType,
-        meaning: data.meaning,
-      });
-      setIsLoading(false);
-    } catch (error) {
-      toast.error(`${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-  };
+
   useEffect(() => {
-    if (modal_on && idVoc !== "" && idVoc !== undefined) {
-      fetchWord();
-      console.log(vocabulary);
+    setVocabulary({
+      engWord: current_word.engWord,
+      wordType: current_word.wordType,
+      meaning: current_word.meaning,
+    });
+  }, [current_word]);
+
+  async function handleAddVocabulary() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/Vocabulary/AddVocabulary?userId=${user.idUser}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idTopic: idTopic,
+            engWord: getValues("engWord"),
+            wordType: getValues("wordType"),
+            meaning: getValues("meaning"),
+          }),
+        }
+      );
+      setIsLoading(false);
+      toggleModal();
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.success("Add Word successfully", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
-  }, [modal_on]);
+  }
+  async function handleUpdateVocabulary() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/Vocabulary/UpdateVocabulary/${current_word.idVoc}&&${user.idUser}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            engWord: vocabulary.engWord,
+            wordType: vocabulary.wordType,
+            meaning: vocabulary.meaning,
+          }),
+        }
+      );
+      setIsLoading(false);
+      toggleModal();
+      if (!response.ok) {
+        toast.error("Update Word failed", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.success("Update Word successfully", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }
   if (isLoading) {
     return <Loader />;
   }
@@ -187,85 +161,109 @@ function AddVocabulary({ toggleModal, modal_on, idTopic, idVoc }) {
                   ></path>
                 </svg>
               </div>
-              <form onSubmit={handleSubmit(handleAddVocabulary)}>
-                <div className="add-vocabulary-title">
-                  {idVoc === "" ? (
-                    <h2>Thêm từ vựng mới</h2>
-                  ) : (
-                    <h2>Chỉnh sửa từ vựng</h2>
-                  )}
-                </div>
-                <div className="input-field">
-                  {idVoc === "" ? (
-                    <input
-                      type="text"
-                      placeholder="Nhập từ tiếng Anh"
-                      {...word("engWord", { required: true })}
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      value={vocabulary.engWord}
-                      {...word("engWord", { required: true })}
-                    />
-                  )}
-                </div>
-                <error>
-                  {errors.engWord?.type === "required" &&
-                    "Không được để trống từ"}
-                </error>
-                <div className="input-field">
-                  {idVoc === "" ? (
+              {!isUpdate ? (
+                <form onSubmit={handleSubmit(handleAddVocabulary)}>
+                  <div className="add-vocabulary-title">
+                    {isUpdate === "" ? (
+                      <h2>Thêm từ vựng mới</h2>
+                    ) : (
+                      <h2>Chỉnh sửa từ vựng</h2>
+                    )}
+                  </div>
+                  <div className="input-field">
+                    <input type="text" placeholder="Nhập từ tiếng Anh" />
+                  </div>
+                  <error>
+                    {error_add.engWord?.type === "required" &&
+                      "Không được để trống từ"}
+                  </error>
+                  <div className="input-field">
                     <input
                       type="text"
                       placeholder="Nhập từ loại"
                       {...word("wordType", { required: true })}
                     />
-                  ) : (
-                    <input
-                      type="text"
-                      value={vocabulary.wordType}
-                      {...word("wordType", { required: true })}
-                    />
-                  )}
-                </div>
-                <error>
-                  {errors.wordType?.type === "required" &&
-                    "Không được để trống từ loại"}
-                </error>
-                <div className="input-field">
-                  {idVoc === "" ? (
+                  </div>
+                  <error>
+                    {error_add.wordType?.type === "required" &&
+                      "Không được để trống từ loại"}
+                  </error>
+                  <div className="input-field">
                     <input
                       type="text"
                       placeholder="Nhập nghĩa của từ"
                       {...word("meaning", { required: true })}
                     />
+                  </div>
+                  <error>
+                    {error_add.meaning?.type === "required" &&
+                      "Không được để trống nghĩa"}
+                  </error>
+                  {isUpdate === "" ? (
+                    <input
+                      type="submit"
+                      className="vocabulary-submit"
+                      value="Thêm"
+                    ></input>
                   ) : (
                     <input
-                      type="text"
-                      value={vocabulary.meaning}
-                      {...word("meaning", { required: true })}
-                    />
+                      type="submit"
+                      className="vocabulary-submit"
+                      value="Sửa"
+                    ></input>
                   )}
-                </div>
-                <error>
-                  {errors.meaning?.type === "required" &&
-                    "Không được để trống nghĩa"}
-                </error>
-                {idVoc === "" ? (
-                  <input
-                    type="submit"
-                    className="vocabulary-submit"
-                    value="Thêm"
-                  ></input>
-                ) : (
-                  <input
-                    type="submit"
-                    className="vocabulary-submit"
-                    value="Sửa"
-                  ></input>
-                )}
-              </form>
+                </form>
+              ) : (
+                <form onSubmit={handleSubmit(handleUpdateVocabulary)}>
+                  <div className="add-vocabulary-title">
+                    {isUpdate === "" ? (
+                      <h2>Thêm từ vựng mới</h2>
+                    ) : (
+                      <h2>Chỉnh sửa từ vựng</h2>
+                    )}
+                  </div>
+                  <div className="input-field">
+                    <input
+                      type="text"
+                      value={vocabulary.engWord}
+                      onChange={(e) =>
+                        setVocabulary({ ...vocabulary, engWord: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="input-field">
+                    <input
+                      value={vocabulary.wordType}
+                      onChange={(e) =>
+                        setVocabulary({ ...vocabulary, wordType: e.target.value })
+                      }
+                      type="text"
+                    />
+                  </div>
+                  <div className="input-field">
+                    <input
+                      value={vocabulary.meaning}
+                      onChange={(e) =>
+                        setVocabulary({ ...vocabulary, meaning: e.target.value })
+                      }
+                      type="text"
+                    />
+                  </div>
+                  {isUpdate === "" ? (
+                    <input
+                      type="submit"
+                      className="vocabulary-submit"
+                      value="Thêm"
+                    ></input>
+                  ) : (
+                    <input
+                      type="submit"
+                      className="vocabulary-submit"
+                      value="Sửa"
+                    ></input>
+                  )}
+                </form>
+              )}
             </div>
           </div>
         </div>

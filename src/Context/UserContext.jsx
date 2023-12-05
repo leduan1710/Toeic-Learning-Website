@@ -4,7 +4,7 @@ import { useState, useEffect, createContext } from "react";
 import { toast } from "react-toastify";
 const UserContext = createContext({
   username: "",
-  userId: "",
+  idUser: "",
   auth: false,
   role: "",
 });
@@ -12,7 +12,7 @@ const UserContext = createContext({
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     username: "",
-    userId: "",
+    idUser: "",
     auth: false,
     role: "",
   });
@@ -24,13 +24,13 @@ const UserProvider = ({ children }) => {
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": username,
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
-          userId,
+        idUser,
       } = token_decode;
       setUser((user) => ({
         username: username,
         role: role,
         auth: true,
-        userId: userId,
+        idUser: idUser,
       }));
     }
   }, []);
@@ -43,13 +43,13 @@ const UserProvider = ({ children }) => {
       "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": username,
       "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
       "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
-        userId,
+      idUser,
     } = token_decode;
     setUser((user) => ({
       username: username,
       role: role,
       auth: true,
-      userId: userId,
+      idUser: idUser,
     }));
     localStorage.setItem("token", token);
   };

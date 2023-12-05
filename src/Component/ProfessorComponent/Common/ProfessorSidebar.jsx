@@ -50,7 +50,7 @@ function ProfessorSidebar({ openSidebarToggle, OpenSidebar }) {
         <li className="sidebar-list-item">
           <Link
             style={{ display: "flex", gap: 5, alignItems: "center" }}
-            to="professor/vocabulary-topic"
+            to="professor/vocabulary"
           >
             <img
               width="34"

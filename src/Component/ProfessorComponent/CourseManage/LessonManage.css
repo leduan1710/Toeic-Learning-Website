@@ -1,15 +1,14 @@
-.professor-vocabulary {
+.professor-lesson-list {
   width: 100%;
   height: auto;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
 }
-
-.professor-vocabulary .professor-add-button-wrapper{
+.professor-lesson-list .professor-add-button-wrapper {
   justify-content: space-between;
 }
-.professor-vocabulary .input-field {
+.professor-lesson-list .input-field {
   height: 50px;
   width: 100%;
   background: #f4f4f4;
@@ -20,13 +19,18 @@
   justify-content: space-evenly;
   padding: 10px;
 }
-.professor-vocabulary .update-voc-topic {
+.professor-lesson-list .update-lesson {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   margin: 1.5rem 3rem;
   justify-content: center;
+  align-items: center;
 }
-.professor-vocabulary input {
+.professor-lesson-list .description{
+    min-height: 10rem;
+}
+.professor-lesson-list input, textarea {
   background: none;
   border: none;
   outline: none;
@@ -37,8 +41,8 @@
   text-align: center;
   color: #000;
 }
-.professor-vocabulary .vocabulary-submit {
-  width: 100%;
+.professor-lesson-list .lesson-submit {
+  width: 50%;
   height: 50px;
   border: none;
   border-radius: 50px;
@@ -49,21 +53,11 @@
   cursor: pointer;
   margin-bottom: 10px;
 }
-.professor-vocabulary error {
-  font-size: 14px;
-  font-style: italic;
-  color: red;
-  text-align: center;
-}
-.professor-add-button-wrapper {
-  display: flex;
-  justify-content: flex-end;
-}
-.wordList-wrapper {
+.professor-lesson-list .lesson-list-wrapper {
   margin: 2rem 0;
 }
 
-.wordList-item {
+.professor-lesson-list .lesson-list-item {
   font-size: 18px;
   text-transform: capitalize;
   color: #535353;
@@ -71,20 +65,20 @@
   background-color: #fff;
   border-bottom: 1px solid #e8eaf1;
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr 1fr;
+  grid-template-columns: auto 180px;
 }
-.wordList-item:hover {
+.professor-lesson-list .lesson-list-item:hover {
   cursor: pointer;
   transform: translateZ(1px);
   box-shadow: 0 6px 6px #e8eaf1;
 }
-.professor-vocabulary .btn-wrapper {
+.professor-lesson-list .btn-wrapper {
   width: 100%;
   display: flex;
   gap: 1rem;
 }
-.professor-vocabulary .delete-btn,
-.professor-vocabulary .update-btn {
+.professor-lesson-list .delete-btn,
+.professor-lesson-list .update-btn {
   width: 100%;
   height: 30px;
   border: none;

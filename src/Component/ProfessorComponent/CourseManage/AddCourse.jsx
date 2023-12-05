@@ -25,7 +25,7 @@ function AddCourse({ toggleModal, modal_on }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idUser: user.userId,
+            idUser: user.idUser,
             name: data.name,
             description: data.description,
           }),

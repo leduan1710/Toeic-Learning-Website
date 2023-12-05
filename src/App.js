@@ -22,6 +22,7 @@ import ProfessorVocabularyTopic from "./Component/ProfessorComponent/VocabularyM
 import ProfessorVocabulary from "./Component/ProfessorComponent/VocabularyManage/ProfessorVocabulary";
 import ForgotPassword from "./Component/Login/ForgotPassword";
 import CourseManageIndex from "./Component/ProfessorComponent/CourseManage/CourseManageIndex";
+import LessonManage from "./Component/ProfessorComponent/CourseManage/LessonManage";
 
 function App() {
   return (
@@ -76,7 +77,7 @@ function App() {
               />
               <Route
                 exact
-                path="professor/vocabulary-topic"
+                path="professor/vocabulary"
                 element={<ProfessorVocabularyTopic />}
               />
               <Route
@@ -92,7 +93,7 @@ function App() {
               <Route
                 exact
                 path="professor/course/:id"
-                element={<CourseManageIndex />}
+                element={<LessonManage />}
               />
             </Route>
           </Routes>

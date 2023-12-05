@@ -107,6 +107,14 @@ body.active-modal {
   display: flex;
   align-items: center;
 }
+.professor-managment-sub-title {
+  padding: 10px 50px 10px 10px;
+  max-width: 350px;
+  background-color: #c5e2e7;
+  clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+  display: flex;
+  align-items: center;
+}
 .professor-board-header{
   display: flex;
   justify-content: space-between;
@@ -118,7 +126,7 @@ body.active-modal {
   border-radius: 20px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 }
 .professor-add-button:hover{
   cursor: pointer;

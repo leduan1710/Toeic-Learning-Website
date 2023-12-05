@@ -104,7 +104,7 @@ function CourseLessons() {
                   other_courses.map((other_course, index) => {
                     return (
                       <div key={index} className="course-item">
-                        <Link to={`/course-lessons/${other_course.id}`}>
+                        <Link to={`/course-lessons/${other_course.idCourse}`}>
                           {other_course.name}
                         </Link>
                       </div>

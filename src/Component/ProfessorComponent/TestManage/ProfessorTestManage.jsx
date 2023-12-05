@@ -27,7 +27,7 @@ function ProfessorTestManage() {
   async function fetchTests() {
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Test/GetAllTestByProfessor/${user.userId}`
+        `https://localhost:7112/api/Test/GetAllTestByProfessor/${user.idUser}`
       );
       if (!response.ok) {
         const errorData = await response.json();

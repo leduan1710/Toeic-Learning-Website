@@ -6,8 +6,7 @@ import AddCourse from "./AddCourse";
 import { useNavigate } from "react-router-dom";
 
 function CourseManageIndex() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -51,6 +50,7 @@ function CourseManageIndex() {
   }
 
   async function DeleteCourse(courseId) {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `https://localhost:7112/api/Course/DeleteCourse/${courseId}`,
@@ -61,6 +61,7 @@ function CourseManageIndex() {
           },
         }
       );
+      setIsLoading(false);
       if (!response.ok) {
         toast.error("Delete topic failed", {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -70,7 +71,6 @@ function CourseManageIndex() {
           draggable: true,
         });
       } else {
-        setIsLoading(false);
         fetchCourses();
         toast.success("Delete topic successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -145,7 +145,14 @@ function CourseManageIndex() {
                         >
                           Xóa
                         </button>
-                        <button className="update-btn"onClick={()=>navigate(`professor/course/${course.idCourse}`)}>Sửa</button>
+                        <button
+                          className="update-btn"
+                          onClick={() =>
+                            navigate(`/professor/course/${course.idCourse}`)
+                          }
+                        >
+                          Sửa
+                        </button>
                       </div>
                     </div>
                   );
