@@ -6,8 +6,7 @@ import AddCourse from "./AddCourse";
 import { useNavigate } from "react-router-dom";
 
 function CourseManageIndex() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -145,7 +144,14 @@ function CourseManageIndex() {
                         >
                           Xóa
                         </button>
-                        <button className="update-btn"onClick={()=>navigate(`/professor/course/${course.idCourse}`)}>Sửa</button>
+                        <button
+                          className="update-btn"
+                          onClick={() =>
+                            navigate(`/professor/course/${course.idCourse}`)
+                          }
+                        >
+                          Sửa
+                        </button>
                       </div>
                     </div>
                   );

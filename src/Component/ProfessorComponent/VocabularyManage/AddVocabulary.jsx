@@ -164,14 +164,14 @@ function AddVocabulary({
               {!isUpdate ? (
                 <form onSubmit={handleSubmit(handleAddVocabulary)}>
                   <div className="add-vocabulary-title">
-                    {isUpdate === "" ? (
-                      <h2>Thêm từ vựng mới</h2>
-                    ) : (
-                      <h2>Chỉnh sửa từ vựng</h2>
-                    )}
+                    <h2>Thêm từ vựng mới</h2>
                   </div>
                   <div className="input-field">
-                    <input type="text" placeholder="Nhập từ tiếng Anh" />
+                    <input
+                      type="text"
+                      placeholder="Nhập từ tiếng Anh"
+                      {...word("engWord", { required: true })}
+                    />
                   </div>
                   <error>
                     {error_add.engWord?.type === "required" &&
@@ -199,35 +199,26 @@ function AddVocabulary({
                     {error_add.meaning?.type === "required" &&
                       "Không được để trống nghĩa"}
                   </error>
-                  {isUpdate === "" ? (
-                    <input
-                      type="submit"
-                      className="vocabulary-submit"
-                      value="Thêm"
-                    ></input>
-                  ) : (
-                    <input
-                      type="submit"
-                      className="vocabulary-submit"
-                      value="Sửa"
-                    ></input>
-                  )}
+                  <input
+                    type="submit"
+                    className="vocabulary-submit"
+                    value="Thêm"
+                  ></input>
                 </form>
               ) : (
                 <form onSubmit={handleSubmit(handleUpdateVocabulary)}>
                   <div className="add-vocabulary-title">
-                    {isUpdate === "" ? (
-                      <h2>Thêm từ vựng mới</h2>
-                    ) : (
-                      <h2>Chỉnh sửa từ vựng</h2>
-                    )}
+                    <h2>Chỉnh sửa từ vựng</h2>
                   </div>
                   <div className="input-field">
                     <input
                       type="text"
                       value={vocabulary.engWord}
                       onChange={(e) =>
-                        setVocabulary({ ...vocabulary, engWord: e.target.value })
+                        setVocabulary({
+                          ...vocabulary,
+                          engWord: e.target.value,
+                        })
                       }
                     />
                   </div>
@@ -235,7 +226,10 @@ function AddVocabulary({
                     <input
                       value={vocabulary.wordType}
                       onChange={(e) =>
-                        setVocabulary({ ...vocabulary, wordType: e.target.value })
+                        setVocabulary({
+                          ...vocabulary,
+                          wordType: e.target.value,
+                        })
                       }
                       type="text"
                     />
@@ -244,24 +238,19 @@ function AddVocabulary({
                     <input
                       value={vocabulary.meaning}
                       onChange={(e) =>
-                        setVocabulary({ ...vocabulary, meaning: e.target.value })
+                        setVocabulary({
+                          ...vocabulary,
+                          meaning: e.target.value,
+                        })
                       }
                       type="text"
                     />
                   </div>
-                  {isUpdate === "" ? (
-                    <input
-                      type="submit"
-                      className="vocabulary-submit"
-                      value="Thêm"
-                    ></input>
-                  ) : (
-                    <input
-                      type="submit"
-                      className="vocabulary-submit"
-                      value="Sửa"
-                    ></input>
-                  )}
+                  <input
+                    type="submit"
+                    className="vocabulary-submit"
+                    value="Sửa"
+                  ></input>
                 </form>
               )}
             </div>

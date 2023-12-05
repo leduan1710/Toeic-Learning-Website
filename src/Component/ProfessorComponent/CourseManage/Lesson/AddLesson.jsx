@@ -2,13 +2,11 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import JoditEditor from "jodit-react";
 import "./AddLesson.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { UserContext } from "../../../Context/UserContext";
 import { toast } from "react-toastify";
-import Loader from "../../Common/Loader/Loader";
+import Loader from "../../../Common/Loader/Loader";
 import HTMLReactParser from "html-react-parser";
 
-function UpdateLesson() {
+function AddLesson() {
   const { id } = useParams();
   const navigate = useNavigate();
   const editor = useRef(null);
@@ -22,56 +20,22 @@ function UpdateLesson() {
 
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
-  const [idCourse, setIdCourse] = useState("");
 
-  const { user } = useContext(UserContext);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  async function fetchLessons() {
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `https://localhost:7112/api/Lesson/GetLessonById/${id}`
-      );
-      setIsLoading(false);
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
-          autoClose: 5000, // Tự động đóng sau 3 giây
-          closeOnClick: true, // Đóng khi click
-          pauseOnHover: true, // Tạm dừng khi di chuột qua
-          draggable: true, // Có thể kéo thông báo
-        });
-      }
-      const data = await response.json();
-      setTitle(data.title);
-      setContent(data.content);
-      setIdCourse(data.idCourse)
-    } catch (error) {
-      toast.error(`${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-  }
-
-  async function handleUpdateLesson(data) {
+  async function handleAddLesson(data) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Lesson/UpdateLesson/${id}`,
+        `https://localhost:7112/api/Lesson/AddLesson`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idCourse: idCourse,
+            idCourse: id,
             title: title,
             content: content,
           }),
@@ -79,7 +43,7 @@ function UpdateLesson() {
       );
       setIsLoading(false);
       if (!response.ok) {
-        toast.error("Update course failded", {
+        toast.error("Add lesson failded", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 5000,
           closeOnClick: true,
@@ -87,7 +51,7 @@ function UpdateLesson() {
           draggable: true,
         });
       } else {
-        toast.success("Update course successfully", {
+        toast.success("Add lesson successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 10000,
           closeOnClick: true,
@@ -106,13 +70,8 @@ function UpdateLesson() {
         draggable: true,
       });
     }
+    navigate(`/professor/course/${id}`);
   }
-
-  useEffect(() => {
-    if (id) {
-      fetchLessons();
-    }
-  }, []);
 
   if (isLoading) {
     return <Loader />;
@@ -121,12 +80,10 @@ function UpdateLesson() {
     <div className="add-lesson-wrapper">
       <div className="professor-board-header">
         <div className="professor-managment-title">
-          <h3 style={{ marginLeft: "1rem" }}>
-            CHỈNH SỬA BÀI HỌC
-          </h3>
+          <h3 style={{ marginLeft: "1rem" }}>THÊM BÀI HỌC MỚI</h3>
         </div>
         <img
-          onClick={() => navigate(`/professor/course/${idCourse}`)}
+          onClick={() => navigate(`/professor/course/${id}`)}
           width="50"
           height="50"
           src="https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png"
@@ -134,11 +91,11 @@ function UpdateLesson() {
         />
       </div>
       <div className="add-lesson-form-wrapper">
-        <form onSubmit={handleUpdateLesson}>
+        <form onSubmit={handleAddLesson}>
           <div>
             <h3>Tên bài học</h3>
             <input
-              defaultValue={title}
+              placeholder="Nhập tên bài học"
               onChange={(e) => setTitle(e.target.value)}
             ></input>
           </div>
@@ -152,12 +109,11 @@ function UpdateLesson() {
           ></JoditEditor>
           <h3>Kiểm tra lại</h3>
           <div>{HTMLReactParser(String(content))}</div>
-          <input type="submit" value="Sửa bài học" />
+          <input type="submit" value="Thêm bài học" />
         </form>
       </div>
-      <div className=""></div>
     </div>
   );
 }
 
-export default UpdateLesson;
+export default AddLesson;

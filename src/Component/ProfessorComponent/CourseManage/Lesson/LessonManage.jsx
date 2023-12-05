@@ -3,8 +3,8 @@ import "./LessonManage.css";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { UserContext } from "../../../Context/UserContext";
-import Loader from "../../Common/Loader/Loader";
+import { UserContext } from "../../../../Context/UserContext";
+import Loader from "../../../Common/Loader/Loader";
 
 function LessonManage() {
   const { id } = useParams();

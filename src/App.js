@@ -1,4 +1,6 @@
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Header from "./Component/Common/Header/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Component/Home/Home";
@@ -12,8 +14,6 @@ import Lesson from "./Component/Courses/Lessons/Lesson";
 import TestIndex from "./Component/Test/TestIndex";
 import TestList from "./Component/Test/TestList";
 import TestMain from "./Component/Test/TestMain/TestMain";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import UserLayout from "./Component/Common/Layout/UserLayout";
 import ProfessorLayout from "./Component/Common/Layout/ProfessorLayout";
 import ProfessorHome from "./Component/ProfessorComponent/Common/ProfessorHome";
@@ -22,9 +22,9 @@ import ProfessorVocabularyTopic from "./Component/ProfessorComponent/VocabularyM
 import ProfessorVocabulary from "./Component/ProfessorComponent/VocabularyManage/ProfessorVocabulary";
 import ForgotPassword from "./Component/Login/ForgotPassword";
 import CourseManageIndex from "./Component/ProfessorComponent/CourseManage/CourseManageIndex";
-import LessonManage from "./Component/ProfessorComponent/CourseManage/LessonManage";
-import AddLesson from "./Component/ProfessorComponent/CourseManage/AddLesson";
-import UpdateLesson from "./Component/ProfessorComponent/CourseManage/UpdateLesson";
+import LessonManage from "./Component/ProfessorComponent/CourseManage/Lesson/LessonManage";
+import AddLesson from "./Component/ProfessorComponent/CourseManage/Lesson/AddLesson";
+import UpdateLesson from "./Component/ProfessorComponent/CourseManage/Lesson/UpdateLesson";
 
 function App() {
   return (

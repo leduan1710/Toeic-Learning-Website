@@ -25,13 +25,13 @@ function ProfessorVocabulary() {
   };
   const AddToggle = () => {
     setIsUpdate(false);
-    setModal(!modal);
+    toggleModal()
   };
 
   const updateToggle = (word) => {
     setIsUpdate(true);
     setCurrentWord(word);
-    setModal(!modal);
+    toggleModal()
   };
   if (modal) {
     document.body.classList.add("active-modal");
