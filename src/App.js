@@ -24,6 +24,7 @@ import ForgotPassword from "./Component/Login/ForgotPassword";
 import CourseManageIndex from "./Component/ProfessorComponent/CourseManage/CourseManageIndex";
 import LessonManage from "./Component/ProfessorComponent/CourseManage/LessonManage";
 import AddLesson from "./Component/ProfessorComponent/CourseManage/AddLesson";
+import UpdateLesson from "./Component/ProfessorComponent/CourseManage/UpdateLesson";
 
 function App() {
   return (
@@ -54,11 +55,7 @@ function App() {
             />
             <Route exact path="/lesson/:id" element={<Lesson />} />
             <Route exact path="/test" element={<TestIndex />} />
-            <Route
-              exact
-              path="/test/type/:id"
-              element={<TestList/>}
-            />
+            <Route exact path="/test/type/:id" element={<TestList />} />
             <Route exact path="/test/:id" element={<TestMain />} />
           </Routes>
           <Footer />
@@ -94,11 +91,11 @@ function App() {
               <Route
                 exact
                 path="professor/course/lesson/:id"
-                element={<AddLesson />}
+                element={<UpdateLesson />}
               />
               <Route
                 exact
-                path="professor/course/lesson/add"
+                path="professor/course/lesson/add/:id"
                 element={<AddLesson />}
               />
             </Route>

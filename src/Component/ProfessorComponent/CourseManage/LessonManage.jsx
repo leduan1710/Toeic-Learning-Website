@@ -124,7 +124,52 @@ function LessonManage() {
       });
     }
   }
-  async function handleDeleteLesson() {}
+  const handleDeleteLesson = async (id) => {
+    console.log(id);
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/Lesson/DeleteLesson/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        }
+      );
+      setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(response);
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.success("Delete Topic Successfully", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        fetchLessons()
+      }
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
   useEffect(() => {
     fetchCurrentLesson();
     fetchLessons();
@@ -198,7 +243,7 @@ function LessonManage() {
           src="https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png"
           alt="reply-arrow"
         />
-        <div className="professor-add-button" onClick={() => navigate("/professor/course/lesson/add")}>
+        <div className="professor-add-button" onClick={() => navigate(`/professor/course/lesson/add/${id}`)}>
           <img
             width="34"
             height="34"
@@ -217,7 +262,7 @@ function LessonManage() {
                 <div className="btn-wrapper">
                   <button
                     className="delete-btn"
-                    onClick={() => handleDeleteLesson(lesson.idVoc)}
+                    onClick={() => handleDeleteLesson(lesson.idLesson)}
                   >
                     Xóa
                   </button>

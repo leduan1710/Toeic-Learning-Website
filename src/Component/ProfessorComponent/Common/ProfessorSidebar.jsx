@@ -44,7 +44,7 @@ function ProfessorSidebar({ openSidebarToggle, OpenSidebar }) {
               src="https://img.icons8.com/external-nawicon-glyph-nawicon/64/external-exam-online-learning-nawicon-glyph-nawicon.png"
               alt="external-exam-online-learning-nawicon-glyph-nawicon"
             />{" "}
-            Test Manage
+            Test
           </Link>
         </li>
         <li className="sidebar-list-item">
@@ -58,7 +58,7 @@ function ProfessorSidebar({ openSidebarToggle, OpenSidebar }) {
               src="https://img.icons8.com/ios-filled/50/dictionary.png"
               alt="dictionary"
             />{" "}
-            Vocabulary Manage
+            Vocabulary
           </Link>
         </li>
         <li className="sidebar-list-item">
@@ -72,7 +72,7 @@ function ProfessorSidebar({ openSidebarToggle, OpenSidebar }) {
               src="https://img.icons8.com/ios-filled/50/1A1A1A/knowledge-sharing.png"
               alt="knowledge-sharing"
             />{" "}
-            Course Manage
+            Course
           </Link>
         </li>
       </ul>

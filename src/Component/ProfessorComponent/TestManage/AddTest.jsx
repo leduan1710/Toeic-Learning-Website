@@ -48,11 +48,11 @@ function AddTest({ toggleModal, modal_on }) {
     fetchTestType();
   }, []);
   async function handleAddTest(data) {
-    console.log(data.idType, data.name, data.description, user.idUser)
+    console.log(data.idType, data.name, data.description, user.userId)
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Test/AddTest?userId=${user.idUser}`,
+        `https://localhost:7112/api/Test/AddTest?userId=${user.userId}`,
         {
           method: "POST",
           headers: {
