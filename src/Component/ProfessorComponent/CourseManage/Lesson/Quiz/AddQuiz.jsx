@@ -96,7 +96,7 @@ function AddQuiz({ toggleModal, modal_on, idLesson }) {
                 <div className="input-field">
                   <input
                     type="text"
-                    placeholder="Nhập tên Khóa học"
+                    placeholder="Nhập tên Quiz"
                     {...new_quiz("title", { required: true })}
                   />
                 </div>

@@ -93,7 +93,7 @@ a:-webkit-any-link {
   display: none;
   position: absolute;
   background-color: #fff;
-  z-index: 3;
+  z-index: 5;
   box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5);
   color: #000;
 }

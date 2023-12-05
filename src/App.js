@@ -25,6 +25,8 @@ import CourseManageIndex from "./Component/ProfessorComponent/CourseManage/Cours
 import LessonManage from "./Component/ProfessorComponent/CourseManage/Lesson/LessonManage";
 import AddLesson from "./Component/ProfessorComponent/CourseManage/Lesson/AddLesson";
 import UpdateLesson from "./Component/ProfessorComponent/CourseManage/Lesson/UpdateLesson";
+import UpdateQuiz from "./Component/ProfessorComponent/CourseManage/Lesson/Quiz/UpdateQuiz";
+import UpdateTest from "./Component/ProfessorComponent/TestManage/UpdateTest";
 
 function App() {
   return (
@@ -70,6 +72,11 @@ function App() {
               />
               <Route
                 exact
+                path="professor/test/:id"
+                element={<UpdateTest />}
+              />
+              <Route
+                exact
                 path="professor/vocabulary"
                 element={<ProfessorVocabularyTopic />}
               />
@@ -97,6 +104,11 @@ function App() {
                 exact
                 path="professor/course/lesson/add/:id"
                 element={<AddLesson />}
+              />
+              <Route
+                exact
+                path="professor/course/lesson/quiz/:id"
+                element={<UpdateQuiz />}
               />
             </Route>
           </Routes>

@@ -144,7 +144,7 @@ function ProfessorTestManage() {
                       <button
                         className="update-btn"
                         onClick={() => {
-                          navigate(`/`);
+                          navigate(`/professor/test/${test.idTest}`);
                         }}
                       >
                         Sửa
