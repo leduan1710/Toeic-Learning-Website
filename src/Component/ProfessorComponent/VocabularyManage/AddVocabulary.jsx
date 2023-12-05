@@ -85,50 +85,56 @@ function AddVocabulary({
     }
   }
   async function handleUpdateVocabulary() {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `https://localhost:7112/api/Vocabulary/UpdateVocabulary/${current_word.idVoc}&&${user.idUser}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            engWord: vocabulary.engWord,
-            wordType: vocabulary.wordType,
-            meaning: vocabulary.meaning,
-          }),
+    if (
+      vocabulary.engWord !== "" &&
+      vocabulary.wordType !== "" &&
+      vocabulary.meaning !== ""
+    ) {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `https://localhost:7112/api/Vocabulary/UpdateVocabulary/${current_word.idVoc}&&${user.idUser}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              engWord: vocabulary.engWord,
+              wordType: vocabulary.wordType,
+              meaning: vocabulary.meaning,
+            }),
+          }
+        );
+        setIsLoading(false);
+        toggleModal();
+        if (!response.ok) {
+          toast.error("Update Word failed", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 5000,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        } else {
+          toast.success("Update Word successfully", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 10000,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
         }
-      );
-      setIsLoading(false);
-      toggleModal();
-      if (!response.ok) {
-        toast.error("Update Word failed", {
+      } catch (error) {
+        toast.error(`${error}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 5000,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      } else {
-        toast.success("Update Word successfully", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 10000,
+          autoClose: 3000,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
         });
       }
-    } catch (error) {
-      toast.error(`${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     }
   }
   if (isLoading) {
@@ -222,6 +228,11 @@ function AddVocabulary({
                       }
                     />
                   </div>
+                  {vocabulary.engWord === "" ? (
+                    <error>Không được để trống từ</error>
+                  ) : (
+                    <></>
+                  )}
                   <div className="input-field">
                     <input
                       value={vocabulary.wordType}
@@ -234,6 +245,11 @@ function AddVocabulary({
                       type="text"
                     />
                   </div>
+                  {vocabulary.wordType === "" ? (
+                    <error>Không được để từ loại</error>
+                  ) : (
+                    <></>
+                  )}
                   <div className="input-field">
                     <input
                       value={vocabulary.meaning}
@@ -246,6 +262,11 @@ function AddVocabulary({
                       type="text"
                     />
                   </div>
+                  {vocabulary.meaning === "" ? (
+                    <error>Không được để trống nghĩa</error>
+                  ) : (
+                    <></>
+                  )}
                   <input
                     type="submit"
                     className="vocabulary-submit"

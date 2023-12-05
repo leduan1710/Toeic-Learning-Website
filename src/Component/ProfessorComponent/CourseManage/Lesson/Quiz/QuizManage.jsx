@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./QuizManage.css";
 import Loader from "../../../../Common/Loader/Loader";
 import { toast } from "react-toastify";
+import AddQuiz from "./AddQuiz";
 
 function QuizManage({ idLesson }) {
-  console.log(idLesson);
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [quizes, setQuizes] = useState([]);
@@ -19,7 +19,7 @@ function QuizManage({ idLesson }) {
     document.body.classList.remove("active-modal");
   }
 
-  async function fetchLessons() {
+  async function fetchQuizes() {
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -38,6 +38,7 @@ function QuizManage({ idLesson }) {
         });
       } else {
         const data = await response.json();
+        console.log(data)
         setQuizes(data);
       }
     } catch (error) {
@@ -50,11 +51,55 @@ function QuizManage({ idLesson }) {
       });
     }
   }
+
+  const handleDeleteQuiz = async (id) => {
+    console.log(id);
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/Quiz/DeleteQuiz/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        }
+      );
+      setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(response);
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.success("Delete Topic Successfully", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        fetchQuizes();
+      }
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
   useEffect(() => {
-    fetchLessons();
-  }, [idLesson]);
-  useEffect(() => {
-    fetchLessons();
+    fetchQuizes();
   }, []);
 
   if (isLoading) {
@@ -62,6 +107,8 @@ function QuizManage({ idLesson }) {
   }
 
   return (
+   <>
+   <AddQuiz toggleModal={toggleModal} modal_on={modal} idLesson={idLesson}/>
     <div className="professor-quiz-wrapper">
       <div className="professor-board-header">
         <div className="professor-managment-title">
@@ -74,13 +121,29 @@ function QuizManage({ idLesson }) {
             src="https://img.icons8.com/doodle/48/add.png"
             alt="add"
           />
-          <h3>THÊM KHÓA HỌC MỚI</h3>
+          <h3>THÊM QUIZ MỚI</h3>
         </div>
       </div>
       <div className="professor-quiz-list">
-        <div className="professor-quiz-item"></div>
+        {quizes.map((quiz, index) => {
+          return (
+            <div key={index} className="professor-quiz-item">
+              <div>{quiz.title}</div>
+              <div className="btn-wrapper">
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDeleteQuiz(quiz.idQuiz)}
+                >
+                  Xóa
+                </button>
+                <button className="update-btn">Sửa</button>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
+   </>
   );
 }
 

@@ -1,40 +1,37 @@
-import React, { useContext, useState } from "react";
+import React from "react";
+import "./AddQuiz.css"
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import Loader from "../../../../Common/Loader/Loader";
 import { toast } from "react-toastify";
-import { UserContext } from "../../../Context/UserContext";
-import Loader from "../../Common/Loader/Loader";
-import "./AddCourse.css";
 
-function AddCourse({ toggleModal, modal_on }) {
-  const { user } = useContext(UserContext);
+function AddQuiz({ toggleModal, modal_on, idLesson }) {
   const [isloading, setIsLoading] = useState(false);
   const {
-    register: new_course,
+    register: new_quiz,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  async function handleAddCourse(data) {
+  async function handleAddQuiz(data) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Course/AddCourse`,
+        `https://localhost:7112/api/Quiz/AddQuiz`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idUser: user.idUser,
-            name: data.name,
-            description: data.description,
+            idLesson: idLesson,
+            title: data.title,
           }),
         }
       );
       setIsLoading(false);
       toggleModal();
       if (!response.ok) {
-        toast.error("Add course failded", {
+        toast.error("Add quiz failded", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 5000,
           closeOnClick: true,
@@ -42,7 +39,7 @@ function AddCourse({ toggleModal, modal_on }) {
           draggable: true,
         });
       } else {
-        toast.success("Add course successfully", {
+        toast.success("Add quiz successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 10000,
           closeOnClick: true,
@@ -66,12 +63,12 @@ function AddCourse({ toggleModal, modal_on }) {
     return <Loader />;
   }
   return (
-    <div className="professor-add-course">
+    <div className="professor-add-quiz">
       {modal_on && (
-        <div className="add-course-modal">
+        <div className="add-quiz-modal">
           <div onClick={toggleModal} className="overlay"></div>
-          <div className="add-course-panel">
-            <div className="add-course-content">
+          <div className="add-quiz-panel">
+            <div className="add-quiz-content">
               <div className="vocabulary-topic-close-btn">
                 <svg
                   onClick={toggleModal}
@@ -92,28 +89,22 @@ function AddCourse({ toggleModal, modal_on }) {
                   ></path>
                 </svg>
               </div>
-              <form onSubmit={handleSubmit(handleAddCourse)}>
-                <div className="add-course-title">
-                  <h2>Thêm Khóa học mới</h2>
+              <form onSubmit={handleSubmit(handleAddQuiz)}>
+                <div className="add-quiz-title">
+                  <h2>Thêm Quiz mới</h2>
                 </div>
                 <div className="input-field">
                   <input
                     type="text"
                     placeholder="Nhập tên Khóa học"
-                    {...new_course("name", { required: true })}
+                    {...new_quiz("title", { required: true })}
                   />
                 </div>
                 <error>
                   {errors.name?.type === "required" &&
                     "Không được để trống tên"}
                 </error>
-                <div className="input-field" style={{ height: "7rem" }}>
-                  <textarea
-                    type="text"
-                    placeholder="Nhập mô tả"
-                    {...new_course("description", { required: true })}
-                  />
-                </div>
+
                 <input
                   type="submit"
                   className="vocabulary-submit"
@@ -128,4 +119,4 @@ function AddCourse({ toggleModal, modal_on }) {
   );
 }
 
-export default AddCourse;
+export default AddQuiz;
