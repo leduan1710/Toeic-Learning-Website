@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../Common/Loader/Loader";
 import "./UpdateTest.css";
+import { UserContext } from "../../../Context/UserContext";
 
 function UpdateTest() {
+  
+  const { user } = useContext(UserContext);
   const [current_test, setCurrentTest] = useState({});
   const [testType, setTestType] = useState([]);
   const { id } = useParams();
@@ -51,13 +54,14 @@ function UpdateTest() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Test/UpdaTetest/${id}`,
+        `https://localhost:7112/api/Test/UpdaTetest/${id}&&${user.idUser}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            idType: register.idType,
             idLesson: current_test.idLesson,
             name: register.name,
           }),

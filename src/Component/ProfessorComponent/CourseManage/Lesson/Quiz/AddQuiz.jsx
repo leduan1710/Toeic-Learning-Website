@@ -11,6 +11,7 @@ function AddQuiz({ toggleModal, modal_on, idLesson }) {
     register: new_quiz,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
   async function handleAddQuiz(data) {
     setIsLoading(true);
@@ -46,6 +47,7 @@ function AddQuiz({ toggleModal, modal_on, idLesson }) {
           pauseOnHover: true,
           draggable: true,
         });
+        reset()
       }
     } catch (error) {
       console.log(error);

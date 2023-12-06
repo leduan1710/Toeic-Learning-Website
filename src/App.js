@@ -29,7 +29,7 @@ import UpdateQuiz from "./Component/ProfessorComponent/CourseManage/Lesson/Quiz/
 import UpdateTest from "./Component/ProfessorComponent/TestManage/UpdateTest";
 import AdminLayout from "./Component/Common/Layout/AdminLayout";
 import AdminHome from "./Component/AdminComponent/Common/AdminHome";
-import UserManage from "./Component/AdminComponent/Common/UserManage/UserManage";
+import UserManage from "./Component/AdminComponent/UserManage/UserManage";
 
 function App() {
   return (

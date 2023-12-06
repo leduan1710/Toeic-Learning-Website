@@ -24,6 +24,7 @@ function AddVocabulary({
     handleSubmit,
     formState: { errors: error_add },
     getValues,
+    reset,
   } = useForm();
 
   useEffect(() => {
@@ -33,7 +34,9 @@ function AddVocabulary({
       meaning: current_word.meaning,
     });
   }, [current_word]);
-
+  useEffect(() => {
+    reset();
+  }, [modal_on]);
   async function handleAddVocabulary() {
     setIsLoading(true);
     try {
@@ -72,6 +75,7 @@ function AddVocabulary({
           draggable: true,
         });
       }
+      reset();
     } catch (error) {
       console.log(error);
       toast.error(`${error}`, {

@@ -13,8 +13,11 @@ function AddTest({ toggleModal, modal_on }) {
     register: testData,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
-
+  useEffect(() => {
+    reset();
+  }, [modal_on]);
   async function fetchTestType() {
     try {
       const response = await fetch(
@@ -83,6 +86,7 @@ function AddTest({ toggleModal, modal_on }) {
           pauseOnHover: true,
           draggable: true,
         });
+        reset()
       }
     } catch (error) {
       console.log(error);
@@ -96,6 +100,7 @@ function AddTest({ toggleModal, modal_on }) {
       });
     }
   }
+
   if (isloading) {
     return <Loader />;
   }
@@ -134,6 +139,7 @@ function AddTest({ toggleModal, modal_on }) {
                   <input
                     type="text"
                     placeholder="Nhập tên bài thi thử"
+                    defaultValue={""}
                     {...testData("name", { required: true })}
                   />
                 </div>

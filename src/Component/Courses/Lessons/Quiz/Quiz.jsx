@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import QuizResult from "./QuizResult";
 import "./Quiz.css";
 import Loader from "../../../Common/Loader/Loader";
+
 function Quiz({ quizData, quizTitle }) {
+  console.log(quizData);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [clickedOption, setClickedOption] = useState(0);
@@ -35,7 +37,7 @@ function Quiz({ quizData, quizTitle }) {
         score: score,
       };
       localStorage.setItem(
-        `quizResult${quizData[0].quizid}`,
+        `quizResult${quizData[0].idQuiz}`,
         JSON.stringify(result)
       );
     }
@@ -73,15 +75,15 @@ function Quiz({ quizData, quizTitle }) {
     setClickedOption(0);
     setScore(0);
     setclickedList(Array.from({ length: quizData.length }, () => 0));
-    localStorage.removeItem(`quizResult${quizData[0].quizid}`);
+    localStorage.removeItem(`quizResult${quizData[0].idQuiz}`);
   };
 
   if (quizData.length <= 0) {
     return <Loader />;
   }
-  if (localStorage.getItem(`quizResult${quizData[0].quizid}`)) {
-    const quizResult = JSON.parse(  
-      localStorage.getItem(`quizResult${quizData[0].quizid}`)
+  if (localStorage.getItem(`quizResult${quizData[0].idQuiz}`)) {
+    const quizResult = JSON.parse(
+      localStorage.getItem(`quizResult${quizData[0].idQuiz}`)
     );
 
     return (
@@ -111,45 +113,86 @@ function Quiz({ quizData, quizTitle }) {
               </span>
             </div>
             <div className="option-container">
-              {quizData[currentQuestion].choices.map((option, i) => {
-                if (clickedList[currentQuestion] != 0) {
-                  return (
-                    <button
-                      className={`option-btn ${
-                        clickedList[currentQuestion] === i + 1 &&
-                        quizData[currentQuestion].answer != i + 1
-                          ? "wrong-option"
-                          : null
-                      } ${
-                        quizData[currentQuestion].answer == i + 1
-                          ? "correct-option"
-                          : null
-                      }`}
-                    >
-                      {option}
-                    </button>
-                  );
-                }
-                return (
-                  <button
-                    className={`option-btn ${
-                      clickedOption === i + 1 &&
-                      quizData[currentQuestion].answer != i + 1
-                        ? "wrong-option"
-                        : null
-                    } ${
-                      quizData[currentQuestion].answer == i + 1 &&
-                      clickedOption != 0
-                        ? "correct-option"
-                        : null
-                    }`}
-                    key={i}
-                    onClick={() => setClickedOption(i + 1)}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
+              <button
+                className={`option-btn ${
+                  clickedList[currentQuestion] === 1 &&
+                  quizData[currentQuestion].answer != 1
+                    ? "wrong-option"
+                    : null
+                } ${
+                  clickedList[currentQuestion] === 1 &&
+                  quizData[currentQuestion].answer == 1
+                    ? "correct-option"
+                    : null
+                }`}
+                onClick={() => {
+                  if (!clickedList[currentQuestion]) {
+                    setClickedOption(1);
+                  }
+                }}
+              >
+                {quizData[currentQuestion].choice_1}
+              </button>
+              <button
+                className={`option-btn ${
+                  clickedList[currentQuestion] === 2 &&
+                  quizData[currentQuestion].answer != 2
+                    ? "wrong-option"
+                    : null
+                } ${
+                  clickedList[currentQuestion] === 2 &&
+                  quizData[currentQuestion].answer == 2
+                    ? "correct-option"
+                    : null
+                }`}
+                onClick={() => {
+                  if (!clickedList[currentQuestion]) {
+                    setClickedOption(2);
+                  }
+                }}
+              >
+                {quizData[currentQuestion].choice_2}
+              </button>
+              <button
+                className={`option-btn ${
+                  clickedList[currentQuestion] === 3 &&
+                  quizData[currentQuestion].answer != 3
+                    ? "wrong-option"
+                    : null
+                } ${
+                  clickedList[currentQuestion] === 3 &&
+                  quizData[currentQuestion].answer == 3
+                    ? "correct-option"
+                    : null
+                }`}
+                onClick={() => {
+                  if (!clickedList[currentQuestion]) {
+                    setClickedOption(3);
+                  }
+                }}
+              >
+                {quizData[currentQuestion].choice_3}
+              </button>
+              <button
+                className={`option-btn ${
+                  clickedList[currentQuestion] === 4 &&
+                  quizData[currentQuestion].answer != 4
+                    ? "wrong-option"
+                    : null
+                } ${
+                  clickedList[currentQuestion] === 4 &&
+                  quizData[currentQuestion].answer == 4
+                    ? "correct-option"
+                    : null
+                }`}
+                onClick={() => {
+                  if (!clickedList[currentQuestion]) {
+                    setClickedOption(4);
+                  }
+                }}
+              >
+                {quizData[currentQuestion].choice_4}
+              </button>
             </div>
             <div
               className={`question-explaination ${

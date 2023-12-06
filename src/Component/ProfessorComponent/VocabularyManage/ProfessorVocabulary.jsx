@@ -17,7 +17,7 @@ function ProfessorVocabulary() {
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [showButton, setShowButton] = useState(false);
-  const [curent_word, setCurrentWord] = useState("");
+  const [curent_word, setCurrentWord] = useState({});
   const [isUpdate, setIsUpdate] = useState(false);
 
   const toggleModal = () => {

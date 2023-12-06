@@ -41,6 +41,7 @@
 }
 .login form {
   min-width: 350px;
+  max-width: 350px;
   padding: 0 10px;
 }
 .login error {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./AddVocabularyTopic.css";
 import { useForm } from "react-hook-form";
 import {UserContext} from "../../../Context/UserContext"
@@ -13,6 +13,7 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
     register: vocabulary_topic,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
   
   async function handleAddVocabularyTopic(data) {
@@ -50,6 +51,7 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
           draggable: true,
         });
       }
+      reset()
     } catch (error) {
       console.log(error)
       toast.error(`${error}`, {
@@ -62,6 +64,9 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
       });
     }
   }
+  useEffect(() => {
+    reset();
+  }, [modal_on]);
   if(isloading){
     return <Loader/>
   }

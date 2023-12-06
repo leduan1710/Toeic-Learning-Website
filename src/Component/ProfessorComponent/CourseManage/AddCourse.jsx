@@ -12,6 +12,7 @@ function AddCourse({ toggleModal, modal_on }) {
     register: new_course,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
 
   async function handleAddCourse(data) {
@@ -49,6 +50,7 @@ function AddCourse({ toggleModal, modal_on }) {
           pauseOnHover: true,
           draggable: true,
         });
+        reset()
       }
     } catch (error) {
       console.log(error);

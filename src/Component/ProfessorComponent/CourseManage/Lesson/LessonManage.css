@@ -30,7 +30,7 @@
 .professor-lesson-list .description{
     min-height: 10rem;
 }
-.professor-lesson-list input, textarea {
+.professor-lesson-list input, .professor-lesson-list textarea {
   background: none;
   border: none;
   outline: none;

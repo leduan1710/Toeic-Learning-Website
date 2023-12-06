@@ -8,14 +8,16 @@ import { toast } from "react-toastify";
 
 function CourseHome({ subtitle, title }) {
   const [courses, setCourses] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchCourses() {
       try {
+        setIsLoading(true);
         const response = await fetch(
           "https://localhost:7112/api/Course/GetAllCourses"
         );
+        setIsLoading(false);
         if (!response.ok) {
           const errorData = await response.json();
           toast.error(`${errorData.message}`, {
@@ -28,7 +30,6 @@ function CourseHome({ subtitle, title }) {
         }
         const data = await response.json();
         setCourses(data);
-        setIsLoading(false);
       } catch (error) {
         toast.error(`${error}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -51,7 +52,7 @@ function CourseHome({ subtitle, title }) {
           <Heading subtitle={subtitle} title={title} />
           <div className="card-wrapper-container">
             <div className="card-wrapper">
-              {courses && courses.length > 0 ? (
+              {courses &&
                 courses.map((course, index) => {
                   return (
                     <div key={index} className="card">
@@ -69,10 +70,7 @@ function CourseHome({ subtitle, title }) {
                       </Link>
                     </div>
                   );
-                })
-              ) : (
-                <Loader />
-              )}
+                })}
             </div>
           </div>
         </div>

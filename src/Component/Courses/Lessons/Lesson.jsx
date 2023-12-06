@@ -19,7 +19,7 @@ function Lesson() {
   const [other_lessons, setOtherLesson] = useState([]);
   const [current_lesson, setCurrentLesson] = useState({});
   const [quizes, setQuizes] = useState([]);
-  const [current_quizID, setCurrentQuizID] = useState(1);
+  const [current_quizID, setCurrentQuizID] = useState("3fa85f64-5717-4562-b3fc-2c963f66afa6");
   const [quizData, setQuizData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -115,12 +115,12 @@ function Lesson() {
       });
     }
   }
-  
-  const fetchQuiz = async () => {
+
+  async function fetchQuestionByQuiz() {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response = await fetch(
-        `http://localhost:3000/questions-by-quiz/${current_quizID}`
+        `https://localhost:7112/api/Question/GetAllQuestionByQuiz/${current_quizID}`
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -134,8 +134,7 @@ function Lesson() {
         });
       }
       const data = await response.json();
-      const { questions: questionList } = data;
-      setQuizData(questionList);
+      setQuizData(data);
     } catch (error) {
       toast.error(`${error}`, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -145,7 +144,7 @@ function Lesson() {
         draggable: true,
       });
     }
-  };
+  }
 
   useEffect(() => {
     fetchLessons();
@@ -157,7 +156,7 @@ function Lesson() {
   }, [current_lesson]);
 
   useEffect(() => {
-    fetchQuiz();
+    fetchQuestionByQuiz();
   }, [current_quizID]);
 
   if (!user.auth) {
@@ -202,21 +201,7 @@ function Lesson() {
                     type="button"
                     value={quiz.title}
                     onClick={() => {
-                      setCurrentQuizID(quiz.id);
-                    }}
-                  />
-                );
-              })}
-            {quizes &&
-              quizes.map((quiz, index) => {
-                return (
-                  <input
-                    className="lesson-quiz-item"
-                    key={index}
-                    type="button"
-                    value={quiz.title}
-                    onClick={() => {
-                      setCurrentQuizID(quiz.id);
+                      setCurrentQuizID(quiz.idQuiz);
                     }}
                   />
                 );

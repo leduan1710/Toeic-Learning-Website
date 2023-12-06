@@ -109,7 +109,7 @@ function AddLesson() {
           ></JoditEditor>
           <h3>Kiểm tra lại</h3>
           <div>{HTMLReactParser(String(content))}</div>
-          <input type="submit" value="Thêm bài học" />
+          <input type="submit" value="Thêm bài học" className="professor-add-lesson-btn"/>
         </form>
       </div>
     </div>
