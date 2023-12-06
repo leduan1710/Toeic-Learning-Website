@@ -104,6 +104,7 @@ function AddVocabulary({
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
+              idTopic: idTopic,
               engWord: vocabulary.engWord,
               wordType: vocabulary.wordType,
               meaning: vocabulary.meaning,

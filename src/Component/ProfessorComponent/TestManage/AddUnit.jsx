@@ -6,20 +6,19 @@ import { toast } from "react-toastify";
 import Loader from "../.././Common/Loader/Loader";
 import HTMLReactParser from "html-react-parser";
 
-function AddUnit() {
+function AddUnit({ isUpdate, current_unit, idQuestionUnit }) {
   const { id } = useParams();
   const editor = useRef(null);
   const config = useMemo(
     () => ({
       toolbarButtonSize: "small",
-      readonly: false,  
+      readonly: false,
     }),
     []
   );
 
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
-
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -78,24 +77,40 @@ function AddUnit() {
     <div className="add-lesson-wrapper">
       <div className="add-lesson-form-wrapper">
         <form onSubmit={handleAddUnit}>
-          <div>
-            <h3>Tên bài học</h3>
-            <input
-              placeholder="Nhập tên bài học"
-              onChange={(e) => setTitle(e.target.value)}
-            ></input>
+          <div className="upload-audio">
+            <h3>Upload Audio</h3>
           </div>
-
-          <h3>Nội dung bài học</h3>
+          <div className="upload-image">
+            <h3>Upload Image</h3>
+          </div>
+          <h3>Nội dung đoạn văn</h3>
           <JoditEditor
             ref={editor}
             value={content}
             onChange={(newContent) => setContent(newContent)}
             config={config}
           ></JoditEditor>
-          <h3>Kiểm tra lại</h3>
+          <h3>Kiểm tra lại nội dung</h3>
           <div>{HTMLReactParser(String(content))}</div>
-          <input type="submit" value="Thêm bài học" className="professor-add-lesson-btn"/>
+          <div>
+            <h3>Transcript</h3>
+            <input
+              placeholder="Nhập tên bài học"
+              onChange={(e) => setTitle(e.target.value)}
+            ></input>
+          </div>
+          <div>
+            <h3>Bản dịch</h3>
+            <input
+              placeholder="Nhập tên bài học"
+              onChange={(e) => setTitle(e.target.value)}
+            ></input>
+          </div>
+          <input
+            type="submit"
+            value="Thêm bài học"
+            className="professor-add-lesson-btn"
+          />
         </form>
       </div>
     </div>

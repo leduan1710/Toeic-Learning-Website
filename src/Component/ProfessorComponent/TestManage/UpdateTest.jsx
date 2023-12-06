@@ -13,12 +13,15 @@ function UpdateTest() {
 
   const [current_test, setCurrentTest] = useState({});
   const [testType, setTestType] = useState([]);
+  const [testUnits, setTestUnits] = useState([]);
   const { id } = useParams();
   const [showButton, setShowButton] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [current_part, setCurrentPart] = useState(1);
+  const [showForm, setShowForm] = useState(false);
 
-  const [parts, setParts] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [current_part, setCurrentPart] = useState("");
+
+  const [parts, setParts] = useState("");
 
   const {
     register: test,
@@ -152,6 +155,7 @@ function UpdateTest() {
         return a.partName.localeCompare(b.partName);
       });
       setParts(data);
+      setCurrentPart(data[0].partId);
     } catch (error) {
       toast.error(`${error}`, {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -162,11 +166,48 @@ function UpdateTest() {
       });
     }
   }
+  async function fetchTestUnitByPartTest() {
+    setIsLoading(true);
+    try {
+      console.log(current_part);
+      const response = await fetch(
+        `https://localhost:7112/api/TestQuestionUnit/GetAllTestQuestionUnitByPart/${current_part}&&${id}`
+      );
+      setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+          autoClose: 5000, // Tự động đóng sau 3 giây
+          closeOnClick: true, // Đóng khi click
+          pauseOnHover: true, // Tạm dừng khi di chuột qua
+          draggable: true, // Có thể kéo thông báo
+        });
+      }
+      const data = await response.json();
+      setTestUnits(data);
+      console.log(data);
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }
+
   useEffect(() => {
     fetchTest();
     fetchTestType();
     fetchParts();
   }, []);
+  useEffect(() => {
+    if (current_part !== "") {
+      fetchTestUnitByPartTest();
+    }
+  }, [current_part]);
 
   if (isLoading) {
     return <Loader />;
@@ -213,7 +254,7 @@ function UpdateTest() {
           <input type="submit" className="test-submit" value="Cập nhật"></input>
         )}
       </form>
-      <div className="test-unit-list-wrapper">
+      <div className="test-add-unit-wrapper">
         <div className="tab-header">
           {parts &&
             parts.map((part) => {
@@ -230,18 +271,58 @@ function UpdateTest() {
               );
             })}
         </div>
-        <div style={{display:"flex", justifyContent:"flex-end"}}>
-          <div className="professor-add-button">
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          {!showForm ? (
+            <div
+              className="professor-add-button"
+              onClick={() => setShowForm(true)}
+            >
+              <img
+                width="34"
+                height="34"
+                src="https://img.icons8.com/doodle/48/add.png"
+                alt="add"
+              />
+              <h3>THÊM UNIT MỚI</h3>
+            </div>
+          ) : (
             <img
-              width="34"
-              height="34"
-              src="https://img.icons8.com/doodle/48/add.png"
-              alt="add"
+              onClick={() => setShowForm(false)}
+              width="40"
+              height="40"
+              src="https://img.icons8.com/windows/32/circled-chevron-down.png"
+              alt="circled-chevron-down"
             />
-            <h3>THÊM ĐỀ THI MỚI</h3>
-          </div>
+          )}
         </div>
-        <AddUnit />
+        {showForm && <AddUnit />}
+      </div>
+      <div className="professor-test-unit-wrapper">
+        {testUnits &&
+          testUnits.map((testUnit, index) => {
+            return (
+              <div key={index} className="test-unit-item-wrapper">
+                <div className="test-unit-item">
+                  <audio src={testUnit.audio} controls></audio>
+                  <img src={testUnit.image} alt="" />
+                  <div>{testUnit.paragraph}</div>
+
+                  {testUnit.script && (
+                    <>
+                    <h4>Transcript</h4>
+                      <div>{testUnit.script}</div>
+                    </>
+                  )}
+                  {testUnit.translation && (
+                    <>
+                    <h4>Bản dịch</h4>
+                      <div>{testUnit.translation}</div>
+                    </>
+                  )}
+                </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

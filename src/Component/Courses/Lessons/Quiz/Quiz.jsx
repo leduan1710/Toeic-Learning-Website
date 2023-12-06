@@ -4,7 +4,6 @@ import "./Quiz.css";
 import Loader from "../../../Common/Loader/Loader";
 
 function Quiz({ quizData, quizTitle }) {
-  console.log(quizData);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [clickedOption, setClickedOption] = useState(0);
@@ -27,6 +26,8 @@ function Quiz({ quizData, quizTitle }) {
           currentQuestion === index ? clickedOption : clickedItem
         )
       );
+      console.log(clickedList)
+      console.log(clickedOption)
     }
   }, [clickedOption]);
 
@@ -120,7 +121,7 @@ function Quiz({ quizData, quizTitle }) {
                     ? "wrong-option"
                     : null
                 } ${
-                  clickedList[currentQuestion] === 1 &&
+                  clickedOption !=0 &&
                   quizData[currentQuestion].answer == 1
                     ? "correct-option"
                     : null
@@ -140,8 +141,8 @@ function Quiz({ quizData, quizTitle }) {
                     ? "wrong-option"
                     : null
                 } ${
-                  clickedList[currentQuestion] === 2 &&
-                  quizData[currentQuestion].answer == 2
+                  (clickedOption !=0 &&
+                  quizData[currentQuestion].answer == 2)
                     ? "correct-option"
                     : null
                 }`}
@@ -160,7 +161,7 @@ function Quiz({ quizData, quizTitle }) {
                     ? "wrong-option"
                     : null
                 } ${
-                  clickedList[currentQuestion] === 3 &&
+                  clickedOption !=0 &&
                   quizData[currentQuestion].answer == 3
                     ? "correct-option"
                     : null
@@ -180,7 +181,7 @@ function Quiz({ quizData, quizTitle }) {
                     ? "wrong-option"
                     : null
                 } ${
-                  clickedList[currentQuestion] === 4 &&
+                  clickedOption !=0 &&
                   quizData[currentQuestion].answer == 4
                     ? "correct-option"
                     : null
@@ -204,12 +205,12 @@ function Quiz({ quizData, quizTitle }) {
               {quizData[currentQuestion].explaination}
             </div>
             <div className="quiz-button">
-              <input
+              {/* <input
                 type="button"
                 value="Previous"
                 className="previous-button"
                 onClick={previousQuestion}
-              />
+              /> */}
               <input
                 type="button"
                 value={currentQuestion == quizData.length - 1 ? "Done" : "Next"}

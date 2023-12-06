@@ -27,7 +27,6 @@
 .list-lesson-item .list-lesson-name {
   font-size: 18px;
   font-weight: 700;
-  text-transform: capitalize;
   color: #535353;;
 }
 .list-lesson-item:hover {

@@ -68,3 +68,24 @@
   font-size: 18px;
   font-weight: 600;
 }
+.professor-update-test .professor-test-unit-wrapper{
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.professor-update-test .test-unit-item-wrapper{
+  background-color: #fff;
+  border-radius: 2rem;
+}
+.professor-update-test .test-unit-item{
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.professor-update-test .test-unit-item img{
+  max-width: 300px;
+  max-height: 300px;
+  object-fit: contain;
+}
