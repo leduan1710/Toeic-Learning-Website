@@ -38,6 +38,7 @@ function AddVocabulary({
     reset();
   }, [modal_on]);
   async function handleAddVocabulary() {
+    const token = localStorage.getItem("token")
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -46,6 +47,7 @@ function AddVocabulary({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idTopic: idTopic,
@@ -89,6 +91,7 @@ function AddVocabulary({
     }
   }
   async function handleUpdateVocabulary() {
+    const token = localStorage.getItem("token")
     if (
       vocabulary.engWord !== "" &&
       vocabulary.wordType !== "" &&
@@ -102,6 +105,7 @@ function AddVocabulary({
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               idTopic: idTopic,

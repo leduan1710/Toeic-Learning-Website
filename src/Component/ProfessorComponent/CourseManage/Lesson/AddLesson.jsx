@@ -21,10 +21,10 @@ function AddLesson() {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
 
-
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleAddLesson(data) {
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -33,6 +33,7 @@ function AddLesson() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idCourse: id,
@@ -109,7 +110,11 @@ function AddLesson() {
           ></JoditEditor>
           <h3>Kiểm tra lại</h3>
           <div>{HTMLReactParser(String(content))}</div>
-          <input type="submit" value="Thêm bài học" className="professor-add-lesson-btn"/>
+          <input
+            type="submit"
+            value="Thêm bài học"
+            className="professor-add-lesson-btn"
+          />
         </form>
       </div>
     </div>

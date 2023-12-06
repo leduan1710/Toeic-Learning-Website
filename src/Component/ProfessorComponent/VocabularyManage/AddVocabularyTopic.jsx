@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./AddVocabularyTopic.css";
 import { useForm } from "react-hook-form";
-import {UserContext} from "../../../Context/UserContext"
+import { UserContext } from "../../../Context/UserContext";
 import { toast } from "react-toastify";
 import Loader from "../../Common/Loader/Loader";
 
 function AddVocabularyTopic({ toggleModal, modal_on }) {
-  
   const { user } = useContext(UserContext);
   const [isloading, setIsLoading] = useState(false);
   const {
     register: vocabulary_topic,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
-  
+
   async function handleAddVocabularyTopic(data) {
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -25,14 +25,16 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            name: data.name
+            name: data.name,
           }),
         }
       );
       setIsLoading(false);
-      toggleModal()
+      toggleModal();
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(`${errorData.message}`, {
@@ -51,9 +53,9 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
           draggable: true,
         });
       }
-      reset()
+      reset();
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(`${error}`, {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 3000,
@@ -67,10 +69,10 @@ function AddVocabularyTopic({ toggleModal, modal_on }) {
   useEffect(() => {
     reset();
   }, [modal_on]);
-  if(isloading){
-    return <Loader/>
+  if (isloading) {
+    return <Loader />;
   }
-  return (  
+  return (
     <div className="professor-vocabulary-topic">
       {modal_on && (
         <div className="vocabulary-topic-modal">

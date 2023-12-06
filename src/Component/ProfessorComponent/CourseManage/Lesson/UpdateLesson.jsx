@@ -59,6 +59,7 @@ function UpdateLesson() {
   }
 
   async function handleUpdateLesson(data) {
+    const token = localStorage.getItem("token")
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -67,6 +68,7 @@ function UpdateLesson() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify({
             idCourse: idCourse,

@@ -19,19 +19,21 @@ function AddUser() {
   async function handleAddUser(data) {
     setIsLoading(true);
     try {
+      const token = localStorage.getItem("token")
       const response = await fetch(
-        `https://localhost:7112/api/Admin/Register-Professor?role=${data?.role}`,
+        `https://localhost:7112/api/Admin/Register-Professor-Admin?role=${data?.role}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify(data),
         }
       );
       setIsLoading(false);
       if (response.ok)
-        toast.success("Add lesson successfully", {
+        toast.success("Add user successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 10000,
           closeOnClick: true,

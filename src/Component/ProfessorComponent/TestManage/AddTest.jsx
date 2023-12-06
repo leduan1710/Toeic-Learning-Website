@@ -51,6 +51,7 @@ function AddTest({ toggleModal, modal_on }) {
     fetchTestType();
   }, []);
   async function handleAddTest(data) {
+    const token = localStorage.getItem("token")
     console.log(data.idType, data.name, data.description, user.idUser)
     setIsLoading(true);
     try {
@@ -60,6 +61,7 @@ function AddTest({ toggleModal, modal_on }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idType: data.idType,

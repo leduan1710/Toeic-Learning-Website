@@ -13,6 +13,8 @@ function UserManage() {
   const [users, setUsers] = useState([]);
 
   async function resetPassword(email) {
+    const token = localStorage.getItem("token")
+    console.log(email)
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -21,6 +23,7 @@ function UserManage() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify({}),
         }
@@ -55,10 +58,17 @@ function UserManage() {
   }
 
   async function fetchUsers() {
+    const token = localStorage.getItem("token")
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://localhost:7112/api/Admin/GetAllUsers`
+        `https://localhost:7112/api/Admin/GetAllUsers`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+        }
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -85,6 +95,7 @@ function UserManage() {
   }
 
   async function deleteUserById(id) {
+    const token = localStorage.getItem("token")
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -93,6 +104,7 @@ function UserManage() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify({}),
         }
@@ -170,18 +182,18 @@ function UserManage() {
             return (
               <div key={index} className='wordList-item'>
                 <div className='user-fullname'>{item?.fullname}</div>
-                <div className='user-username'>{item?.username}</div>
+                <div className='user-username'>{item?.userName}</div>
                 <div className='user-email'>{item?.email}</div>
                 <div className='btn-wrapper'>
                   <button
                     className='delete-btn'
-                    onClick={() => deleteUserById(1)}
+                    onClick={() => deleteUserById(item.id)}
                   >
                     Xóa
                   </button>
                   <button
                     className='update-btn'
-                    onClick={() => resetPassword(user?.email)}
+                    onClick={() => resetPassword(item?.email)}
                   >
                     Reset password
                   </button>

@@ -43,6 +43,7 @@ function UpdateQuiz() {
     formState: { errors },
   } = useForm();
   const handleUpdateQuiz = async (register) => {
+    const token = localStorage.getItem("token")
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -51,6 +52,7 @@ function UpdateQuiz() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idLesson: current_quiz.idLesson,

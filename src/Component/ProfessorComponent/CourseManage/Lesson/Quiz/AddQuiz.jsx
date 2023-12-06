@@ -6,6 +6,7 @@ import Loader from "../../../../Common/Loader/Loader";
 import { toast } from "react-toastify";
 
 function AddQuiz({ toggleModal, modal_on, idLesson }) {
+  const token = localStorage.getItem("token")
   const [isloading, setIsLoading] = useState(false);
   const {
     register: new_quiz,
@@ -22,6 +23,7 @@ function AddQuiz({ toggleModal, modal_on, idLesson }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idLesson: idLesson,

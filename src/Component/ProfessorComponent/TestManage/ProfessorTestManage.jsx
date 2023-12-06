@@ -62,6 +62,7 @@ function ProfessorTestManage() {
   }, [modal]);
 
   async function DeleteTest(testId) {
+    const token = localStorage.getItem("token")
     try {
       const response = await fetch(
         `https://localhost:7112/api/Test/DeleteTest/${testId}`,
@@ -69,6 +70,7 @@ function ProfessorTestManage() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

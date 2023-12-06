@@ -117,6 +117,7 @@ function ProfessorVocabulary() {
   }, [modal]);
 
   const handleUpdateVocabularyTopic = async (register) => {
+    const token = localStorage.getItem("token")
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -125,6 +126,7 @@ function ProfessorVocabulary() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             name: register.name,
@@ -161,6 +163,7 @@ function ProfessorVocabulary() {
     }
   };
   const handleDeleteVocabulary = async (id) => {
+    const token = localStorage.getItem("token")
     console.log(id);
     setIsLoading(true);
     try {
@@ -170,6 +173,7 @@ function ProfessorVocabulary() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({}),
         }

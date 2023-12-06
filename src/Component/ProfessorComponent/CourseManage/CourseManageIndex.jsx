@@ -50,6 +50,7 @@ function CourseManageIndex() {
   }
 
   async function DeleteCourse(courseId) {
+    const token = localStorage.getItem("token")
     try {
       const response = await fetch(
         `https://localhost:7112/api/Course/DeleteCourse/${courseId}`,
@@ -57,6 +58,7 @@ function CourseManageIndex() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
         }
       );

@@ -50,6 +50,7 @@ function ProfessorVocabularyTopic() {
     }
   }
   async function DeleteVocabularyTopic(voc_topic_id) {
+    const token = localStorage.getItem("token")
     try {
       const response = await fetch(
         `https://localhost:7112/api/VocTopic/DeleteVocTopic/${voc_topic_id}`,
@@ -57,6 +58,7 @@ function ProfessorVocabularyTopic() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

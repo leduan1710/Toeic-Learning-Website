@@ -55,7 +55,7 @@ function QuizManage({ idLesson }) {
   }
 
   const handleDeleteQuiz = async (id) => {
-    console.log(id);
+    const token = localStorage.getItem("token")
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -64,6 +64,7 @@ function QuizManage({ idLesson }) {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({}),
         }

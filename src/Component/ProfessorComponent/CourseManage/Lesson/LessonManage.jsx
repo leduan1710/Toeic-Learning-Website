@@ -51,6 +51,7 @@ function LessonManage() {
     }
   }
   async function UpdateCurrentLesson(course) {
+    const token = localStorage.getItem("token");
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -59,6 +60,7 @@ function LessonManage() {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idUser: user.idUser,
@@ -125,6 +127,7 @@ function LessonManage() {
     }
   }
   const handleDeleteLesson = async (id) => {
+    const token = localStorage.getItem("token");
     console.log(id);
     setIsLoading(true);
     try {
@@ -134,6 +137,7 @@ function LessonManage() {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({}),
         }
@@ -157,7 +161,7 @@ function LessonManage() {
           pauseOnHover: true,
           draggable: true,
         });
-        fetchLessons()
+        fetchLessons();
       }
     } catch (error) {
       toast.error(`${error}`, {
@@ -182,7 +186,7 @@ function LessonManage() {
   return (
     <div className="professor-lesson-list">
       <div className="professor-managment-sub-title">
-        <h3 style={{paddingLeft: "10px"}}>QUẢN LÝ CÁC BÀI HỌC</h3>
+        <h3 style={{ paddingLeft: "10px" }}>QUẢN LÝ CÁC BÀI HỌC</h3>
       </div>
 
       <form
@@ -243,7 +247,10 @@ function LessonManage() {
           src="https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png"
           alt="reply-arrow"
         />
-        <div className="professor-add-button" onClick={() => navigate(`/professor/course/lesson/add/${id}`)}>
+        <div
+          className="professor-add-button"
+          onClick={() => navigate(`/professor/course/lesson/add/${id}`)}
+        >
           <img
             width="34"
             height="34"
@@ -266,7 +273,12 @@ function LessonManage() {
                   >
                     Xóa
                   </button>
-                  <button className="update-btn" onClick={() => navigate(`/professor/course/lesson/${lesson.idLesson}`)}>
+                  <button
+                    className="update-btn"
+                    onClick={() =>
+                      navigate(`/professor/course/lesson/${lesson.idLesson}`)
+                    }
+                  >
                     Sửa
                   </button>
                 </div>
