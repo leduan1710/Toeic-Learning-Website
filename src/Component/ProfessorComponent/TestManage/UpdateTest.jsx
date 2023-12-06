@@ -1,19 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../Common/Loader/Loader";
 import "./UpdateTest.css";
 import { UserContext } from "../../../Context/UserContext";
+import AddUnit from "./AddUnit";
 
 function UpdateTest() {
-  
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const [current_test, setCurrentTest] = useState({});
   const [testType, setTestType] = useState([]);
   const { id } = useParams();
   const [showButton, setShowButton] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [current_part, setCurrentPart] = useState(1);
+
+  const [parts, setParts] = useState();
 
   const {
     register: test,
@@ -125,10 +130,42 @@ function UpdateTest() {
       });
     }
   }
-
+  async function fetchParts() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/TestPart/GetAllTestParts`
+      );
+      setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+          autoClose: 5000, // Tự động đóng sau 3 giây
+          closeOnClick: true, // Đóng khi click
+          pauseOnHover: true, // Tạm dừng khi di chuột qua
+          draggable: true, // Có thể kéo thông báo
+        });
+      }
+      const data = await response.json();
+      data.sort(function (a, b) {
+        return a.partName.localeCompare(b.partName);
+      });
+      setParts(data);
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }
   useEffect(() => {
     fetchTest();
     fetchTestType();
+    fetchParts();
   }, []);
 
   if (isLoading) {
@@ -143,6 +180,7 @@ function UpdateTest() {
           </h3>
         </div>
         <img
+          onClick={() => navigate("/professor/test")}
           width="50"
           height="50"
           src="https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png"
@@ -175,7 +213,36 @@ function UpdateTest() {
           <input type="submit" className="test-submit" value="Cập nhật"></input>
         )}
       </form>
-      <div className="test-question-list-wrapper"></div>
+      <div className="test-unit-list-wrapper">
+        <div className="tab-header">
+          {parts &&
+            parts.map((part) => {
+              return (
+                <div
+                  key={part.id}
+                  className={`tab-item ${
+                    current_part === part.partId ? "tab-index-active" : null
+                  }`}
+                  onClick={() => setCurrentPart(part.partId)}
+                >
+                  {part.partName}
+                </div>
+              );
+            })}
+        </div>
+        <div style={{display:"flex", justifyContent:"flex-end"}}>
+          <div className="professor-add-button">
+            <img
+              width="34"
+              height="34"
+              src="https://img.icons8.com/doodle/48/add.png"
+              alt="add"
+            />
+            <h3>THÊM ĐỀ THI MỚI</h3>
+          </div>
+        </div>
+        <AddUnit />
+      </div>
     </div>
   );
 }
