@@ -1,33 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../Common/Loader/Loader";
 import "./UpdateTest.css";
 import { UserContext } from "../../../Context/UserContext";
 import AddUnit from "./AddUnit";
+import HTMLReactParser from "html-react-parser";
 
 function UpdateTest() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const [current_test, setCurrentTest] = useState({});
+  const [test, setTest] = useState({
+    name: "",
+    idType: "",
+  });
   const [testType, setTestType] = useState([]);
   const [testUnits, setTestUnits] = useState([]);
-  const { id } = useParams();
   const [showButton, setShowButton] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [current_part, setCurrentPart] = useState("");
 
-  const [parts, setParts] = useState("");
-
-  const {
-    register: test,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [parts, setParts] = useState([]);
 
   async function fetchTestType() {
     try {
@@ -58,7 +55,100 @@ function UpdateTest() {
       });
     }
   }
-  const handleUpdate = async (register) => {
+
+  async function fetchTest() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/Test/GetTestById/${id}`
+      );
+      setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+          autoClose: 5000, // Tự động đóng sau 3 giây
+          closeOnClick: true, // Đóng khi click
+          pauseOnHover: true, // Tạm dừng khi di chuột qua
+          draggable: true, // Có thể kéo thông báo
+        });
+      }
+      const data = await response.json();
+      setTest({
+        name: data.name,
+        idType: data.idType,
+      });
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }
+  async function fetchParts() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/TestPart/GetAllTestParts`
+      );
+      setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+          autoClose: 5000, // Tự động đóng sau 3 giây
+          closeOnClick: true, // Đóng khi click
+          pauseOnHover: true, // Tạm dừng khi di chuột qua
+          draggable: true, // Có thể kéo thông báo
+        });
+      }
+      const data = await response.json();
+      setParts(data);
+      console.log(data[0].partId);
+      setCurrentPart(data[0].partId);
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }
+  async function fetchTestUnitByPartTest() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://localhost:7112/api/TestQuestionUnit/GetAllTestQuestionUnitByPart/${current_part}&&${id}`
+      );
+      setIsLoading(false);
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error(`${errorData.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
+          autoClose: 5000, // Tự động đóng sau 3 giây
+          closeOnClick: true, // Đóng khi click
+          pauseOnHover: true, // Tạm dừng khi di chuột qua
+          draggable: true, // Có thể kéo thông báo
+        });
+      }
+      const data = await response.json();
+      setTestUnits(data);
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  }
+  const handleUpdate = async () => {
     const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
@@ -71,9 +161,8 @@ function UpdateTest() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            idType: register.idType,
-            idLesson: current_test.idLesson,
-            name: register.name,
+            idType: test.idType,
+            name: test.name,
           }),
         }
       );
@@ -106,99 +195,51 @@ function UpdateTest() {
       });
     }
   };
-  async function fetchTest() {
+  const handleDeleteUnit = async (id) => {
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7712/api/Test/GetTestById/${id}`
+        `https://localhost:7112/api/TestQuestionUnit/DeleteTestQuestionUnit/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({}),
+        }
       );
       setIsLoading(false);
       if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
-          autoClose: 5000, // Tự động đóng sau 3 giây
-          closeOnClick: true, // Đóng khi click
-          pauseOnHover: true, // Tạm dừng khi di chuột qua
-          draggable: true, // Có thể kéo thông báo
+        toast.error("Delete Test Unit Failed", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 5000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
         });
+      } else {
+        toast.success("Delete Test Unit Successfully", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 10000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        fetchTestUnitByPartTest();
       }
-      const data = await response.json();
-      setCurrentTest(data);
     } catch (error) {
       toast.error(`${error}`, {
         position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
+        autoClose: 3000,
+        hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
       });
     }
-  }
-  async function fetchParts() {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `https://localhost:7712/api/TestPart/GetAllTestParts`
-      );
-      setIsLoading(false);
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
-          autoClose: 5000, // Tự động đóng sau 3 giây
-          closeOnClick: true, // Đóng khi click
-          pauseOnHover: true, // Tạm dừng khi di chuột qua
-          draggable: true, // Có thể kéo thông báo
-        });
-      }
-      const data = await response.json();
-      data.sort(function (a, b) {
-        return a.partName.localeCompare(b.partName);
-      });
-      setParts(data);
-      setCurrentPart(data[0].partId);
-    } catch (error) {
-      toast.error(`${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-  }
-  async function fetchTestUnitByPartTest() {
-    setIsLoading(true);
-    try {
-      console.log(current_part);
-      const response = await fetch(
-        `https://localhost:7712/api/TestQuestionUnit/GetAllTestQuestionUnitByPart/${current_part}&&${id}`
-      );
-      setIsLoading(false);
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`, {
-          position: toast.POSITION.BOTTOM_RIGHT, // Vị trí hiển thị
-          autoClose: 5000, // Tự động đóng sau 3 giây
-          closeOnClick: true, // Đóng khi click
-          pauseOnHover: true, // Tạm dừng khi di chuột qua
-          draggable: true, // Có thể kéo thông báo
-        });
-      }
-      const data = await response.json();
-      setTestUnits(data);
-      console.log(data);
-    } catch (error) {
-      toast.error(`${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-  }
+  };
 
   useEffect(() => {
     fetchTest();
@@ -230,22 +271,34 @@ function UpdateTest() {
           alt="reply-arrow"
         />
       </div>
-      <form className="update-test" onSubmit={handleSubmit(handleUpdate)}>
+      <form className="update-test" onSubmit={handleUpdate}>
         <div style={{ width: "100%", textAlign: "center" }}>
           <div className="input-field">
             <input
               type="text"
-              defaultValue={current_test.name}
+              value={test.name}
               onFocus={() => setShowButton(true)}
-              {...test("name", { required: true })}
+              onChange={(e) =>
+                setTest({
+                  ...test,
+                  name: e.target.value,
+                })
+              }
             />
           </div>
-          <error>
-            {errors.name?.type === "required" && "Không được để trống tên"}
-          </error>
+          {test.name === "" ? <error>Không được để trống tên</error> : <></>}
         </div>
         {showButton && (
-          <select className="test-type" {...test("idType", { required: true })}>
+          <select
+            className="test-type"
+            value={test.idType}
+            onChange={(e) =>
+              setTest({
+                ...test,
+                idType: e.target.value,
+              })
+            }
+          >
             {testType &&
               testType.map((type) => {
                 return <option value={type.idTestType}>{type.typeName}</option>;
@@ -277,7 +330,9 @@ function UpdateTest() {
           {!showForm ? (
             <div
               className="professor-add-button"
-              onClick={() => setShowForm(true)}
+              onClick={() => {
+                setShowForm(true);
+              }}
             >
               <img
                 width="34"
@@ -297,7 +352,7 @@ function UpdateTest() {
             />
           )}
         </div>
-        {showForm && <AddUnit />}
+        {showForm && <AddUnit idTestPart={current_part} />}
       </div>
       <div className="professor-test-unit-wrapper">
         {testUnits &&
@@ -305,9 +360,31 @@ function UpdateTest() {
             return (
               <div key={index} className="test-unit-item-wrapper">
                 <div className="test-unit-item">
-                  <audio src={testUnit.audio} controls></audio>
-                  <img src={testUnit.image} alt="" />
-                  <div>{testUnit.paragraph}</div>
+                  <div className="btn-wrapper">
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDeleteUnit(testUnit.idQuestionUnit)}
+                    >
+                      Xóa
+                    </button>
+                    <button
+                      className="update-btn"
+                      onClick={() =>
+                        navigate(
+                          `/professor/test/unit/${testUnit.idQuestionUnit}`
+                        )
+                      }
+                    >
+                      Sửa
+                    </button>
+                  </div>
+                  {testUnit.image && <img src={testUnit.image} alt="" />}
+                  {testUnit.audio && (
+                    <audio src={testUnit.audio} controls></audio>
+                  )}
+                  {testUnits.paragraph && (
+                    <div>{HTMLReactParser(String(testUnit.paragraph))}</div>
+                  )}
 
                   {testUnit.script && (
                     <>

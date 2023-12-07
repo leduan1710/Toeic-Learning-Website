@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./AddQuestion.css";
+import "../CourseManage/Lesson/Quiz/AddQuestion.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import Loader from "../../../../Common/Loader/Loader";
-import { UserContext } from "../../../../../Context/UserContext";
+import Loader from "../.././Common/Loader/Loader";
+import { UserContext } from "../../../Context/UserContext";
 
 function AddQuestion({
   toggleModal,
   modal_on,
-  idQuiz,
+  idUnit,
   isUpdate,
   initial_question,
 }) {
+  console.log(initial_question)
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [current_question, setQuestion] = useState({
@@ -31,6 +32,7 @@ function AddQuestion({
     getValues,
     reset,
   } = useForm();
+
   useEffect(() => {
     reset();
   }, [modal_on]);
@@ -39,7 +41,7 @@ function AddQuestion({
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7712/api/Question/AddQuestion/${user.idUser}`,
+        `https://localhost:7112/api/Question/AddQuestion/${user.idUser}`,
         {
           method: "POST",
           headers: {
@@ -47,7 +49,7 @@ function AddQuestion({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            idQuiz: idQuiz,
+            idUnit: idUnit,
             content: getValues("content"),
             answer: getValues("answer"),
             explaination: getValues("explaination"),
@@ -70,7 +72,7 @@ function AddQuestion({
           draggable: true,
         });
       } else {
-        toast.success("Add Question successfully", {
+        toast.success("Add Quesion successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 10000,
           closeOnClick: true,
@@ -95,7 +97,7 @@ function AddQuestion({
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7712/api/Question/UpdateCourse/${current_question.idQuestion}&&${user.idUser}`,
+        `https://localhost:7112/api/Question/UpdateCourse/${current_question.idQuestion}&&${user.idUser}`,
         {
           method: "PUT",
           headers: {
@@ -103,7 +105,7 @@ function AddQuestion({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            idQuiz: idQuiz,
+            idUnit: idUnit,
             content: current_question.content,
             answer: current_question.answer,
             explaination: current_question.explaination,
@@ -190,7 +192,7 @@ function AddQuestion({
                     <textarea
                       style={{ height: "2rem" }}
                       type="text"
-                      placeholder="Nhập từ tiếng Anh"
+                      placeholder="Nhập từ Tesi Unit"
                       {...question("content", { required: true })}
                     />
                   </div>

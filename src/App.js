@@ -32,6 +32,7 @@ import AdminHome from "./Component/AdminComponent/Common/AdminHome";
 import UserManage from "./Component/AdminComponent/UserManage/UserManage";
 import AddUser from "./Component/AdminComponent/UserManage/AddUser";
 import UserProfile from "./Component/Profile/UserProfile";
+import UpdateUnit from "./Component/ProfessorComponent/TestManage/UpdateUnit";
 
 function App() {
   return (
@@ -77,6 +78,12 @@ function App() {
                 element={<ProfessorTestManage />}
               />
               <Route exact path="professor/test/:id" element={<UpdateTest />} />
+              <Route
+                exact
+                path="professor/test/unit/:id"
+                element={<UpdateUnit />}
+              />
+
               <Route
                 exact
                 path="professor/vocabulary"
