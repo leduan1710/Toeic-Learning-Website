@@ -25,13 +25,13 @@ function ProfessorVocabulary() {
   };
   const AddToggle = () => {
     setIsUpdate(false);
-    toggleModal()
+    toggleModal();
   };
 
   const updateToggle = (word) => {
     setIsUpdate(true);
     setCurrentWord(word);
-    toggleModal()
+    toggleModal();
   };
   if (modal) {
     document.body.classList.add("active-modal");
@@ -50,7 +50,7 @@ function ProfessorVocabulary() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Vocabulary/GetVocabularyByTopic/${id}`
+        `https://localhost:7712/api/Vocabulary/GetVocabularyByTopic/${id}`
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -79,7 +79,7 @@ function ProfessorVocabulary() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/VocTopic/GetVocTopicById/${id}`
+        `https://localhost:7712/api/VocTopic/GetVocTopicById/${id}`
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -117,11 +117,11 @@ function ProfessorVocabulary() {
   }, [modal]);
 
   const handleUpdateVocabularyTopic = async (register) => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/VocTopic/UpdateVocTopic/${id}&&${user.idUser}`,
+        `https://localhost:7712/api/VocTopic/UpdateVocTopic/${id}&&${user.idUser}`,
         {
           method: "PUT",
           headers: {
@@ -163,12 +163,12 @@ function ProfessorVocabulary() {
     }
   };
   const handleDeleteVocabulary = async (id) => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     console.log(id);
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Vocabulary/DeleteVocabulary/${id}`,
+        `https://localhost:7712/api/Vocabulary/DeleteVocabulary/${id}`,
         {
           method: "DELETE",
           headers: {

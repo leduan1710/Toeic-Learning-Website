@@ -31,6 +31,8 @@ import AdminLayout from "./Component/Common/Layout/AdminLayout";
 import AdminHome from "./Component/AdminComponent/Common/AdminHome";
 import UserManage from "./Component/AdminComponent/UserManage/UserManage";
 import AddUser from "./Component/AdminComponent/UserManage/AddUser";
+import UserProfile from "./Component/Profile/UserProfile";
+import UpdateUnit from "./Component/ProfessorComponent/TestManage/UpdateUnit";
 import VipPackage from "./Component/Payment/VipPackage";
 import VipPackageDetail from "./Component/Payment/VipPackageDetail";
 import VipPackageCheckout from "./Component/Payment/VipPackageCheckout";
@@ -40,29 +42,30 @@ import UpdateVipPackage from "./Component/AdminComponent/VipPackageManage/Update
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <BrowserRouter>
         <ToastContainer />
         <UserLayout>
           <Header />
           <Routes>
-            <Route exact path='/' element={<Home />} />
-            <Route exact path='/login' element={<Login />} />
-            <Route exact path='/forgot-password' element={<ForgotPassword />} />
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/forgot-password" element={<ForgotPassword />} />
+            <Route exact path="/user/profile" element={<UserProfile />} />
             <Route
               exact
-              path='/practice-vocabulary'
+              path="/practice-vocabulary"
               element={<VocabularyTopic />}
             />
             <Route
               exact
-              path='/vocabulary-by-topic/:id'
+              path="/vocabulary-by-topic/:id"
               element={<VocabularyByTopic />}
             />
-            <Route exact path='/courses' element={<Courses />} />
+            <Route exact path="/courses" element={<Courses />} />
             <Route
               exact
-              path='/course-lessons/:id'
+              path="/course-lessons/:id"
               element={<CourseLessons />}
             />
             <Route exact path='/lesson/:id' element={<Lesson />} />
@@ -78,46 +81,52 @@ function App() {
         </UserLayout>
         <ProfessorLayout>
           <Routes>
-            <Route exact path='/' element={<ProfessorHome />}>
+            <Route exact path="/" element={<ProfessorHome />}>
               <Route
                 exact
-                path='professor/test'
+                path="professor/test"
                 element={<ProfessorTestManage />}
               />
-              <Route exact path='professor/test/:id' element={<UpdateTest />} />
+              <Route exact path="professor/test/:id" element={<UpdateTest />} />
               <Route
                 exact
-                path='professor/vocabulary'
+                path="professor/test/unit/:id"
+                element={<UpdateUnit />}
+              />
+
+              <Route
+                exact
+                path="professor/vocabulary"
                 element={<ProfessorVocabularyTopic />}
               />
               <Route
                 exact
-                path='professor/vocabulary/:id'
+                path="professor/vocabulary/:id"
                 element={<ProfessorVocabulary />}
               />
               <Route
                 exact
-                path='professor/course'
+                path="professor/course"
                 element={<CourseManageIndex />}
               />
               <Route
                 exact
-                path='professor/course/:id'
+                path="professor/course/:id"
                 element={<LessonManage />}
               />
               <Route
                 exact
-                path='professor/course/lesson/:id'
+                path="professor/course/lesson/:id"
                 element={<UpdateLesson />}
               />
               <Route
                 exact
-                path='professor/course/lesson/add/:id'
+                path="professor/course/lesson/add/:id"
                 element={<AddLesson />}
               />
               <Route
                 exact
-                path='professor/course/lesson/quiz/:id'
+                path="professor/course/lesson/quiz/:id"
                 element={<UpdateQuiz />}
               />
             </Route>

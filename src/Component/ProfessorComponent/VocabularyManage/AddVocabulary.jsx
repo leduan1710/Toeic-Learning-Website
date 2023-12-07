@@ -38,11 +38,11 @@ function AddVocabulary({
     reset();
   }, [modal_on]);
   async function handleAddVocabulary() {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Vocabulary/AddVocabulary?userId=${user.idUser}`,
+        `https://localhost:7712/api/Vocabulary/AddVocabulary?userId=${user.idUser}`,
         {
           method: "POST",
           headers: {
@@ -91,7 +91,7 @@ function AddVocabulary({
     }
   }
   async function handleUpdateVocabulary() {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     if (
       vocabulary.engWord !== "" &&
       vocabulary.wordType !== "" &&
@@ -100,7 +100,7 @@ function AddVocabulary({
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://localhost:7112/api/Vocabulary/UpdateVocabulary/${current_word.idVoc}&&${user.idUser}`,
+          `https://localhost:7712/api/Vocabulary/UpdateVocabulary/${current_word.idVoc}&&${user.idUser}`,
           {
             method: "PUT",
             headers: {

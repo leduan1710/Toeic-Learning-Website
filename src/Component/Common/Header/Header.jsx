@@ -21,7 +21,7 @@ function Header() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "https://localhost:7112/api/TestType/GetAllTestTypes"
+        "https://localhost:7712/api/TestType/GetAllTestTypes"
       );
       if (!response.ok) {
         const errorData = await response.json();

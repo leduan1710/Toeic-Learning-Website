@@ -27,7 +27,7 @@ function ProfessorTestManage() {
   async function fetchTests() {
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Test/GetAllTestByProfessor/${user.idUser}`
+        `https://localhost:7712/api/Test/GetAllTestByProfessor/${user.idUser}`
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -62,10 +62,10 @@ function ProfessorTestManage() {
   }, [modal]);
 
   async function DeleteTest(testId) {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Test/DeleteTest/${testId}`,
+        `https://localhost:7712/api/Test/DeleteTest/${testId}`,
         {
           method: "DELETE",
           headers: {

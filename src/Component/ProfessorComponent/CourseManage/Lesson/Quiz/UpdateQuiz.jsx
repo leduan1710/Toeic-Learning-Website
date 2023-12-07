@@ -23,14 +23,14 @@ function UpdateQuiz() {
   };
   const AddToggle = () => {
     setIsUpdate(false);
-    toggleModal()
+    toggleModal();
   };
 
   const updateToggle = (question) => {
-    console.log(question)
+    console.log(question);
     setIsUpdate(true);
-    setCurrentQuestion(question)
-    toggleModal()
+    setCurrentQuestion(question);
+    toggleModal();
   };
   if (modal) {
     document.body.classList.add("active-modal");
@@ -43,11 +43,11 @@ function UpdateQuiz() {
     formState: { errors },
   } = useForm();
   const handleUpdateQuiz = async (register) => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Quiz/UpdateQuiz/${id}`,
+        `https://localhost:7712/api/Quiz/UpdateQuiz/${id}`,
         {
           method: "PUT",
           headers: {
@@ -93,7 +93,7 @@ function UpdateQuiz() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Quiz/GetQuizById/${id}`
+        `https://localhost:7712/api/Quiz/GetQuizById/${id}`
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -122,7 +122,7 @@ function UpdateQuiz() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Question/GetAllQuestionByQuiz/${id}`
+        `https://localhost:7712/api/Question/GetAllQuestionByQuiz/${id}`
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -152,7 +152,7 @@ function UpdateQuiz() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Question/DeleteCourse/${id}`,
+        `https://localhost:7712/api/Question/DeleteCourse/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -206,7 +206,13 @@ function UpdateQuiz() {
   }
   return (
     <>
-      <AddQuestion toggleModal={toggleModal} modal_on={modal} idQuiz={id} isUpdate={isUpdate} initial_question={current_question}/>
+      <AddQuestion
+        toggleModal={toggleModal}
+        modal_on={modal}
+        idQuiz={id}
+        isUpdate={isUpdate}
+        initial_question={current_question}
+      />
       <div className="professor-update-quiz">
         <div className="professor-board-header">
           <div className="professor-managment-sub-title">
@@ -294,7 +300,12 @@ function UpdateQuiz() {
                     >
                       Xóa
                     </button>
-                    <button className="update-btn" onClick={()=>updateToggle(question)}>Sửa</button>
+                    <button
+                      className="update-btn"
+                      onClick={() => updateToggle(question)}
+                    >
+                      Sửa
+                    </button>
                   </div>
                 </div>
               );

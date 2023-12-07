@@ -23,14 +23,13 @@ function UpdateLesson() {
   const [title, setTitle] = useState("");
   const [idCourse, setIdCourse] = useState("");
 
-
   const [isLoading, setIsLoading] = useState(false);
 
   async function fetchLessons() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://localhost:7112/api/Lesson/GetLessonById/${id}`
+        `https://localhost:7712/api/Lesson/GetLessonById/${id}`
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -59,16 +58,16 @@ function UpdateLesson() {
   }
 
   async function handleUpdateLesson(data) {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Lesson/UpdateLesson/${id}`,
+        `https://localhost:7712/api/Lesson/UpdateLesson/${id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idCourse: idCourse,
@@ -157,7 +156,7 @@ function UpdateLesson() {
           />
         </form>
       </div>
-      <QuizManage idLesson={id}/>
+      <QuizManage idLesson={id} />
     </div>
   );
 }
