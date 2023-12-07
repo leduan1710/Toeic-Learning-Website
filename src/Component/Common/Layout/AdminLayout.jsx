@@ -9,30 +9,20 @@ function AdminLayout({ children }) {
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
-  // if (user.role === "Admin") {
-  //   return ( <div className="professor-layout">
-  //   <div className="grid-container">
-  //     <AdminHeader OpenSidebar={OpenSidebar} />
-  //     <AdminSidebar
-  //       openSidebarToggle={openSidebarToggle}
-  //       OpenSidebar={OpenSidebar}
-  //     />
-  //     {children}
-  //   </div>
-  // </div>);
-  // }
-  return (
-    <div className="professor-layout">
-      <div className="grid-container">
-        <AdminHeader OpenSidebar={OpenSidebar} />
-        <AdminSidebar
-          openSidebarToggle={openSidebarToggle}
-          OpenSidebar={OpenSidebar}
-        />
-        {children}
+  if (user.role === "Admin") {
+    return (
+      <div className="professor-layout">
+        <div className="grid-container">
+          <AdminHeader OpenSidebar={OpenSidebar} />
+          <AdminSidebar
+            openSidebarToggle={openSidebarToggle}
+            OpenSidebar={OpenSidebar}
+          />
+          {children}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default AdminLayout;

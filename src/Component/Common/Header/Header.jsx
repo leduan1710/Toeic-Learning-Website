@@ -50,9 +50,9 @@ function Header() {
   useEffect(() => {
     fetchTestType();
   }, []);
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className="header">
       <Head />
