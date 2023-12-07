@@ -31,6 +31,12 @@ import AdminLayout from "./Component/Common/Layout/AdminLayout";
 import AdminHome from "./Component/AdminComponent/Common/AdminHome";
 import UserManage from "./Component/AdminComponent/UserManage/UserManage";
 import AddUser from "./Component/AdminComponent/UserManage/AddUser";
+import VipPackage from "./Component/Payment/VipPackage";
+import VipPackageDetail from "./Component/Payment/VipPackageDetail";
+import VipPackageCheckout from "./Component/Payment/VipPackageCheckout";
+import VipPackageManage from "./Component/AdminComponent/VipPackageManage/VipPackageManage";
+import AddVipPackage from "./Component/AdminComponent/VipPackageManage/AddVipPackage";
+import UpdateVipPackage from "./Component/AdminComponent/VipPackageManage/UpdateVipPackage";
 
 function App() {
   return (
@@ -63,6 +69,10 @@ function App() {
             <Route exact path='/test' element={<TestIndex />} />
             <Route exact path='/test/type/:id' element={<TestList />} />
             <Route exact path='/test/:id' element={<TestMain />} />
+            <Route exact path="/vippackage" element={<VipPackage/>} />
+            <Route exact path="/vippackage-detail/:id" element={<VipPackageDetail/>} />
+            <Route exact path="/vippackage-checkout/:state" element={<VipPackageCheckout/>} />
+            <Route exact path="/payment-history" element={<VipPackageCheckout/>} />
           </Routes>
           <Footer />
         </UserLayout>
@@ -118,6 +128,9 @@ function App() {
             <Route exact path='/' element={<AdminHome />}>
               <Route exact path='admin/user' element={<UserManage />} />
               <Route exact path='admin/user/add' element={<AddUser />} />
+              <Route exact path='admin/vip-package' element={<VipPackageManage />} />
+              <Route exact path='admin/vip-package/add' element={<AddVipPackage />} />
+              <Route exact path='admin/vip-package/update/:idPackage' element={<UpdateVipPackage />} />
             </Route>
           </Routes>
         </AdminLayout>

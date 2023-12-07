@@ -114,6 +114,12 @@ function Header() {
                   <div className="dropdown-item">
                     <Link to="/user/profile">Trang cá nhân</Link>
                   </div>
+                  <div className="dropdown-item">
+                    <Link to="/vippackage">Mua gói Vip</Link>
+                  </div>
+                  <div className="dropdown-item">
+                    <Link to="/payment-history">Lịch sử thanh toán</Link>
+                  </div>
                   <div className="dropdown-item" onClick={handleLogout}>
                     Logout
                   </div>
