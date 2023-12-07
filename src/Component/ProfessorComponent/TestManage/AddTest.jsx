@@ -13,7 +13,7 @@ function AddTest({ toggleModal, modal_on }) {
     register: testData,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
   useEffect(() => {
     reset();
@@ -21,7 +21,7 @@ function AddTest({ toggleModal, modal_on }) {
   async function fetchTestType() {
     try {
       const response = await fetch(
-        "https://localhost:7112/api/TestType/GetAllTestTypes"
+        "https://localhost:7712/api/TestType/GetAllTestTypes"
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -51,12 +51,12 @@ function AddTest({ toggleModal, modal_on }) {
     fetchTestType();
   }, []);
   async function handleAddTest(data) {
-    const token = localStorage.getItem("token")
-    console.log(data.idType, data.name, data.description, user.idUser)
+    const token = localStorage.getItem("token");
+    console.log(data.idType, data.name, data.description, user.idUser);
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Test/AddTest?userId=${user.idUser}`,
+        `https://localhost:7712/api/Test/AddTest?userId=${user.idUser}`,
         {
           method: "POST",
           headers: {
@@ -88,7 +88,7 @@ function AddTest({ toggleModal, modal_on }) {
           pauseOnHover: true,
           draggable: true,
         });
-        reset()
+        reset();
       }
     } catch (error) {
       console.log(error);

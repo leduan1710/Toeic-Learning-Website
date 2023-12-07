@@ -24,7 +24,7 @@ const UserProvider = ({ children }) => {
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": username,
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
         "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
-        idUser,
+          idUser,
       } = token_decode;
       setUser((user) => ({
         username: username,
@@ -43,7 +43,7 @@ const UserProvider = ({ children }) => {
       "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": username,
       "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": role,
       "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
-      idUser,
+        idUser,
     } = token_decode;
     setUser((user) => ({
       username: username,
@@ -55,7 +55,7 @@ const UserProvider = ({ children }) => {
   };
   const userAuthen = async (username, pwd) => {
     try {
-      const response = await fetch("https://localhost:7112/api/Authen/Login", {
+      const response = await fetch("https://localhost:7712/api/Authen/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

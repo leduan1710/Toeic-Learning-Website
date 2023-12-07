@@ -23,7 +23,7 @@ function ProfessorVocabularyTopic() {
   async function fetchVocabularyTopic() {
     try {
       const response = await fetch(
-        "https://localhost:7112/api/VocTopic/GetAllVocTopic"
+        "https://localhost:7712/api/VocTopic/GetAllVocTopic"
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -50,10 +50,10 @@ function ProfessorVocabularyTopic() {
     }
   }
   async function DeleteVocabularyTopic(voc_topic_id) {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://localhost:7112/api/VocTopic/DeleteVocTopic/${voc_topic_id}`,
+        `https://localhost:7712/api/VocTopic/DeleteVocTopic/${voc_topic_id}`,
         {
           method: "DELETE",
           headers: {

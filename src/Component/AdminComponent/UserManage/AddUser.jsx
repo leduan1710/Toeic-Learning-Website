@@ -19,14 +19,14 @@ function AddUser() {
   async function handleAddUser(data) {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://localhost:7112/api/Admin/Register-Professor-Admin?role=${data?.role}`,
+        `https://localhost:7712/api/Admin/Register-Professor-Admin?role=${data?.role}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(data),
         }
@@ -85,58 +85,58 @@ function AddUser() {
   }
 
   return (
-    <div className='add-lesson-wrapper'>
-      <div className='professor-board-header'>
-        <div className='professor-managment-title'>
+    <div className="add-lesson-wrapper">
+      <div className="professor-board-header">
+        <div className="professor-managment-title">
           <h3 style={{ marginLeft: "1rem" }}>THÊM NGƯỜI DÙNG MỚI</h3>
         </div>
         <img
           onClick={() => navigate(`/admin/user`)}
-          width='50'
-          height='50'
-          src='https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png'
-          alt='reply-arrow'
+          width="50"
+          height="50"
+          src="https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png"
+          alt="reply-arrow"
         />
       </div>
-      <div className='add-user-form-wrapper'>
+      <div className="add-user-form-wrapper">
         <form>
           <div>
             <h3>Họ và tên</h3>
             <input
               value={data.fullname}
-              placeholder='Nhập họ và tên'
-              id='fullname'
+              placeholder="Nhập họ và tên"
+              id="fullname"
               onChange={changeInput}
             />
           </div>
           <div>
             <h3>Username</h3>
             <input
-              placeholder='Nhập username'
-              id='username'
+              placeholder="Nhập username"
+              id="username"
               onChange={changeInput}
             />
           </div>
           <div>
             <h3>Email</h3>
-            <input placeholder='Nhập email' id='email' onChange={changeInput} />
+            <input placeholder="Nhập email" id="email" onChange={changeInput} />
           </div>
           <div>
             <h3>Password</h3>
             <input
-              placeholder='Nhập password'
-              id='password'
+              placeholder="Nhập password"
+              id="password"
               onChange={changeInput}
             />
           </div>
           <div>
             <h3>Role</h3>
-            <input placeholder='Nhập role' id='role' onChange={changeInput} />
+            <input placeholder="Nhập role" id="role" onChange={changeInput} />
           </div>
           <input
-            type='button'
-            value='Thêm người dùng'
-            className='professor-add-lesson-btn'
+            type="button"
+            value="Thêm người dùng"
+            className="professor-add-lesson-btn"
             onClick={clickSubmit}
           />
         </form>

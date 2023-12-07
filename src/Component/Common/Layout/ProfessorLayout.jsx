@@ -9,20 +9,32 @@ function ProfessorLayout({ children }) {
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
-  if (user.role === "Professor") {
-    return (
-      <div className="professor-layout">
-        <div className="grid-container">
-          <ProfessorHeader OpenSidebar={OpenSidebar} />
-          <ProfessorSidebar
-            openSidebarToggle={openSidebarToggle}
-            OpenSidebar={OpenSidebar}
-          />
-          {children}
-        </div>
+  //   if (user.role === "Professor") {
+  //     return (
+  //       <div className="professor-layout">
+  //         <div className="grid-container">
+  //           <ProfessorHeader OpenSidebar={OpenSidebar} />
+  //           <ProfessorSidebar
+  //             openSidebarToggle={openSidebarToggle}
+  //             OpenSidebar={OpenSidebar}
+  //           />
+  //           {children}
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  return (
+    <div className="professor-layout">
+      <div className="grid-container">
+        <ProfessorHeader OpenSidebar={OpenSidebar} />
+        <ProfessorSidebar
+          openSidebarToggle={openSidebarToggle}
+          OpenSidebar={OpenSidebar}
+        />
+        {children}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default ProfessorLayout;

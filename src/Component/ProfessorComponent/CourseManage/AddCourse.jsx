@@ -12,20 +12,20 @@ function AddCourse({ toggleModal, modal_on }) {
     register: new_course,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
 
   async function handleAddCourse(data) {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Course/AddCourse`,
+        `https://localhost:7712/api/Course/AddCourse`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idUser: user.idUser,
@@ -52,7 +52,7 @@ function AddCourse({ toggleModal, modal_on }) {
           pauseOnHover: true,
           draggable: true,
         });
-        reset()
+        reset();
       }
     } catch (error) {
       console.log(error);

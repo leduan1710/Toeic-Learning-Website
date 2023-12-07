@@ -13,17 +13,17 @@ function UserManage() {
   const [users, setUsers] = useState([]);
 
   async function resetPassword(email) {
-    const token = localStorage.getItem("token")
-    console.log(email)
+    const token = localStorage.getItem("token");
+    console.log(email);
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://localhost:7112/api/Admin/ResetPassword/${email}`,
+        `https://localhost:7712/api/Admin/ResetPassword/${email}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({}),
         }
@@ -58,15 +58,15 @@ function UserManage() {
   }
 
   async function fetchUsers() {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://localhost:7112/api/Admin/GetAllUsers`,
+        `https://localhost:7712/api/Admin/GetAllUsers`,
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -95,16 +95,16 @@ function UserManage() {
   }
 
   async function deleteUserById(id) {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Admin/DeleteUser/${id}`,
+        `https://localhost:7712/api/Admin/DeleteUser/${id}`,
         {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({}),
         }
@@ -150,49 +150,49 @@ function UserManage() {
   }
 
   return (
-    <div className='professor-lesson-list'>
-      <div className='professor-managment-sub-title'>
+    <div className="professor-lesson-list">
+      <div className="professor-managment-sub-title">
         <h3 style={{ paddingLeft: "10px" }}>QUẢN LÝ NGƯỜI DÙNG</h3>
       </div>
 
-      <div className='professor-add-button-wrapper'>
+      <div className="professor-add-button-wrapper">
         <img
           onClick={() => navigate("/admin")}
-          width='50'
-          height='50'
-          src='https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png'
-          alt='reply-arrow'
+          width="50"
+          height="50"
+          src="https://img.icons8.com/ios-filled/50/2d9358/reply-arrow.png"
+          alt="reply-arrow"
         />
         <div
-          className='professor-add-button'
+          className="professor-add-button"
           onClick={() => navigate(`/admin/user/add`)}
         >
           <img
-            width='34'
-            height='34'
-            src='https://img.icons8.com/doodle/48/add.png'
-            alt='add'
+            width="34"
+            height="34"
+            src="https://img.icons8.com/doodle/48/add.png"
+            alt="add"
           />
           <h3>THÊM NGƯỜI DÙNG MỚI MỚI</h3>
         </div>
       </div>
-      <div className='wordList-wrapper'>
+      <div className="wordList-wrapper">
         {users &&
           users.map((item, index) => {
             return (
-              <div key={index} className='wordList-item'>
-                <div className='user-fullname'>{item?.fullname}</div>
-                <div className='user-username'>{item?.userName}</div>
-                <div className='user-email'>{item?.email}</div>
-                <div className='btn-wrapper'>
+              <div key={index} className="wordList-item">
+                <div className="user-fullname">{item?.fullname}</div>
+                <div className="user-username">{item?.userName}</div>
+                <div className="user-email">{item?.email}</div>
+                <div className="btn-wrapper">
                   <button
-                    className='delete-btn'
+                    className="delete-btn"
                     onClick={() => deleteUserById(item.id)}
                   >
                     Xóa
                   </button>
                   <button
-                    className='update-btn'
+                    className="update-btn"
                     onClick={() => resetPassword(item?.email)}
                   >
                     Reset password

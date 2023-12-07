@@ -1,36 +1,33 @@
 import React from "react";
-import "./AddQuiz.css"
+import "./AddQuiz.css";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Loader from "../../../../Common/Loader/Loader";
 import { toast } from "react-toastify";
 
 function AddQuiz({ toggleModal, modal_on, idLesson }) {
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
   const [isloading, setIsLoading] = useState(false);
   const {
     register: new_quiz,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
   async function handleAddQuiz(data) {
     setIsLoading(true);
     try {
-      const response = await fetch(
-        `https://localhost:7112/api/Quiz/AddQuiz`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            idLesson: idLesson,
-            title: data.title,
-          }),
-        }
-      );
+      const response = await fetch(`https://localhost:7712/api/Quiz/AddQuiz`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          idLesson: idLesson,
+          title: data.title,
+        }),
+      });
       setIsLoading(false);
       toggleModal();
       if (!response.ok) {
@@ -49,7 +46,7 @@ function AddQuiz({ toggleModal, modal_on, idLesson }) {
           pauseOnHover: true,
           draggable: true,
         });
-        reset()
+        reset();
       }
     } catch (error) {
       console.log(error);

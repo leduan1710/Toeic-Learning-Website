@@ -21,7 +21,7 @@ function Header() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        "https://localhost:7112/api/TestType/GetAllTestTypes"
+        "https://localhost:7712/api/TestType/GetAllTestTypes"
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -50,9 +50,9 @@ function Header() {
   useEffect(() => {
     fetchTestType();
   }, []);
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
   return (
     <div className="header">
       <Head />

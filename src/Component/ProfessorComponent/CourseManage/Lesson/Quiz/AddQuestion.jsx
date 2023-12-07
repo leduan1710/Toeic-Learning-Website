@@ -35,11 +35,11 @@ function AddQuestion({
     reset();
   }, [modal_on]);
   async function handleAddQuestion() {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Question/AddQuestion/${user.idUser}`,
+        `https://localhost:7712/api/Question/AddQuestion/${user.idUser}`,
         {
           method: "POST",
           headers: {
@@ -91,11 +91,11 @@ function AddQuestion({
     }
   }
   async function handleUpdateQuestion() {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Question/UpdateCourse/${current_question.idQuestion}&&${user.idUser}`,
+        `https://localhost:7712/api/Question/UpdateCourse/${current_question.idQuestion}&&${user.idUser}`,
         {
           method: "PUT",
           headers: {
@@ -158,7 +158,7 @@ function AddQuestion({
             <div className="question-content">
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div className="add-question-title">
-                  <h2>{isUpdate? "Sửa câu hỏi": `Thêm câu hỏi mới`}</h2>
+                  <h2>{isUpdate ? "Sửa câu hỏi" : `Thêm câu hỏi mới`}</h2>
                 </div>
                 <div className="question-close-btn">
                   <svg

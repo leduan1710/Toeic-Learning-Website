@@ -32,7 +32,7 @@ function UpdateTest() {
   async function fetchTestType() {
     try {
       const response = await fetch(
-        "https://localhost:7112/api/TestType/GetAllTestTypes"
+        "https://localhost:7712/api/TestType/GetAllTestTypes"
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -59,16 +59,16 @@ function UpdateTest() {
     }
   }
   const handleUpdate = async (register) => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Test/UpdaTetest/${id}&&${user.idUser}`,
+        `https://localhost:7712/api/Test/UpdaTetest/${id}&&${user.idUser}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             idType: register.idType,
@@ -110,7 +110,7 @@ function UpdateTest() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Test/GetTestById/${id}`
+        `https://localhost:7712/api/Test/GetTestById/${id}`
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -139,7 +139,7 @@ function UpdateTest() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/TestPart/GetAllTestParts`
+        `https://localhost:7712/api/TestPart/GetAllTestParts`
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -173,7 +173,7 @@ function UpdateTest() {
     try {
       console.log(current_part);
       const response = await fetch(
-        `https://localhost:7112/api/TestQuestionUnit/GetAllTestQuestionUnitByPart/${current_part}&&${id}`
+        `https://localhost:7712/api/TestQuestionUnit/GetAllTestQuestionUnitByPart/${current_part}&&${id}`
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -311,13 +311,13 @@ function UpdateTest() {
 
                   {testUnit.script && (
                     <>
-                    <h4>Transcript</h4>
+                      <h4>Transcript</h4>
                       <div>{testUnit.script}</div>
                     </>
                   )}
                   {testUnit.translation && (
                     <>
-                    <h4>Bản dịch</h4>
+                      <h4>Bản dịch</h4>
                       <div>{testUnit.translation}</div>
                     </>
                   )}

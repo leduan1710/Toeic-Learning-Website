@@ -9,7 +9,7 @@ function QuizManage({ idLesson }) {
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [quizes, setQuizes] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const toggleModal = () => {
     setModal(!modal);
@@ -25,7 +25,7 @@ function QuizManage({ idLesson }) {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://localhost:7112/api/Quiz/GetAllQuizByLesson/${idLesson}`
+        `https://localhost:7712/api/Quiz/GetAllQuizByLesson/${idLesson}`
       );
       setIsLoading(false);
       if (!response.ok) {
@@ -55,11 +55,11 @@ function QuizManage({ idLesson }) {
   }
 
   const handleDeleteQuiz = async (id) => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Quiz/DeleteQuiz/${id}`,
+        `https://localhost:7712/api/Quiz/DeleteQuiz/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -144,7 +144,14 @@ function QuizManage({ idLesson }) {
                   >
                     Xóa
                   </button>
-                  <button className="update-btn" onClick={()=>navigate(`/professor/course/lesson/quiz/${quiz.idQuiz}`)}>Sửa</button>
+                  <button
+                    className="update-btn"
+                    onClick={() =>
+                      navigate(`/professor/course/lesson/quiz/${quiz.idQuiz}`)
+                    }
+                  >
+                    Sửa
+                  </button>
                 </div>
               </div>
             );
