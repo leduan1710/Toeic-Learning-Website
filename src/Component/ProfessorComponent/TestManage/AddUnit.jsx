@@ -6,9 +6,21 @@ import { toast } from "react-toastify";
 import Loader from "../.././Common/Loader/Loader";
 import HTMLReactParser from "html-react-parser";
 
-function AddUnit({ isUpdate, current_unit, idQuestionUnit }) {
+function AddUnit({
+  idTestPart,
+}) {
   const { id } = useParams();
   const editor = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [audio, setAudio] = useState("");
+  const [image, setImage] = useState("");
+  const [paragraph, setParagraph] = useState("");
+  const [transcript, setTranscript] = useState("");
+  const [translation, setTranslation] = useState("");
+  
+  const [imagePreview, setImagePreview] = useState("");
+  const [audioPreview, setAudioPreview] = useState("");
   const config = useMemo(
     () => ({
       toolbarButtonSize: "small",
@@ -16,27 +28,48 @@ function AddUnit({ isUpdate, current_unit, idQuestionUnit }) {
     }),
     []
   );
+  useEffect(() => {
+    let objectURL;
+    if (image) {
+      objectURL = URL.createObjectURL(image);
+      setImagePreview(objectURL);
+      return () => {
+        URL.revokeObjectURL(objectURL);
+      };
+    }
+  }, [image]);
+  useEffect(() => {
+    let objectURL;
+    if (audio) {
+      objectURL = URL.createObjectURL(audio);
+      setAudioPreview(objectURL);
+      return () => {
+        URL.revokeObjectURL(objectURL);
+      };
+    }
+  }, [audio]);
 
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
+  async function handleAddUnit() {
+    const formData = new FormData();
+    formData.append("idTest", id);
+    formData.append("idTestPart", idTestPart);
+    formData.append("paragraph", paragraph);
+    formData.append("audio", audio);
+    formData.append("image", image);
+    formData.append("script", transcript);
+    formData.append("translation", translation);
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  async function handleAddUnit(data) {
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://localhost:7112/api/Lesson/AddUnit`,
+        `https://localhost:7112/api/TestQuestionUnit/AddTestQuestionUnit`,
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            idCourse: id,
-            title: title,
-            content: content,
-          }),
+          body: formData,
         }
       );
       setIsLoading(false);
@@ -77,38 +110,54 @@ function AddUnit({ isUpdate, current_unit, idQuestionUnit }) {
     <div className="add-lesson-wrapper">
       <div className="add-lesson-form-wrapper">
         <form onSubmit={handleAddUnit}>
-          <div className="upload-audio">
-            <h3>Upload Audio</h3>
-          </div>
           <div className="upload-image">
             <h3>Upload Image</h3>
+            <input
+              type="file"
+              onChange={(e) => setImage(e.target.files[0])}
+            ></input>
+            {image && (
+              <img
+                src={imagePreview}
+                alt="Uploaded"
+                style={{ maxWidth: "100%" }}
+              />
+            )}
+          </div>
+          <div className="upload-audio">
+            <h3>Upload Audio</h3>
+            <input
+              type="file"
+              onChange={(e) => setAudio(e.target.files[0])}
+            ></input>
+            {audio && <audio src={audioPreview} controls></audio>}
           </div>
           <h3>Nội dung đoạn văn</h3>
           <JoditEditor
             ref={editor}
-            value={content}
-            onChange={(newContent) => setContent(newContent)}
+            value={paragraph}
+            onChange={(newContent) => setParagraph(newContent)}
             config={config}
           ></JoditEditor>
           <h3>Kiểm tra lại nội dung</h3>
-          <div>{HTMLReactParser(String(content))}</div>
+          <div>{HTMLReactParser(String(paragraph))}</div>
           <div>
-            <h3>Transcript</h3>
-            <input
-              placeholder="Nhập tên bài học"
-              onChange={(e) => setTitle(e.target.value)}
-            ></input>
+            <h3>Script</h3>
+            <textarea
+              placeholder="Nhập Transcript"
+              onChange={(e) => setTranscript(e.target.value)}
+            ></textarea>
           </div>
           <div>
             <h3>Bản dịch</h3>
-            <input
-              placeholder="Nhập tên bài học"
-              onChange={(e) => setTitle(e.target.value)}
-            ></input>
+            <textarea
+              placeholder="Nhập bản dịch"
+              onChange={(e) => setTranslation(e.target.value)}
+            ></textarea>
           </div>
           <input
             type="submit"
-            value="Thêm bài học"
+            value="Thêm Unit"
             className="professor-add-lesson-btn"
           />
         </form>

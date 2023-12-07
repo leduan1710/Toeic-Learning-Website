@@ -1,17 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./AddQuestion.css";
+import "../CourseManage/Lesson/Quiz/AddQuestion.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import Loader from "../../../../Common/Loader/Loader";
-import { UserContext } from "../../../../../Context/UserContext";
+import Loader from "../.././Common/Loader/Loader";
+import { UserContext } from "../../../Context/UserContext";
 
 function AddQuestion({
   toggleModal,
   modal_on,
-  idQuiz,
+  idUnit,
   isUpdate,
   initial_question,
 }) {
+  console.log(initial_question)
   const { user } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [current_question, setQuestion] = useState({
@@ -31,11 +32,12 @@ function AddQuestion({
     getValues,
     reset,
   } = useForm();
+
   useEffect(() => {
     reset();
   }, [modal_on]);
   async function handleAddQuestion() {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -47,7 +49,7 @@ function AddQuestion({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            idQuiz: idQuiz,
+            idUnit: idUnit,
             content: getValues("content"),
             answer: getValues("answer"),
             explaination: getValues("explaination"),
@@ -70,7 +72,7 @@ function AddQuestion({
           draggable: true,
         });
       } else {
-        toast.success("Add Question successfully", {
+        toast.success("Add Quesion successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 10000,
           closeOnClick: true,
@@ -91,7 +93,7 @@ function AddQuestion({
     }
   }
   async function handleUpdateQuestion() {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -103,7 +105,7 @@ function AddQuestion({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            idQuiz: idQuiz,
+            idUnit: idUnit,
             content: current_question.content,
             answer: current_question.answer,
             explaination: current_question.explaination,
@@ -158,7 +160,7 @@ function AddQuestion({
             <div className="question-content">
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div className="add-question-title">
-                  <h2>{isUpdate? "Sửa câu hỏi": `Thêm câu hỏi mới`}</h2>
+                  <h2>{isUpdate ? "Sửa câu hỏi" : `Thêm câu hỏi mới`}</h2>
                 </div>
                 <div className="question-close-btn">
                   <svg
@@ -190,7 +192,7 @@ function AddQuestion({
                     <textarea
                       style={{ height: "2rem" }}
                       type="text"
-                      placeholder="Nhập từ tiếng Anh"
+                      placeholder="Nhập từ Tesi Unit"
                       {...question("content", { required: true })}
                     />
                   </div>
